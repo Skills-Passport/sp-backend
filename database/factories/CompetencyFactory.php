@@ -18,7 +18,7 @@ class CompetencyFactory extends Factory
     {
         return [
             'title' => $this->faker->word,
-            'description' => $this->faker->sentence,
+            'desc' => $this->faker->sentence,
             'overview' => $this->faker->paragraph,
         ];
     }

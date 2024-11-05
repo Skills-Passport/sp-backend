@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Competency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class SkillFactory extends Factory
         return [
             'title' => $this->faker->word,
             'desc' => $this->faker->sentence,
-            'competency_id' => $this->faker->numberBetween(1, 10),
+            'competency_id' => Competency::inRandomOrder()->first()->id,
         ];
     }
 }
