@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
   function createUserWithRole($name, $email, $role)
   {
     try {
-      $user = User::firstOrCreate(['first_name' => $name, 'email' => $email, 'password' => bcrypt('password')] + ['role_id' => Role::where('name', $role)->first()->id]);
+      $user = User::firstOrCreate(['first_name' => strtoupper($name), 'email' => $email, 'password' => bcrypt('password')] + ['role_id' => Role::where('name', $role)->first()->id]);
     } catch (UniqueConstraintViolationException $e) {
       $user = User::where('email', $email)->first();
     }
