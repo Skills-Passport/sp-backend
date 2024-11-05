@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('first_name', 255);
-            $table->string('last_name', 255);
+            $table->string('first_name', 255)->nullable();
+            $table->string('last_name', 255)->nullable();
             $table->text('personal_coach')->nullable();
             $table->text('image')->nullable();
+            $table->foreignId('role_id')->constrained();
             $table->softDeletes();
         });
     }
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->dropColumn('last_name');
             $table->dropColumn('image');
             $table->dropColumn('personal_coach');
+            $table->dropForeign(['role_id']);
             $table->dropSoftDeletes();
         });
     }
