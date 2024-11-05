@@ -38,10 +38,10 @@ class SkillEndorsementNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('You Received a Skill Endorsement')
-            ->line('You have been endorsed for the skill: ' . $this->endorsement->skill->title)
-            ->action('View Endorsement', url('/endorsements/' . $this->endorsement->id))
-            ->line('Thank you for using our application!');
+            ->subject(trans('notifications.skill_endorsement.subject'))
+            ->line(trans('notifications.skill_endorsement.title', ['skill' => $this->endorsement->skill->title]))
+            ->action(trans('notifications.skill_endorsement.action'), url('/endorsements/' . $this->endorsement->id))
+            ->line(trans('notifications.skill_endorsement.thank_you'));
     }
 
 
@@ -52,7 +52,7 @@ class SkillEndorsementNotification extends Notification implements ShouldQueue
     {
         return [
             'endorsement_id' => $this->endorsement->id,
-            'message' => 'You have been endorsed for the skill: ' . $this->endorsement->skill->title,
+            'message' => trans('notifications.skill_endorsement.title', ['skill' => $this->endorsement->skill->title]),
             'skill' => $this->endorsement->skill->title,
             'created_by' => $this->endorsement->created_by,
         ];
