@@ -11,6 +11,11 @@ class Role extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'guard_name'];
+
+    public const TEACHER = 'teacher';
+    public const HEAD_TEACHER = 'head-teacher';
+    public const STUDENT = 'student';
+    public const ADMIN = 'admin';
     
     protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'guard_name'];
 

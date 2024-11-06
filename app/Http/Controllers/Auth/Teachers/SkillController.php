@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Teachers;
 
-use App\Models\Competency;
 use App\Models\Skill;
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\Controller;
 class SkillController extends Controller
 {
     public function getSkills()
