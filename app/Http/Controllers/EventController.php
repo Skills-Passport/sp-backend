@@ -9,6 +9,8 @@ class EventController extends Controller
 {
     public function getEvents()
     {
+        if (Event::all()->count() == 0) 
+            Event::factory(10)->create();
         return Event::all();
     }
     public function getEvent($id)
