@@ -11,6 +11,7 @@ class EventController extends Controller
     {
         return Event::all();
     }
+    
     public function getEvent($id)
     {
         return Event::find($id);
