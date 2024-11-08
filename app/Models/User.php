@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Role::class, 'id', 'role_id');
     }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'skill_user')->withPivot('rating', 'is_approved');
+    }
 }
