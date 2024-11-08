@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\Modules\Skills\Filters\SkillFilter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -29,11 +32,25 @@ class Skill extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'users_skills')->withPivot('rating', 'is_approved');
+        return $this->belongsToMany(User::class, 'skill_user')->withTimestamps();
     }
 
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_skills')->withTimestamps();
+    }
+
+    public function scopeFilter(Builder $query, Request $request): Builder
+    {
+        return (new SkillFilter($request))->filter($query);
+    }
+
+    public function getIsAddedAttribute()
+    {
+        return $this->users()->where('user_id', auth()->id())->exists();
+    }
+    public function getRatingAttribute()
+    {
+        return $this->users()->where('user_id', auth()->id())->first()->pivot->rating;
     }
 }
