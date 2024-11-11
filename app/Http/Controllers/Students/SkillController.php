@@ -12,6 +12,14 @@ class SkillController extends Controller
     {
         $relations = $request->query('with') ? explode(',', $request->query('with')) : [];
         $skills = Skill::with($relations)->filter($request)->paginate($request->query('per_page', 10));
-        return SkillResource::collection($skills);
+        $competencies = $request->user()->competencies()->toArray();
+        return $competencies;
+    }
+
+    public function addSkill(Request $request, Skill $skill)
+    {
+        dd($skill);
+        $request->user()->skills()->attach($skill->id);
+        return response()->json(['message' => 'Skill added successfully']);
     }
 }

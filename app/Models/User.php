@@ -74,4 +74,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Skill::class, 'skill_user')->withPivot('rating', 'is_approved');
     }
+
+    public function competencies()
+    {
+        // get the skills of the user then get the competencies of those skills
+        return $this->skills()->with('competency')->get()->pluck('competency')->unique();
+    }
 }
