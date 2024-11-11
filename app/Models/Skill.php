@@ -23,7 +23,7 @@ class Skill extends Model
         'deleted_at' => 'datetime',
     ];
 
-    protected $with = ['competency'];
+    protected $with = ['competency', 'ratings'];
 
     public function competency()
     {
@@ -52,5 +52,12 @@ class Skill extends Model
     public function getRatingAttribute()
     {
         return $this->users()->where('user_id', auth()->id())->first()->pivot->rating;
+    }
+
+    public function ratings()
+    {
+        return $this->belongsToMany(User::class, 'skill_user')
+        ->withPivot('rating', 'created_at')
+        ->withTimestamps();
     }
 }

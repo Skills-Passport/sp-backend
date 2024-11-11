@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Competency extends Model
 {
     /** @use HasFactory<\Database\Factories\CompetencyFactory> */
-    use HasFactory, SoftDeletes, HasTranslations;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['title', 'desc', 'overview'];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
-    protected $translatable = ['title', 'desc', 'overview'];
+    // protected $translatable = ['title', 'desc', 'overview'];
 
     protected $casts = [
         'created_at' => 'date',

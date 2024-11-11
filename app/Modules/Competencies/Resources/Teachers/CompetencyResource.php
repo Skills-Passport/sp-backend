@@ -10,7 +10,7 @@ class CompetencyResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'titlte' => $this->name,
+            'title' => $this->title,
             'desc' => $this->desc,
             'overview' => $this->overview,
             'created_at' => $this->created_at,

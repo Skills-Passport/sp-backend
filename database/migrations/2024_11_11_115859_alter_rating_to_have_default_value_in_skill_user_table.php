@@ -10,7 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::rename('users_skills', 'skill_user');
+        Schema::table('skill_user', function (Blueprint $table) {
+            // add default value to rating column
+            $table->integer('rating')->default(0)->change();
+        });
     }
 
     /**
@@ -18,6 +21,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::rename('skill_user', 'users_skills');
+        Schema::table('skill_user', function (Blueprint $table) {
+            $table->integer('rating')->change();
+        });
     }
 };

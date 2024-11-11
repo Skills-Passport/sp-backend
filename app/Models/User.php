@@ -72,7 +72,7 @@ class User extends Authenticatable
 
     public function skills()
     {
-        return $this->belongsToMany(Skill::class, 'skill_user')->withPivot('rating', 'is_approved');
+        return $this->belongsToMany(Skill::class, 'skill_user')->withPivot('rating', 'is_approved')->withTimestamps();
     }
 
     public function competencies()

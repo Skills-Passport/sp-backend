@@ -17,10 +17,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     Route::group(['prefix' => 'student'], function () {
-        Route::get('/skills', [StudentSkillController::class, 'index']);
         // add skills to user
         Route::get('/competencies/{user}', [StudentCompetencyController::class, 'getCompetencies']);
+
         Route::group(['prefix' => 'skills'], function () {
+            Route::get('/', [StudentSkillController::class, 'index']);
             Route::post('/{skill}/add', [StudentSkillController::class, 'addSkill']);
         });
     });
@@ -37,5 +38,3 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/events', [EventController::class, 'getEvents']);
     Route::get('/roles', [RoleController::class, 'getRoles']);
 });
-
-Route::get('/competencies',[StudentCompetencyController::class, 'test']);
