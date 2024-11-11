@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\CompetencyController;
 use App\Http\Controllers\Teachers\SkillController as TeacherSkillController;
 use App\Http\Controllers\Students\SkillController as StudentSkillController;
 use App\Http\Controllers\Admin\SkillController as AdminSkillController;
@@ -32,6 +33,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/skills', [AdminSkillController::class, 'index']);
     });
 
+    Route::get('/competencies', [CompetencyController::class, 'getCompetencies']);
     Route::get('/events', [EventController::class, 'getEvents']);
     Route::get('/roles', [RoleController::class, 'getRoles']);
 });
