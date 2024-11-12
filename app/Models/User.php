@@ -72,6 +72,12 @@ class User extends Authenticatable
 
     public function skills()
     {
-        return $this->belongsToMany(Skill::class, 'skill_user')->withPivot('rating', 'is_approved');
+        return $this->belongsToMany(Skill::class, 'skill_user')->withPivot('rating', 'is_approved')->withTimestamps();
+    }
+
+    public function competencies()
+    {
+        // get the skills of the user then get the competencies of those skills
+        return $this->skills()->with('competency')->get()->pluck('competency')->unique();
     }
 }

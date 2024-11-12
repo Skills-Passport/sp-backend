@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Endorsement;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,6 +16,8 @@ class Competency extends Model
     protected $fillable = ['title', 'desc', 'overview'];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    // protected $translatable = ['title', 'desc', 'overview'];
 
     protected $casts = [
         'created_at' => 'date',
