@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use App\Modules\Skills\Filters\SkillFilter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

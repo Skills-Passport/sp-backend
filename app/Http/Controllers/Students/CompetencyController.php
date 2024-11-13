@@ -9,14 +9,13 @@ use App\Http\Controllers\Controller;
 
 class CompetencyController extends Controller
 {
-    public function getCompetencies(Request $request , User $user)
+    public function getCompetencies(Request $request, User $user)
     {
-        if (Competency::all()->isEmpty()) 
+        if (Competency::all()->isEmpty())
             Competency::factory()->count(8)->create();
-        $user = $request->user() ?? $user;
-        $skills = $user->skills;
+        $skills = $request->user()->skills;
         $competencies = [];
-        foreach ($skills as $skill){
+        foreach ($skills as $skill) {
             $skill->competency->rating;
             $skill->competency->withCount('skills')->withCount('endorsements');
             $competencies[] = $skill->competency;

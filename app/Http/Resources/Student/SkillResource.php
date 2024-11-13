@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\Skills\Resources\Students;
+namespace App\Http\Resources\Student;
 
+use App\Http\Resources\CompetencyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Modules\Competencies\Resources\Teachers\CompetencyResource;
 
 class SkillResource extends JsonResource
 {
