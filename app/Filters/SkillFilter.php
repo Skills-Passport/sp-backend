@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Modules\Skills\Filters;
+namespace App\Filters;
 
 use App\Filters\AbstractFilter;
-use App\Modules\Skills\Filters\SearchFilter;
-use App\Modules\Skills\Filters\IsAddedFilter;
-use App\Modules\Skills\Filters\CompetencyFilter;
-
+use App\Filters\SearchFilter;
+use App\Filters\CompetencyFilter;
+use App\Filters\IsAddedFilter;
 class SkillFilter extends AbstractFilter
 {
     protected $filters = [

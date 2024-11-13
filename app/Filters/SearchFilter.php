@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Skills\Filters;
+namespace App\Filters;
 
 class SearchFilter
 {
