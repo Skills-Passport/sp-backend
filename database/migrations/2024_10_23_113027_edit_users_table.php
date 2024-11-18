@@ -15,9 +15,9 @@ return new class extends Migration
             $table->string('first_name', 255)->nullable();
             $table->string('last_name', 255)->nullable();
             $table->text('personal_coach')->nullable();
-            $table->text('job_title')->comment('Job Title');
-            $table->text('address')->comment('Address of the user');
-            $table->text('field')->comment('Field of the user');
+            $table->text('job_title')->comment('Job Title')->nullable();
+            $table->text('address')->comment('Address of the user')->nullable();
+            $table->text('field')->comment('Field of the user')->nullable();
             $table->text('image')->nullable();
             $table->foreignId('role_id')->constrained();
             $table->softDeletes();
