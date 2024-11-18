@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Feedback extends Model
 {
     /** @use HasFactory<\Database\Factories\FeedbackFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuids;
 
     protected $fillable = ['event_id', 'content', 'skill_id', 'user_id', 'created_by'];
 

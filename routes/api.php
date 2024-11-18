@@ -18,6 +18,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/competencies', [CompetencyController::class, 'getCompetencies']);
     Route::get('/events', [EventController::class, 'getEvents']);
     Route::get('/roles', [RoleController::class, 'getRoles']);
+    Route::group(['prefix' => 'feedback'], function () {
+        Route::get('/', [FeedbackController::class, 'index']);
+        Route::post('/{skill}/add', [FeedbackController::class, 'addFeedback']);
+    });
 });
 
 

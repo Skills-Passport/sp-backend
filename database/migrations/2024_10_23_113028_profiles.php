@@ -11,10 +11,10 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('profiles', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('title', 255);
             $table->text('desc')->comment('description of the Profile');
-            $table->foreignId('created_by')->constrained('users');
+            $table->foreignUuid('created_by')->constrained('users');
             $table->string('icon', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();

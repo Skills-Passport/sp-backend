@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('skills', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('title', 255);
             $table->text('desc')->comment('description of the Skill');
-            $table->foreignId('competency_id')->constrained('competencies');
+            $table->foreignUuid('competency_id')->constrained('competencies');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -6,12 +6,13 @@ use App\Models\Endorsement;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Competency extends Model
 {
     /** @use HasFactory<\Database\Factories\CompetencyFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuids;
 
     protected $fillable = ['title', 'desc', 'overview'];
 

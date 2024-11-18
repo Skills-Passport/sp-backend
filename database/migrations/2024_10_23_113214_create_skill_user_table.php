@@ -11,8 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('skill_user', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('skill_id')->constrained('skills');
+            $table->foreignUuid('user_id')->constrained('users');
+            $table->foreignUuid('skill_id')->constrained('skills');
             $table->integer('rating');
             $table->boolean('is_approved')->default(false);
             $table->timestamps();

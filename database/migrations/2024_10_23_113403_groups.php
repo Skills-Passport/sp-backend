@@ -11,10 +11,10 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('groups', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name', 255);
             $table->text('desc')->comment('description of the Group');
-            $table->foreignId('created_by')->constrained('users');
+            $table->foreignUuid('created_by')->constrained('users');
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

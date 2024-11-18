@@ -11,10 +11,10 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('feedback_requests', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('skill_id')->constrained('skills');
-            $table->foreignId('created_by')->constrained('users');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained('users');
+            $table->foreignUuid('skill_id')->constrained('skills');
+            $table->foreignUuid('created_by')->constrained('users');
             $table->string('sent_to_email', 255);
             $table->timestamps();
             $table->softDeletes();

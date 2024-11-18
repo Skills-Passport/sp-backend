@@ -6,13 +6,14 @@ use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Skill extends Model
 {
     /** @use HasFactory<\Database\Factories\SkillFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuids;
     protected $fillable = ['title', 'desc', 'competency_id'];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];

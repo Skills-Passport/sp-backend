@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class Endorsement extends Model
 {
     /** @use HasFactory<\Database\Factories\EndorsementFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuids;
 
     protected $fillable = ['user_id', 'skill_id', 'content', 'rating', 'created_by', 'created_by_email', 'is_approved'];
 

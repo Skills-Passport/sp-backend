@@ -11,7 +11,6 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('skill_user', function (Blueprint $table) {
-            // add default value to rating column
             $table->integer('rating')->default(0)->change();
         });
     }

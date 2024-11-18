@@ -11,8 +11,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('group_members', function (Blueprint $table) {
-            $table->foreignId('group_id')->constrained('groups');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignUuid('group_id')->constrained('groups');
+            $table->foreignUuid('user_id')->constrained('users');
             $table->timestamps();
             $table->timestamp('left_at')->nullable();
             $table->primary(['group_id', 'user_id']);

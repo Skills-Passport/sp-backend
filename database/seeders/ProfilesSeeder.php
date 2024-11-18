@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use App\Models\Profile;
 use Illuminate\Database\UniqueConstraintViolationException;
 
 class ProfilesSeeder extends Seeder
@@ -25,7 +26,7 @@ class ProfilesSeeder extends Seeder
       'analyst' => 'An analyst is a person who is skilled in the use of data to solve problems and make decisions.'
     ];
     foreach ($profiles as $profile) {
-      Profile::firstOrCreate(['title' => $profile, 'desc' => $description[$profile], 'icon' => $icons[$profile], 'created_by' => 1]);
+      Profile::firstOrCreate(['title' => $profile, 'desc' => $description[$profile], 'icon' => $icons[$profile], 'created_by' => User::first()->id]);
     }
   }
 }
