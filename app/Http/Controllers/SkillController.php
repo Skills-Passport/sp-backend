@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Educator\SkillResource;
 use App\Http\Requests\Educator\CreateSkillRequest;
 use App\Http\Requests\Educator\UpdateSkillRequest;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SkillController extends Controller
 {
