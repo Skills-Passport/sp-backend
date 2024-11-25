@@ -3,14 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, HasRoles, HasUuids, Notifiable;
+
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +23,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'job_title',
+        'address',
+        'field',
+        'personal_coach_id',
+        'first_name',
+        'last_name',
     ];
 
     /**
@@ -31,6 +41,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at',
+    ];
+
+    protected $appends = [
+        'full_name',
+        'role',
     ];
 
     /**
@@ -45,4 +61,66 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function personalCoach()
+    {
+        return $this->belongsTo(User::class, 'personal_coach_id');
+    }
+
+    public function writtenFeedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'created_by');
+    }
+
+    public function receivedFeedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'user_id');
+    }
+
+    public function endorsements()
+    {
+        return $this->hasMany(Endorsement::class, 'user_id');
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'user_id');
+    }
+
+    public function timelines()
+    {
+        return $this->morphMany(Timeline::class, 'timelineable');
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'skill_user', 'user_id', 'skill_id')
+            ->withPivot('last_rating');
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id');
+    }
+
+    public function competencies()
+    {
+        return $this->skills()->with('competency')->get()->pluck('competency')->unique();
+    }
+    public function getRoleAttribute()
+    {
+        return $this->roles->first();
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->hasRole('admin');
+    }
+
+
 }
