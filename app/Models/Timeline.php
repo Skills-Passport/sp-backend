@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use App\Models\Rating;
-use App\Models\Feedback;
-use App\Models\Endorsements;
 
 class Timeline extends Model
 {
@@ -54,4 +51,3 @@ class Timeline extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 }
-

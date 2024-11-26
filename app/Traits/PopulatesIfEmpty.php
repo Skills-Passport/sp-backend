@@ -16,7 +16,7 @@ trait PopulatesIfEmpty
     /**
      * Ensure the model has data by using its factory if the table is empty.
      *
-     * @param int $count Number of rows to create if empty.
+     * @param  int  $count  Number of rows to create if empty.
      */
     public static function populatesIfEmpty($count = 10)
     {

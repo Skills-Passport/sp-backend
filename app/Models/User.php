@@ -3,12 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -100,13 +99,14 @@ class User extends Authenticatable
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id');
+        return $this->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id')->withPivot('role');
     }
 
     public function competencies()
     {
         return $this->skills()->with('competency')->get()->pluck('competency')->unique();
     }
+
     public function getRoleAttribute()
     {
         return $this->roles->first();
@@ -114,13 +114,11 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function getIsAdminAttribute()
     {
         return $this->hasRole('admin');
     }
-
-
 }

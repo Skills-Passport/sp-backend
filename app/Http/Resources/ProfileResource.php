@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompetencyResource extends JsonResource
+class ProfileResource extends JsonResource
 {
     public function toArray($request)
     {
@@ -12,8 +12,11 @@ class CompetencyResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'desc' => $this->desc,
-            'overview' => $this->overview,
+            'icon' => $this->icon,
+            'created_by' => new UserResource($this->createdBy),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+            'competencies' => CompetencyResource::collection($this->whenLoaded('competencies')),
         ];
     }
 }
