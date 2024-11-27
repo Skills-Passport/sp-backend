@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Skill;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\Student\SkillResource as StudentSkillResource;
 use App\Http\Resources\Educator\SkillResource as EducatorSkillResource;
+use App\Http\Resources\Student\SkillResource as StudentSkillResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FeedbackResource extends JsonResource
@@ -13,6 +12,7 @@ class FeedbackResource extends JsonResource
     public function toArray($request)
     {
         $SkillResource = auth()->user()->hasRole('student') ? StudentSkillResource::class : EducatorSkillResource::class;
+
         return [
             'id' => $this->id,
             'title' => $this->title,

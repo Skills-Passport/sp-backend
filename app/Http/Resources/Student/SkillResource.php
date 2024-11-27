@@ -22,7 +22,7 @@ class SkillResource extends JsonResource
                     ];
                 });
             }),
-            'is_added' => $this->is_added,  
+            'is_added' => $this->is_added,
             'rating' => $this->is_added ? $this->rating : null,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];

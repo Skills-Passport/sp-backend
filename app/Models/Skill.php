@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
-use App\Models\Rating;
-use App\Models\Feedback;
-use App\Models\Competency;
+use App\Filters\SkillFilter;
 use App\Traits\PopulatesIfEmpty;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use App\Filters\SkillFilter;
+
 class Skill extends Model
 {
+    use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
 
-    use HasFactory, HasUuids, SoftDeletes, PopulatesIfEmpty;
     protected $fillable = [
         'title',
         'desc',
@@ -34,6 +32,11 @@ class Skill extends Model
             ->withPivot('last_rating');
     }
 
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_skills', 'skill_id', 'group_id');
+    }
+
     public function ratings()
     {
         return $this->hasMany(Rating::class);
@@ -48,10 +51,12 @@ class Skill extends Model
     {
         return auth()->user()->skills()->where('skill_id', $this->id)->first()->pivot->last_rating;
     }
+
     public function getIsAddedAttribute()
     {
         return $this->users()->where('user_id', auth()->id())->exists();
     }
+
     public function scopeFilter(Builder $query, Request $request): Builder
     {
         return (new SkillFilter($request))->filter($query);

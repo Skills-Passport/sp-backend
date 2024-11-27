@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\Skill;
-use App\Models\Profile;
+use App\Filters\GroupFilter;
 use App\Traits\PopulatesIfEmpty;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Group extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, PopulatesIfEmpty;
+    use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
 
     protected $table = 'groups';
 
@@ -38,11 +39,21 @@ class Group extends Model
 
     public function skills()
     {
-        return $this->hasMany(Skill::class);
+        return $this->belongsToMany(Skill::class, 'group_skills', 'group_id', 'skill_id');
     }
 
-    public function users()
+    public function scopeFilter(Builder $query, Request $request): Builder
     {
-        return $this->belongsToMany(User::class, 'group_members', 'group_id', 'user_id');
+        return (new GroupFilter($request))->filter($query);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'group_members', 'group_id', 'user_id')->wherePivot('role', 'student');
+    }
+
+    public function teachers()
+    {
+        return $this->belongsToMany(User::class, 'group_members', 'group_id', 'user_id')->wherePivot('role', 'teacher');
     }
 }

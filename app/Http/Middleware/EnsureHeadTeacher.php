@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\Role;
+use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,8 +16,10 @@ class EnsureHeadTeacher
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()?->role->name !== Role::HEAD_TEACHER)
+        if ($request->user()?->role->name !== Role::HEAD_TEACHER) {
             return response('Unauthorized', 401);
+        }
+
         return $next($request);
     }
 }

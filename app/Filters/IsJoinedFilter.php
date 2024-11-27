@@ -2,7 +2,7 @@
 
 namespace App\Filters;
 
-class IsAddedFilter
+class IsJoinedFilter
 {
     public function filter($builder, $value)
     {

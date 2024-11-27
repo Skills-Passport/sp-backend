@@ -25,7 +25,7 @@ class EndorsementRequestFactory extends Factory
             'data' => [
                 'content' => $this->faker->sentence,
                 'rating' => $this->faker->numberBetween(1, 5),
-                'questions' =>[
+                'questions' => [
                     [
                         'question' => $this->faker->sentence,
                         'answer' => $this->faker->sentence,
@@ -38,7 +38,7 @@ class EndorsementRequestFactory extends Factory
                         'question' => $this->faker->sentence,
                         'answer' => $this->faker->sentence,
                     ],
-                ]
+                ],
             ],
         ];
     }

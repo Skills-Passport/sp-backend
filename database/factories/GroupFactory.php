@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Group;
+use App\Models\Skill;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,8 +22,28 @@ class GroupFactory extends Factory
         return [
             'name' => $this->faker->name,
             'desc' => $this->faker->sentence,
-            'created_by' => 1,
-            'closed_at' => null,
+            'created_by' => User::inRandomOrder()->first()->id,
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Group $group) {
+            $skills = Skill::inRandomOrder()->limit(random_int(1, 5))->get();
+            $group->skills()->attach($skills);
+
+            $students = User::where('id', '!=', $group->created_by)
+                ->inRandomOrder()
+                ->limit(random_int(1, 5))
+                ->get();
+            foreach ($students as $student) {
+                $group->users()->attach($student->id, ['role' => 'student']);
+            }
+
+            $creator = User::find($group->created_by);
+            if ($creator) {
+                $group->users()->attach($creator->id, ['role' => 'teacher']);
+            }
+        });
     }
 }
