@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +22,7 @@ class ProfileFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'desc' => $this->faker->paragraph,
-            'created_by' => 1,
+            'created_by' => User::inRandomOrder()->first()->id,
             'icon' => $this->faker->randomElement($icons),
         ];
     }
