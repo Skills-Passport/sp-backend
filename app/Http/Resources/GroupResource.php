@@ -11,7 +11,7 @@ class GroupResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->title,
+            'name' => $this->name,
             'desc' => $this->desc,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'skills' => SkillResource::collection($this->whenLoaded('skills')),
