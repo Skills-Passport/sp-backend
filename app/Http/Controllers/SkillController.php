@@ -16,7 +16,7 @@ class SkillController extends Controller
         $relations = $request->query('with') ? explode(',', $request->query('with')) : [];
         $relations[] = 'competency';
         $skills = Skill::with($relations)->filter($request)->paginate($request->query('per_page', 10));
-        $competencies = $skills->pluck('competency')->unique('id');
+        $competencies = $skills->pluck('competency')->unique()->values()->toArray();
         $resoruce = $this->getResource();
 
         return $resoruce::collection($skills)->additional(['meta' => ['competencies' => $competencies]]);
