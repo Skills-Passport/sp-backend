@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\CompetencyController;
 use App\Http\Controllers\EndorsementController;
+use App\Models\Group;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', [UserController::class, 'user'])->name('user');
@@ -44,4 +45,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/{skill}/endorsements', [EndorsementController::class, 'skillEndorsements'])->name('skillEndorsements');
         Route::post('/{skill}/timeline', [SkillController::class, 'skillTimeline'])->name('skillTimeline');
     });
+    Route::get('/test', function () {
+        Group::factory()->count(1)->create();
+    });
 });
+
+

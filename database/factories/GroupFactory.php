@@ -37,12 +37,11 @@ class GroupFactory extends Factory
                 ->limit(random_int(1, 5))
                 ->get();
             foreach ($students as $student) {
-                $group->users()->attach($student->id, ['role' => 'student']);
+                $group->students()->attach($student->id, ['role' => 'student']);
             }
-
             $creator = User::find($group->created_by);
             if ($creator) {
-                $group->users()->attach($creator->id, ['role' => 'teacher']);
+                $group->teachers()->attach($creator->id, ['role' => 'teacher']);
             }
         });
     }
