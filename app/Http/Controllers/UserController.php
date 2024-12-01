@@ -16,7 +16,7 @@ class UserController extends Controller
     public function getRoles()
     {
         $roles = Role::all();
-
+        dd($roles->toArray());
         return response()->json($roles);
     }
 

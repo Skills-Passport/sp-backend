@@ -15,4 +15,14 @@ class CompetencyController extends Controller
 
         return CompetencyResource::collection($competencies);
     }
+
+    public function myCompetencies(Request $request): AnonymousResourceCollection
+    {
+        $user = $request->user();
+
+        $competencies = $user->competencies;
+        $competencies->load(['skills', 'endorsements']);
+
+        return CompetencyResource::collection($competencies);
+    }
 }

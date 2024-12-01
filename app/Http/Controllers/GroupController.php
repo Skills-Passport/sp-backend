@@ -21,6 +21,19 @@ class GroupController extends Controller
         return GroupResource::collection($groups);
     }
 
+    public function mygroups(Request $request): AnonymousResourceCollection
+    {
+        $user = $request->user();
+        $relations = $request->query('with') ? explode(',', $request->query('with')) : [];
+        $relations[] = 'students';
+        $relations[] = 'teachers';
+        $relations[] = 'skills';
+
+        $groups = $user->groups()->with($relations)->filter($request)->paginate($request->query('per_page', 10));
+
+        return GroupResource::collection($groups);
+    }
+
     public function show(Group $group): GroupResource
     {
         $group->load('students', 'teachers', 'skills');
