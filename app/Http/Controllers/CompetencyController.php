@@ -25,4 +25,11 @@ class CompetencyController extends Controller
 
         return CompetencyResource::collection($competencies);
     }
+
+    public function show(Competency $competency): CompetencyResource
+    {
+        $competency->load(['skills', 'endorsements']);
+
+        return new CompetencyResource($competency);
+    }
 }

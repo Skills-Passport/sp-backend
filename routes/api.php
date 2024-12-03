@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
         Route::group(['prefix' => 'competencies'], function () {
             Route::get('/', [CompetencyController::class, 'myCompetencies'])->name('competencies');
+            Route::get('/{competency}', [CompetencyController::class, 'show'])->name('competency'); 
         });
         Route::group(['prefix' => 'groups'], function () {
             Route::get('/', [GroupController::class, 'mygroups'])->name('groups');
