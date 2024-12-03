@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users');
             $table->foreignUuid('skill_id')->constrained('skills');
+            $table->string('title', 255)->nullable();
             $table->text('content')->comment('endorsement content');
             $table->integer('rating');
             $table->foreignUuid('created_by')->constrained('users');

@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('endorsement_requests', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users');
+            $table->text('title')->nullable();
+            $table->foreignUuid('requester_id')->constrained('users');
             $table->foreignUuid('skill_id')->constrained('skills');
-            $table->foreignUuid('created_by')->constrained('users');
-            $table->string('sent_to_email', 255);
-            $table->boolean('is_approved')->default(false);
-            $table->text('data')->comment('data of the request');
-            $table->foreignUuid('approved_by')->nullable()->constrained('users');
+            $table->foreignUuid('requestee_id')->nullable()->constrained('users');
+            $table->string('requestee_email')->nullable()->comment('email of the requestee');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->text('request_token')->nullable()->comment('token to verify the request');
+            $table->text('data')->nullable()->comment('data of the request');
+            $table->timestamp('filled_at')->nullable();
+            $table->foreignUuid('approver_id')->nullable()->constrained('users');
             $table->timestamp('approved_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

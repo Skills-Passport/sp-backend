@@ -16,8 +16,8 @@ class Endorsement extends Model
 
     protected $fillable = [
         'content',
+        'title',
         'rating',
-        'is_approved',
         'skill_id',
         'created_by',
         'created_by_email',
