@@ -11,7 +11,7 @@ class CompetencyController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        $competencies = Competency::all();
+        $competencies = Competency::with($request->get('with', []))->get();
 
         return CompetencyResource::collection($competencies);
     }
@@ -20,15 +20,14 @@ class CompetencyController extends Controller
     {
         $user = $request->user();
 
-        $competencies = $user->competencies;
-        $competencies->load(['skills', 'endorsements']);
+        $competencies = $user->competencies();
 
         return CompetencyResource::collection($competencies);
     }
 
     public function show(Competency $competency): CompetencyResource
     {
-        $competency->load(['skills', 'endorsements']);
+        $competency->load(['skills', 'skills.endorsements']);
 
         return new CompetencyResource($competency);
     }
