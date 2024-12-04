@@ -20,6 +20,7 @@ class EndorsementFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id,
+            'title' => $this->faker->sentence,
             'skill_id' => Skill::inRandomOrder()->first()->id,
             'content' => $this->faker->sentence,
             'rating' => $this->faker->randomNumber(4),

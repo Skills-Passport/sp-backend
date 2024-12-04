@@ -12,6 +12,7 @@ class EndorsementResource extends JsonResource
         return [
             'id' => $this->id,
             'skill' => SkillResource::make($this->whenLoaded('skill')),
+            'content' => $this->content,
             'created_by' => UserResource::make($this->whenLoaded('createdBy')),
             'created_by_email' => $this->created_by_email,
             'title' => $this->title,
