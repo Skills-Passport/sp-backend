@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Skill;
+use App\Models\Endorsement;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Models\EndorsementRequest;
 use App\Events\EndorsementRequested;
+use App\Http\Resources\EndorsementResource;
 use App\Events\ExternalEndorsementRequested;
 use App\Http\Requests\RequestEndorsementRequest;
 use App\Http\Resources\EndorsementRequestResource;
-use App\Http\Resources\EndorsementResource;
-use App\Models\Endorsement;
-use App\Models\EndorsementRequest;
-use App\Models\Skill;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Queue\Jobs\Job;
-use Illuminate\Support\Carbon;
 
 class EndorsementController extends Controller
 {
@@ -57,8 +56,9 @@ class EndorsementController extends Controller
         }
     }
 
-    public function showEndorsementRequest(EndorsementRequest $endorsementRequest) : EndorsementRequestResource
+    public function showEndorsementRequest(EndorsementRequest $endorsementRequest)
     {
-        return EndorsementRequestResource::make($endorsementRequest);
+        $endorsementRequest->load('skill');
+        return new EndorsementRequestResource($endorsementRequest);
     }
 }

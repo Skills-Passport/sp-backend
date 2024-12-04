@@ -12,7 +12,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', [UserController::class, 'user'])->name('user');
-    Route::get('/competencies', [CompetencyController::class, 'index'])->name('competencies');
+    Route::group(['prefix' => 'competencies'], function () {
+        Route::get('/', [CompetencyController::class, 'index'])->name('competencies');
+        Route::get('/{competency}', [CompetencyController::class, 'competency'])->name('competency');
+        Route::get('/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');
+    });
+
     Route::get('/roles', [UserController::class, 'getRoles'])->name('roles');
 
     Route::group(['prefix' => 'student'], function () {
@@ -35,8 +40,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::group(['prefix' => 'endorsements'], function () {
             Route::get('/recent', [EndorsementController::class, 'recentEndorsements'])->name('recentEndorsements');
             Route::post('/request', [EndorsementController::class, 'requestEndorsement'])->name('requestEndorsement');
-            Route::get('/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');
         });
+        Route::get('/{user}/notifications', [UserController::class, 'notifications'])->name('notifications');
     });
 
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {

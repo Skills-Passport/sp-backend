@@ -57,14 +57,15 @@ class Competency extends Model
     }
     public function scopeWithUserSkills($query, $userId)
     {
-        return $query->with([
-            'skills' => function ($query) use ($userId) {
-                $query->whereHas('users', function ($query) use ($userId) {
-                    $query->where('user_id', $userId);
-                });
-            }
-        ]);
+        return $query->whereHas('skills.users', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->with(['skills' => function ($query) use ($userId) {
+            $query->whereHas('users', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            });
+        }]);
     }
+    
     public function loadUserSkills($userId)
     {
         return $this->load([
