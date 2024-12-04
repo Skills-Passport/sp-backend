@@ -55,4 +55,27 @@ class Competency extends Model
             return $skill->rating;
         })->avg();
     }
+    public function scopeWithUserSkills($query, $userId)
+    {
+        return $query->with([
+            'skills' => function ($query) use ($userId) {
+                $query->whereHas('users', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                });
+            }
+        ]);
+    }
+    public function loadUserSkills($userId)
+    {
+        return $this->load([
+            'skills' => function ($query) use ($userId) {
+                $query->whereHas('users', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                });
+            }
+        ]);
+    }
+
+
+
 }
