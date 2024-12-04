@@ -16,6 +16,7 @@ class Profile extends Model
         'desc',
         'created_by',
         'icon',
+        'color',
     ];
 
     public function createdBy()
