@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Skill;
 use App\Models\Endorsement;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class EndorsementController extends Controller
     {
         $skill = Skill::find($request->skill);
         $requester = auth()->user();
-        $requestee = $request->requestee;
+        $requestee = User::find($request->requestee);
         $requestee_email = !$requestee ? $request->requestee_email : null;
         $title = $request->title;
         if (!$requestee_email) {

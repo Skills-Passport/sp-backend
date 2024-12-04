@@ -26,10 +26,7 @@ class SkillController extends Controller
     {
         $resource = $this->getResource();
 
-        $skill = auth()->user()->skills()
-            ->where('skills.id', $skill->id)
-            ->with(['competency', 'competency.profiles'])
-            ->firstOrFail();
+        $skill = Skill::with(['competency', 'competency.profiles'])->find($skill->id);
 
         return new $resource($skill);
     }
