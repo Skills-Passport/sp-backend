@@ -25,4 +25,9 @@ class UserController extends Controller
 
         return response()->json($role);
     }
+
+    public function notifications(Request $request)
+    {
+        return response()->json($request->user()->notifications);
+    }
 }

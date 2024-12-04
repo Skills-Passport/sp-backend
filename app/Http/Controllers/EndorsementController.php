@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\EndorsementRequested;
-use App\Events\ExternalEndorsementRequested;
-use App\Http\Requests\RequestEndorsementRequest;
-use App\Http\Resources\EndorsementResource;
-use App\Models\Endorsement;
-use App\Models\EndorsementRequest;
 use App\Models\Skill;
+use App\Models\Endorsement;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Carbon;
+use App\Models\EndorsementRequest;
+use App\Events\EndorsementRequested;
+use App\Http\Resources\EndorsementResource;
+use App\Events\ExternalEndorsementRequested;
+use App\Http\Requests\RequestEndorsementRequest;
+use App\Http\Resources\EndorsementRequestResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class EndorsementController extends Controller
 {
@@ -47,9 +48,9 @@ class EndorsementController extends Controller
         $skill = Skill::find($request->skill);
         $requester = auth()->user();
         $requestee = $request->requestee;
-        $requestee_email = ! $requestee ? $request->requestee_email : null;
+        $requestee_email = !$requestee ? $request->requestee_email : null;
         $title = $request->title;
-        if (! $requestee_email) {
+        if (!$requestee_email) {
             event(new EndorsementRequested($requester, $requestee, $skill, $title));
         } else {
             event(new ExternalEndorsementRequested($requester, $requestee_email, $skill, $title));
@@ -58,10 +59,7 @@ class EndorsementController extends Controller
 
     public function showEndorsementRequest(EndorsementRequest $endorsementRequest)
     {
-        if ($endorsementRequest->isExpired()) {
-            return response()->json(['message' => 'Endorsement request has expired'], 410);
-        }
-        Job::dispatch(new ExpireAfterThirtyMinutes($endorsementRequest))->delay(now()->addMinutes(30));
-        return response()->json($endorsementRequest);
+        $endorsementRequest->load('skill');
+        return new EndorsementRequestResource($endorsementRequest);
     }
 }
