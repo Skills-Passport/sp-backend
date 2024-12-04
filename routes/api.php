@@ -33,9 +33,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::get('/{profile}', [ProfileController::class, 'show'])->name('profile');
         });
         Route::group(['prefix' => 'endorsements'], function () {
-            Route::post('/recent', [EndorsementController::class, 'recentEndorsements'])->name('recentEndorsements');
+            Route::get('/recent', [EndorsementController::class, 'recentEndorsements'])->name('recentEndorsements');
             Route::post('/request', [EndorsementController::class, 'requestEndorsement'])->name('requestEndorsement');
-            Route::get('/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');
+            Route::get('/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');
         });
     });
 

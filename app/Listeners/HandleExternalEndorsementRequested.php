@@ -16,13 +16,7 @@ class HandleExternalEndorsementRequested implements ShouldQueue
 
     public function handle(ExternalEndorsementRequested $event)
     {
-        $endorsementRequest = EndorsementRequest::create([
-            'title' => $event->title,
-            'requester_id' => $event->requester->id,
-            'requestee_email' => $event->requestee_email,
-            'skill_id' => $event->skill->id,
-            'request_token' => $this->generateToken(),
-        ]);
+        $endorsementRequest = EndorsementRequest::create($event->requestDetails());
         event(new SendExternalEndorsementEmail($endorsementRequest));
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\EndorsementRequested;
 use App\Events\ExternalEndorsementRequested;
 use App\Http\Requests\RequestEndorsementRequest;
+use App\Http\Resources\EndorsementRequestResource;
 use App\Http\Resources\EndorsementResource;
 use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
@@ -23,7 +24,7 @@ class EndorsementController extends Controller
         return EndorsementResource::collection($endorsements);
     }
 
-    public function skillEndorsements(Request $request, Skill $skill)
+    public function skillEndorsements(Request $request, Skill $skill) 
     {
         $endorsements = auth()->user()->endorsements()
             ->where('skill_id', $skill->id)
@@ -42,26 +43,22 @@ class EndorsementController extends Controller
         return EndorsementResource::collection($endorsements);
     }
 
-    public function requestEndorsement(RequestEndorsementRequest $request)
+    public function requestEndorsement(RequestEndorsementRequest $request) : void
     {
         $skill = Skill::find($request->skill);
         $requester = auth()->user();
         $requestee = $request->requestee;
-        $requestee_email = ! $requestee ? $request->requestee_email : null;
+        $requestee_email = !$requestee ? $request->requestee_email : null;
         $title = $request->title;
-        if (! $requestee_email) {
+        if (!$requestee_email) {
             event(new EndorsementRequested($requester, $requestee, $skill, $title));
         } else {
             event(new ExternalEndorsementRequested($requester, $requestee_email, $skill, $title));
         }
     }
 
-    public function showEndorsementRequest(EndorsementRequest $endorsementRequest)
+    public function showEndorsementRequest(EndorsementRequest $endorsementRequest) : EndorsementRequestResource
     {
-        if ($endorsementRequest->isExpired()) {
-            return response()->json(['message' => 'Endorsement request has expired'], 410);
-        }
-        Job::dispatch(new ExpireAfterThirtyMinutes($endorsementRequest))->delay(now()->addMinutes(30));
-        return response()->json($endorsementRequest);
+        return EndorsementRequestResource::make($endorsementRequest);
     }
 }

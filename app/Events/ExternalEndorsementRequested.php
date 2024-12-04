@@ -25,5 +25,15 @@ class ExternalEndorsementRequested
         $this->requestee_email = $requestee_email;
         $this->skill = $skill;
         $this->title = $title;
+    }   
+
+    public function requestDetails(): array
+    {
+        return [
+            'requester_id' => $this->requester->id,
+            'requestee_email' => $this->requestee_email,
+            'skill_id' => $this->skill->id,
+            'title' => $this->title,
+        ];
     }
 }

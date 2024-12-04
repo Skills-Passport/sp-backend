@@ -19,7 +19,6 @@ class EndorsementRequest extends Model
         'requestee_id',
         'skill_id',
         'requestee_email',
-        'request_token',
         'data',
         'filled_at',
         'status',

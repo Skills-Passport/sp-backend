@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignUuid('requestee_id')->nullable()->constrained('users');
             $table->string('requestee_email')->nullable()->comment('email of the requestee');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->text('request_token')->nullable()->comment('token to verify the request');
             $table->text('data')->nullable()->comment('data of the request');
             $table->timestamp('filled_at')->nullable();
             $table->foreignUuid('approver_id')->nullable()->constrained('users');
