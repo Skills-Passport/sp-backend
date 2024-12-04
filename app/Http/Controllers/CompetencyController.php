@@ -18,17 +18,15 @@ class CompetencyController extends Controller
 
     public function myCompetencies(Request $request): AnonymousResourceCollection
     {
-        $user = $request->user();
-
-        $competencies = $user->competencies();
-
+        $competencies = Competency::withUserSkills($request->user()->id)->get();
         return CompetencyResource::collection($competencies);
     }
 
-    public function show(Competency $competency): CompetencyResource
+    public function show(Request $request, Competency $competency): CompetencyResource
     {
-        $competency->load(['skills', 'skills.endorsements']);
+        $userId = $request->user()->id;
 
+        $competency->loadUserSkills($userId);
         return new CompetencyResource($competency);
     }
 }

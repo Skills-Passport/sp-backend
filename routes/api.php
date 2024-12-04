@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
         Route::group(['prefix' => 'competencies'], function () {
             Route::get('/', [CompetencyController::class, 'myCompetencies'])->name('competencies');
-            Route::get('/{competency}', [CompetencyController::class, 'show'])->name('competency'); 
+            Route::get('/{competency}', [CompetencyController::class, 'show'])->name('competency');
         });
         Route::group(['prefix' => 'groups'], function () {
             Route::get('/', [GroupController::class, 'mygroups'])->name('groups');
@@ -59,9 +59,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/{group}', [GroupController::class, 'show'])->name('group');
         Route::post('/{group}/join', [GroupController::class, 'joinGroup'])->name('joinGroup');
         Route::post('/{group}/leave', [GroupController::class, 'leaveGroup'])->name('leaveGroup');
-    });
-
-    Route::get('/test', function () {
-        Group::factory()->count(1)->create();
     });
 });
