@@ -11,17 +11,11 @@ use Illuminate\Queue\InteractsWithQueue;
 class HandleExternalEndorsementRequested implements ShouldQueue
 {
     use InteractsWithQueue;
-
-    public $queue = 'emails';
+    public $queue = 'endorsements';
 
     public function handle(ExternalEndorsementRequested $event)
     {
         $endorsementRequest = EndorsementRequest::create($event->requestDetails());
         event(new SendExternalEndorsementEmail($endorsementRequest));
-    }
-
-    private function generateToken()
-    {
-        return bin2hex(random_bytes(32));
     }
 }

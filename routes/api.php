@@ -15,7 +15,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'competencies'], function () {
         Route::get('/', [CompetencyController::class, 'index'])->name('competencies');
         Route::get('/{competency}', [CompetencyController::class, 'competency'])->name('competency');
-        Route::get('/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');
     });
 
     Route::get('/roles', [UserController::class, 'getRoles'])->name('roles');
@@ -66,3 +65,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/{group}/leave', [GroupController::class, 'leaveGroup'])->name('leaveGroup');
     });
 });
+
+Route::get('endorsements/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');
+Route::post('endorsements/request/{endorsementRequest}', [EndorsementController::class, 'endorseEndorsementRequest'])->name('endorseEndorsementRequest');

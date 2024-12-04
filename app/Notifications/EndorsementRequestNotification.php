@@ -12,10 +12,13 @@ use Illuminate\Notifications\Notification;
 class EndorsementRequestNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'endorsements'
+        ];
+    }
     public $endorsementRequest;
-
-    public $queue = 'notifications';
 
     public function __construct(EndorsementRequest $endorsementRequest)
     {

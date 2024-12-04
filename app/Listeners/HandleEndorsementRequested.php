@@ -12,6 +12,8 @@ class HandleEndorsementRequested implements ShouldQueue
 {
     use InteractsWithQueue;
 
+    public $queue = 'endorsements';
+
     public function handle(EndorsementRequested $event)
     {
         $endorsment_request = EndorsementRequest::create($event->requestDetails());

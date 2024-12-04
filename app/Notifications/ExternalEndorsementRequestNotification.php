@@ -13,7 +13,7 @@ class ExternalEndorsementRequestNotification extends Notification implements Sho
     public function viaQueues(): array
     {
         return [
-            'mail' => 'emails',
+            'mail' => 'endorsements'
         ];
     }
     protected $endorsementRequest;

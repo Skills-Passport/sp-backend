@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Notification;
 
 class SendExternalEndorsementEmailListener implements ShouldQueue
 {
-    public $queue = 'emails';
+    public $queue = 'endorsements';
 
     /**
      * Handle the event.
