@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/request', [EndorsementController::class, 'requestEndorsement'])->name('requestEndorsement');
             Route::get('/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');
         });
+        Route::get('/{user}/notifications', [UserController::class, 'notifications'])->name('notifications');
     });
 
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
