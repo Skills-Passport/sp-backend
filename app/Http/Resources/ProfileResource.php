@@ -13,6 +13,7 @@ class ProfileResource extends JsonResource
             'title' => $this->title,
             'desc' => $this->desc,
             'icon' => $this->icon,
+            'color' => $this->color,
             'created_by' => new UserResource($this->createdBy),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
