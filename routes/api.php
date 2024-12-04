@@ -66,5 +66,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 });
 
-Route::get('endorsements/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');
-Route::post('endorsements/request/{endorsementRequest}', [EndorsementController::class, 'endorseEndorsementRequest'])->name('endorseEndorsementRequest');
+Route::get('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');
+Route::post('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'endorseEndorsementRequest'])->name('endorseEndorsementRequest');
