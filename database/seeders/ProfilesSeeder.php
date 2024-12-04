@@ -23,8 +23,14 @@ class ProfilesSeeder extends Seeder
             'Innovator' => 'An innovator is a person who introduces new methods, ideas, or products.',
             'Analyst' => 'An analyst is a person who is skilled in the use of data to solve problems and make decisions.',
         ];
+        $colors = [
+            'Technologist' => '#daeaf6',
+            'Director' => '#daf1e5',
+            'Innovator' => '#fce0e6',
+            'Analyst' => '#f1f5c9',
+        ];
         foreach ($profiles as $profile) {
-            Profile::firstOrCreate(['title' => $profile, 'desc' => $description[$profile], 'icon' => $icons[$profile], 'created_by' => User::first()->id]);
+            Profile::firstOrCreate(['title' => $profile, 'desc' => $description[$profile], 'icon' => $icons[$profile], 'created_by' => User::first()->id], ['color' => $colors[$profile]]);
         }
     }
 }
