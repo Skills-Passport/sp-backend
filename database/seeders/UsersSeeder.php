@@ -25,6 +25,7 @@ class UsersSeeder extends Seeder
                 'first_name' => strtoupper($name),
                 'email' => $email,
                 'password' => Hash::make('password'),
+                'image' => 'https://xsgames.co/randomusers/avatar.php?g=male',
             ]);
             $user->assignRole(Role::find(['name' => $role]));
         } catch (UniqueConstraintViolationException $e) {
