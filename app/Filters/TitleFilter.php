@@ -4,10 +4,10 @@ namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class SearchFilter
+class TitleFilter
 {
     public function filter(Builder $builder, string $value): Builder
     {
-        return $builder->where('name', 'like', '%'.$value.'%');
+        return $builder->where('title', 'like', '%'.$value.'%');
     }
 }

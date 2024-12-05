@@ -40,7 +40,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::get('/recent', [EndorsementController::class, 'recentEndorsements'])->name('recentEndorsements');
             Route::post('/request', [EndorsementController::class, 'requestEndorsement'])->name('requestEndorsement');
         });
-        Route::get('/{user}/notifications', [UserController::class, 'notifications'])->name('notifications');
     });
 
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
@@ -64,6 +63,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/{group}/join', [GroupController::class, 'joinGroup'])->name('joinGroup');
         Route::post('/{group}/leave', [GroupController::class, 'leaveGroup'])->name('leaveGroup');
     });
+    Route::get('/notifications', [UserController::class, 'notifications'])->name('notifications');
+
 });
 
 Route::get('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest'])->name('showEndorsementRequest');

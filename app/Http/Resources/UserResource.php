@@ -10,7 +10,7 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->first_name.' '.$this->last_name,
+            'name' => $this->first_name . ' ' . $this->last_name,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'job_title' => $this->job_title,
@@ -23,7 +23,9 @@ class UserResource extends JsonResource
                 'id' => $this->role->id,
                 'name' => $this->role->name,
             ] : null,
-
+            'is_teacher' => $this->is_teacher,
+            'is_admin' => $this->is_admin,
+            'is_head_teacher' => $this->is_head_teacher,
         ];
     }
 }

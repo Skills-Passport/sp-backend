@@ -44,7 +44,6 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'full_name',
         'role',
     ];
 
@@ -112,13 +111,24 @@ class User extends Authenticatable
         return $this->roles->first();
     }
 
-    public function getFullNameAttribute()
-    {
-        return $this->first_name.' '.$this->last_name;
-    }
 
     public function getIsAdminAttribute()
     {
         return $this->hasRole('admin');
+    }
+
+    public function getIsTeacherAttribute()
+    {
+        return $this->hasRole('teacher');
+    }
+
+    public function getIsStudentAttribute()
+    {
+        return $this->hasRole('student');
+    }
+
+    public function getIsHeadTeacherAttribute()
+    {
+        return $this->hasRole('head-teacher');
     }
 }

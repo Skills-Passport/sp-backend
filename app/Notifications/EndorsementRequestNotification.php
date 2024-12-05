@@ -15,7 +15,7 @@ class EndorsementRequestNotification extends Notification implements ShouldQueue
     public function viaQueues(): array
     {
         return [
-            'mail' => 'endorsements'
+            'database' => 'endorsements'
         ];
     }
     public $endorsementRequest;
