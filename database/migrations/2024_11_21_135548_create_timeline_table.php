@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('timeline', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->morphs('timelineable');
+            $table->uuidMorphs('timelineable');
             $table->timestamps();
             $table->softDeletes();
         });

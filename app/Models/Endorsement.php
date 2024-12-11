@@ -39,7 +39,16 @@ class Endorsement extends Model
             'approved_at' => 'datetime',
         ];
     }
-
+    
+    protected static function booted(): void
+    {
+        static::created(function ($endorsement) {
+            Timeline::create([
+                'timelineable_id' => $endorsement->id,
+                'timelineable_type' => self::class,
+            ]);
+        });
+    }
     public function skill()
     {
         return $this->belongsTo(Skill::class);

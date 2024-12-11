@@ -13,7 +13,16 @@ class Rating extends Model
     protected $table = 'ratings';
 
     protected $fillable = ['user_id', 'skill_id', 'previous_rating', 'new_rating', 'approved_at', 'approved_by'];
-
+    
+    protected static function booted(): void
+    {
+        static::created(function ($rating) {
+            Timeline::create([
+                'timelineable_id' => $rating->id,
+                'timelineable_type' => self::class,
+            ]);
+        });
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

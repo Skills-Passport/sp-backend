@@ -53,6 +53,11 @@ class Skill extends Model
         return $this->hasMany(Endorsement::class);
     }
 
+    public function timeline()
+    {
+        return $this->morphMany(Timeline::class, 'timelineable');
+    }
+
     public function getRatingAttribute()
     {
         return auth()->user()->skills()->where('skill_id', $this->id)->first()->pivot->last_rating;

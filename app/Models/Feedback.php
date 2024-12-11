@@ -14,7 +14,15 @@ class Feedback extends Model
     use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
 
     protected $table = 'feedbacks';
-
+    protected static function booted(): void
+    {
+        static::created(function ($feedback) {
+            Timeline::create([
+                'timelineable_id' => $feedback->id,
+                'timelineable_type' => self::class,
+            ]);
+        });
+    }
     protected $fillable = [
         'title',
         'content',
