@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Educator\SkillResource as EducatorSkillResource;
-use App\Http\Resources\Student\SkillResource as StudentSkillResource;
 use App\Models\Skill;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Http\Resources\Student\SkillResource as StudentSkillResource;
+use App\Http\Resources\Educator\SkillResource as EducatorSkillResource;
 
 class SkillController extends Controller
 {

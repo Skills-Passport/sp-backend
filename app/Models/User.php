@@ -27,7 +27,7 @@ class User extends Authenticatable
         'job_title',
         'address',
         'field',
-        'personal_coach_id',
+        'personal_coach',
         'first_name',
         'last_name',
     ];
@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function personalCoach()
     {
-        return $this->belongsTo(User::class, 'personal_coach_id');
+        return $this->belongsTo(User::class, 'personal_coach');
     }
 
     public function writtenFeedbacks()

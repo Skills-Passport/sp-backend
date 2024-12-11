@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EndorsementRequest extends Model
 {
@@ -53,4 +54,20 @@ class EndorsementRequest extends Model
     {
         return $this->belongsTo(Skill::class);
     }
+
+    public function isFilled(): bool
+    {
+        return !is_null($this->filled_at);
+    }
+
+    public function fulfill(array $data): self
+    {
+        $this->update([
+            'data' => $data,
+            'filled_at' => now(),
+            'status' => 'filled',
+        ]);
+        return $this;
+    }
+
 }

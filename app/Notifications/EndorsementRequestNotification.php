@@ -33,11 +33,13 @@ class EndorsementRequestNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'type' => 'endorsement',
-            'event' => 'request',
+            'type' => \App\Models\Notification::TYPE_ENDORSEMENT_REQUEST,
             'requester' => UserResource::make($this->endorsementRequest->requester),
-            'skill' => SkillResource::make($this->endorsementRequest->skill),
-            'title' => $this->endorsementRequest->title,
+            'requestee_name' => $this->endorsementRequest->requestee->name,
+            'skill' => [
+                'id' => $this->endorsementRequest->skill->id,
+                'title' => $this->endorsementRequest->skill->title,
+            ],
             'created_at' => $this->endorsementRequest->created_at,
         ];
     }
