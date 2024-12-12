@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\TimelineResource;
+use App\Models\Group;
 use App\Models\Skill;
 use App\Models\Feedback;
 use App\Models\Timeline;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\TimelineResource;
 use App\Http\Requests\UpdateRatingRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Http\Resources\Student\SkillResource as StudentSkillResource;
@@ -82,5 +83,12 @@ class SkillController extends Controller
         $request->user()->skills()->updateExistingPivot($skill->id, ['last_rating' => $request->rating]);
 
         return response()->json(['message' => 'Rating updated successfully']);
+    }
+
+    public function groupSkills(Request $request, Group $group): AnonymousResourceCollection
+    {
+        $user_skills = $request->user()->skills->pluck('id');
+        $skills = $group->skills()->whereIn('id', $user_skills)->get();
+        return $this->getResource()::collection($skills);
     }
 }
