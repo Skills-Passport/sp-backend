@@ -10,7 +10,7 @@ class RatingResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'rating' => $this->rating,
+            'rating' => $this->new_rating,
             'approved_at' => $this->approved_at,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
