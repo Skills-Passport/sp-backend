@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Traits\PopulatesIfEmpty;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Filters\CompetenciesFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Competency extends Model
 {
-    use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $table = 'competencies';
 
@@ -75,6 +76,10 @@ class Competency extends Model
                 });
             }
         ]);
+    }
+    public function scopeFilter($query, $request)
+    {
+        return (new CompetenciesFilter($request))->filter($query);
     }
 
 

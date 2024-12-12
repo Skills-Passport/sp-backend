@@ -27,7 +27,7 @@ class User extends Authenticatable
         'job_title',
         'address',
         'field',
-        'personal_coach_id',
+        'personal_coach',
         'first_name',
         'last_name',
     ];
@@ -44,7 +44,6 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'full_name',
         'role',
     ];
 
@@ -63,7 +62,7 @@ class User extends Authenticatable
 
     public function personalCoach()
     {
-        return $this->belongsTo(User::class, 'personal_coach_id');
+        return $this->belongsTo(User::class, 'personal_coach');
     }
 
     public function writtenFeedbacks()
@@ -71,7 +70,7 @@ class User extends Authenticatable
         return $this->hasMany(Feedback::class, 'created_by');
     }
 
-    public function receivedFeedbacks()
+    public function feedbacks()
     {
         return $this->hasMany(Feedback::class, 'user_id');
     }
@@ -112,13 +111,24 @@ class User extends Authenticatable
         return $this->roles->first();
     }
 
-    public function getFullNameAttribute()
-    {
-        return $this->first_name.' '.$this->last_name;
-    }
 
     public function getIsAdminAttribute()
     {
         return $this->hasRole('admin');
+    }
+
+    public function getIsTeacherAttribute()
+    {
+        return $this->hasRole('teacher');
+    }
+
+    public function getIsStudentAttribute()
+    {
+        return $this->hasRole('student');
+    }
+
+    public function getIsHeadTeacherAttribute()
+    {
+        return $this->hasRole('head-teacher');
     }
 }

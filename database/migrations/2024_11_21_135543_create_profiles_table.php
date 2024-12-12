@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title', 255);
             $table->text('desc')->comment('description of the Profile');
+            $table->string('color')->default('#000000');
             $table->foreignUuid('created_by')->constrained('users');
             $table->string('icon', 255)->nullable();
             $table->timestamps();

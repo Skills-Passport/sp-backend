@@ -50,16 +50,33 @@ class EndorsementController extends Controller
         $requestee = User::find($request->requestee);
         $requestee_email = !$requestee ? $request->requestee_email : null;
         $title = $request->title;
-        if (!$requestee_email) {
+
+        if (!$requestee_email) 
             event(new EndorsementRequested($requester, $requestee, $skill, $title));
-        } else {
+         else 
             event(new ExternalEndorsementRequested($requester, $requestee_email, $skill, $title));
-        }
     }
 
     public function showEndorsementRequest(EndorsementRequest $endorsementRequest)
     {
+        if ($endorsementRequest->isFilled())
+            return response()->json(['message' => 'This endorsement request has already been filled'], 410);
+
         $endorsementRequest->load('skill');
         return new EndorsementRequestResource($endorsementRequest);
     }
+
+    public function endorseEndorsementRequest(Request $request, EndorsementRequest $endorsementRequest)
+    {
+        $data = [
+            'title' => $request->title,
+            'supervisor_name' => $request->supervisor_name,
+            'supervisor_position' => $request->supervisor_position,
+            'supervisor_company' => $request->supervisor_company,
+            'rating' => $request->rating,
+            'feedback' => $request->feedback,
+        ];
+        $endorsementRequest->fulfill($data);
+    }
+    
 }

@@ -22,7 +22,9 @@ class UsersSeeder extends Seeder
     {
         try {
             $user = User::firstOrCreate([
-                'first_name' => strtoupper($name),
+                'first_name' => 'Mr',
+                'last_name' => strtoupper($name),
+                'job_title' => $role,
                 'email' => $email,
                 'password' => Hash::make('password'),
                 'image' => 'https://xsgames.co/randomusers/avatar.php?g=male',

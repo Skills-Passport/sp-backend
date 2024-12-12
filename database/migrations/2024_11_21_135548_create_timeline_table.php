@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('timeline', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->morphs('timelineable');
+            $table->uuidMorphs('timelineable');
+            $table->foreignUuid('user_id')->nullable()->constrained('users');
+            $table->foreignUuid('skill_id')->nullable()->constrained('skills');
             $table->timestamps();
             $table->softDeletes();
         });

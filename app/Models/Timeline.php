@@ -14,18 +14,17 @@ class Timeline extends Model
     protected $table = 'timeline';
 
     protected $fillable = [
-        'content',
         'timelineable_id',
         'timelineable_type',
-        'created_by',
-        'created_by_email',
         'user_id',
+        'skill_id',
     ];
 
     protected $hidden = [
         'deleted_at',
         'updated_at',
     ];
+
 
     protected function casts(): array
     {
@@ -46,8 +45,8 @@ class Timeline extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function createdBy()
+    public function skill()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(Skill::class);
     }
 }

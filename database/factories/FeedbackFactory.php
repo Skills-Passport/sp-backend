@@ -19,7 +19,7 @@ class FeedbackFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence,
+            'title' => "Fake Feedback #{$this->faker->unique()->numberBetween(1, 100)}",
             'content' => $this->faker->text,
             'skill_id' => Skill::inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->first()->id,

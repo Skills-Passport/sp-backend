@@ -17,7 +17,7 @@ class CompetencyFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->word,
+            'title' => "Fake Competency #{$this->faker->unique()->numberBetween(1, 100)}",
             'desc' => $this->faker->sentence,
             'overview' => $this->faker->paragraph,
         ];

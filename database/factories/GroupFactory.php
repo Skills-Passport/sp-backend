@@ -20,7 +20,7 @@ class GroupFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => "Fake Group #{$this->faker->unique()->numberBetween(1, 100)}",
             'desc' => $this->faker->sentence,
             'created_by' => User::inRandomOrder()->first()->id,
         ];
