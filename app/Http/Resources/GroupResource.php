@@ -17,6 +17,7 @@ class GroupResource extends JsonResource
             'skills' => SkillResource::collection($this->whenLoaded('skills')),
             'students' => UserResource::collection($this->whenLoaded('students')),
             'teachers' => UserResource::collection($this->whenLoaded('teachers')),
+            'students_count' => $this->students? $this->students->count() : 0,
         ];
     }
 }

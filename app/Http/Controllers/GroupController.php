@@ -25,9 +25,6 @@ class GroupController extends Controller
     {
         $user = $request->user();
         $relations = $request->query('with') ? explode(',', $request->query('with')) : [];
-        $relations[] = 'students';
-        $relations[] = 'teachers';
-        $relations[] = 'skills';
 
         $groups = $user->groups()->with($relations)->filter($request)->paginate($request->query('per_page', 10));
 
@@ -53,5 +50,26 @@ class GroupController extends Controller
         $group->students()->attach($request->student_id);
 
         return response()->json($group, 201);
+    }
+
+    public function addTeacher(Request $request, Group $group)
+    {
+        $group->teachers()->attach($request->teacher_id);
+
+        return response()->json($group, 201);
+    }
+
+    public function joinGroup(Request $request, Group $group)
+    {
+        $group->students()->attach($request->user()->id);
+
+        return response()->json($group, 201);
+    }
+
+    public function leaveGroup(Request $request, Group $group)
+    {
+        $group->students()->detach($request->user()->id);
+
+        return response()->json('You have left the group', 200);
     }
 }
