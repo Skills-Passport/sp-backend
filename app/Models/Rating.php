@@ -46,6 +46,11 @@ class Rating extends Model
         return $this->morphOne(Timeline::class, 'timelineable');
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     public function resource()
     {
         return new RatingResource($this);

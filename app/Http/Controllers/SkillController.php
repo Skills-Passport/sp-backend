@@ -46,8 +46,8 @@ class SkillController extends Controller
 
     public function skillTimeline(Request $request, Skill $skill): AnonymousResourceCollection
     {
-        $timelines = $skill->timeline($request->user())->with(['timelineable'])->get();
-        $timeline = $timelines->map(function ($timeline) {
+        $timelines = $skill->timeline($request->user())->with(['timelineable', 'timelineable.createdBy'])->get();
+        $timelines = $timelines->map(function ($timeline) {
             $timeline->type = class_basename($timeline->timelineable_type);
             return $timeline;
         });
