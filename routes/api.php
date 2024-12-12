@@ -32,6 +32,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
         Route::group(['prefix' => 'groups'], function () {
             Route::get('/', [GroupController::class, 'mygroups']);
+            Route::get('/{group}/skills', [SkillController::class, 'groupSkills']);
+            Route::get('/{group}/join', [GroupController::class, 'joinGroup']);
+            Route::get('/{group}/leave', [GroupController::class, 'leaveGroup']);
         });
         Route::group(['prefix' => 'profiles'], function () {
             Route::get('/', [ProfileController::class, 'index']);
@@ -63,8 +66,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'groups'], function () {
         Route::get('/', [GroupController::class, 'index']);
         Route::get('/{group}', [GroupController::class, 'show']);
-        Route::post('/{group}/join', [GroupController::class, 'joinGroup']);
-        Route::post('/{group}/leave', [GroupController::class, 'leaveGroup']);
     });
     Route::get('/notifications', [UserController::class, 'notifications']);
 });
