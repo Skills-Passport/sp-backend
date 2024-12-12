@@ -27,15 +27,15 @@ class EndorsementController extends Controller
     public function skillEndorsements(Request $request, Skill $skill) 
     {
         $endorsements = auth()->user()->endorsements()
-            ->where('skill_id', $skill->id)
+            ->where('skill_id', $skill->id)->with($request->query('with') ? explode(',', $request->query('with')) : [])
             ->paginate($request->query('per_page', 10));
 
-        return response()->json($endorsements);
+        return EndorsementResource::collection($endorsements);
     }
 
     public function recentEndorsements(Request $request): AnonymousResourceCollection
     {
-        $endorsements = auth()->user()->endorsements()->with($request->query('with', []))
+        $endorsements = auth()->user()->endorsements()->with($request->query('with') ? explode(',', $request->query('with')) : [])
             ->where('created_at', '>=', Carbon::now()->subDays(30))
             ->orderBy('created_at', 'desc')
             ->paginate($request->query('per_page', 10));
