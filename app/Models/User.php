@@ -70,7 +70,7 @@ class User extends Authenticatable
         return $this->hasMany(Feedback::class, 'created_by');
     }
 
-    public function receivedFeedbacks()
+    public function feedbacks()
     {
         return $this->hasMany(Feedback::class, 'user_id');
     }

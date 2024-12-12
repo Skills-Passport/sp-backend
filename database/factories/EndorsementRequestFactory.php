@@ -23,7 +23,7 @@ class EndorsementRequestFactory extends Factory
             'sent_to_email' => $this->faker->email,
             'is_approved' => false,
             'data' => [
-                'content' => $this->faker->sentence,
+                'content' => "Fake Endorsement Request #{$this->faker->unique()->numberBetween(1, 100)}",
                 'rating' => $this->faker->numberBetween(1, 5),
                 'questions' => [
                     [

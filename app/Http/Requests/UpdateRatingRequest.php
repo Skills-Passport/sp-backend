@@ -10,7 +10,7 @@ class UpdateRatingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'rating' => ['required', 'numeric', 'between:1,4', new AboveCurrentRating($this, $this->route('skill'))],
+            'rating' => ['required', 'numeric', 'between:1,4'],
             'feedback' => ['required', 'string', 'min:10'],
         ];
     }

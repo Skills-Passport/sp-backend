@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Traits\PopulatesIfEmpty;
+use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\FeedbackResource;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Feedback extends Model
 {
@@ -16,10 +17,12 @@ class Feedback extends Model
     protected $table = 'feedbacks';
     protected static function booted(): void
     {
-        static::created(function ($feedback) {
+        static::created(function ($e) {
             Timeline::create([
-                'timelineable_id' => $feedback->id,
+                'timelineable_id' => $e->id,
                 'timelineable_type' => self::class,
+                'user_id' => $e->user_id,
+                'skill_id' => $e->skill_id,
             ]);
         });
     }
@@ -49,5 +52,9 @@ class Feedback extends Model
     public function timeline()
     {
         return $this->morphOne(Timeline::class, 'timelineable');
+    }
+    public function resource()
+    {
+        return new FeedbackResource($this);
     }
 }

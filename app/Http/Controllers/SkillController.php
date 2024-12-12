@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TimelineResource;
 use App\Models\Skill;
 use App\Models\Feedback;
 use App\Models\Timeline;
@@ -42,14 +43,15 @@ class SkillController extends Controller
         return response()->json(['message' => 'Skill added successfully']);
     }
 
-    public function skillTimeline(Request $request, Skill $skill): JsonResponse
+    public function skillTimeline(Request $request, Skill $skill): AnonymousResourceCollection
     {
-        $studentId = $request->user()->id;
-        $timelines = $skill->timeline()->whereHas('timelineable', function ($query) use ($studentId) {
-            $query->where('user_id', $studentId);
-        })->paginate($request->query('per_page', 10));
+        $timelines = $skill->timeline($request->user())->with(['timelineable'])->get();
+        $timeline = $timelines->map(function ($timeline) {
+            $timeline->type = class_basename($timeline->timelineable_type);
+            return $timeline;
+        });
 
-        return response()->json($timelines);
+        return TimelineResource::collection($timelines);
     }
 
     public function getResource(): string
@@ -58,29 +60,26 @@ class SkillController extends Controller
 
         return $Resoruce;
     }
-
     public function updateRating(UpdateRatingRequest $request, Skill $skill): JsonResponse
     {
-        DB::transaction(function () use ($request, $skill) {
-            $user = $request->user();
+        $feedback = null;
+        $user = $request->user();
 
-            $userSkillPivot = $user->skills()->where('skill_id', $skill->id)->first()->pivot;
+        $userSkillPivot = $user->skills()->where('skill_id', $skill->id)->first()->pivot;
 
-            $user->ratings()->create([
-                'skill_id' => $skill->id,
-                'previous_rating' => $userSkillPivot->last_rating,
-                'new_rating' => $request->rating,
-            ]);
-            Feedback::create([
-                'user_id' => $request->user()->id,
-                'skill_id' => $skill->id,
-                'created_by' => $request->user()->id,
-                'title' => 'Rating updated',
-                'content' => $request->feedback,
-            ]);
-
-            $request->user()->skills()->updateExistingPivot($skill->id, ['last_rating' => $request->rating]);
-        });
+        $user->ratings()->create([
+            'skill_id' => $skill->id,
+            'previous_rating' => $userSkillPivot->last_rating,
+            'new_rating' => $request->rating,
+        ]);
+        $feedback = Feedback::create([
+            'user_id' => $request->user()->id,
+            'skill_id' => $skill->id,
+            'created_by' => $request->user()->id,
+            'title' => 'Rating updated',
+            'content' => $request->feedback,
+        ]);
+        $request->user()->skills()->updateExistingPivot($skill->id, ['last_rating' => $request->rating]);
 
         return response()->json(['message' => 'Rating updated successfully']);
     }

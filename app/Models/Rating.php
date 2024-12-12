@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Http\Resources\RatingResource;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Rating extends Model
 {
@@ -16,10 +17,12 @@ class Rating extends Model
     
     protected static function booted(): void
     {
-        static::created(function ($rating) {
+        static::created(function ($e) {
             Timeline::create([
-                'timelineable_id' => $rating->id,
+                'timelineable_id' => $e->id,
                 'timelineable_type' => self::class,
+                'user_id' => $e->user_id,
+                'skill_id' => $e->skill_id,
             ]);
         });
     }
@@ -36,6 +39,16 @@ class Rating extends Model
     public function approvedBy()
     {
         return $this->belongsTo(User::class, 'approved_by', 'id');
+    }
+
+    public function timeline()
+    {
+        return $this->morphOne(Timeline::class, 'timelineable');
+    }
+
+    public function resource()
+    {
+        return new RatingResource($this);
     }
 
     public function approve(User $user)

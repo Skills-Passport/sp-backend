@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Competency extends Model
 {
-    use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $table = 'competencies';
 

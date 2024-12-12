@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::get('/{skill}', [SkillController::class, 'show']);
             Route::post('/{skill}/add', [SkillController::class, 'addSkill']);
             Route::post('/{skill}/rating_update', [SkillController::class, 'updateRating']);
+            ROute::post('/{skill}/feedback', [FeedbackController::class, 'store']);
         });
         Route::group(['prefix' => 'competencies'], function () {
             Route::get('/', [CompetencyController::class, 'myCompetencies']);
