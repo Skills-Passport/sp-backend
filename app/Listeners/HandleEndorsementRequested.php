@@ -17,6 +17,6 @@ class HandleEndorsementRequested implements ShouldQueue
     public function handle(EndorsementRequested $event)
     {
         $endorsment_request = EndorsementRequest::create($event->requestDetails());
-        $event->requestee->notify(new EndorsementRequestNotification($endorsment_request));
+        $event->requester->personalCoach()->notify(new EndorsementRequestNotification($endorsment_request));
     }
 }
