@@ -20,7 +20,7 @@ class FeedbackResource extends JsonResource
             'user' => new UserResource($this->whenLoaded('user')),
             'skill' => new $SkillResource($this->whenLoaded('skill')),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'crated_by' => new UserResource($this->whenLoaded('createdBy')),
+            'created_by' => new UserResource($this->whenLoaded('createdBy')),
         ];
     }
 }

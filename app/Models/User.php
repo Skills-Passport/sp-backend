@@ -111,7 +111,6 @@ class User extends Authenticatable
         return $this->roles->first();
     }
 
-
     public function getIsAdminAttribute()
     {
         return $this->hasRole('admin');
@@ -130,5 +129,10 @@ class User extends Authenticatable
     public function getIsHeadTeacherAttribute()
     {
         return $this->hasRole('head-teacher');
+    }
+
+    public function hasPersonalCoach()
+    {
+        return $this->personal_coach !== null;
     }
 }
