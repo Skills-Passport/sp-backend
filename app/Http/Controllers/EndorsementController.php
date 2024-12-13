@@ -45,19 +45,18 @@ class EndorsementController extends Controller
 
     public function requestEndorsement(RequestEndorsementRequest $request)
     {
-        if (!$request->user()->hasPersonalCoach) 
+        $skill = Skill::find($request->skill);
+        $requestee = User::find($request->user_id);
+        $requestee_email = !$requestee ? $request->requestee_email : null;
+        if (!$request->user()->hasPersonalCoach() && $requestee_email)
             return response()->json(['message' => 'You need to have a personal coach to request an endorsement', 'error' => 'no_personal_coach'], 403);
 
-        $skill = Skill::find($request->skill);
-        $requester = auth()->user();
-        $requestee = User::find($request->requestee);
-        $requestee_email = !$requestee ? $request->requestee_email : null;
         $title = $request->title;
 
         if (!$requestee_email) 
-            event(new EndorsementRequested($requester, $requestee, $skill, $title));
+            event(new EndorsementRequested($request->user(), $requestee, $skill, $title));
          else 
-            event(new ExternalEndorsementRequested($requester, $requestee_email, $skill, $title));
+            event(new ExternalEndorsementRequested($request->user(), $requestee_email, $skill, $title));
     }
 
     public function showEndorsementRequest(EndorsementRequest $endorsementRequest)

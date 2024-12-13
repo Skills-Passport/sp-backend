@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::get('/{skill}', [SkillController::class, 'show']);
             Route::post('/{skill}/add', [SkillController::class, 'addSkill']);
             Route::post('/{skill}/rating_update', [SkillController::class, 'updateRating']);
-            ROute::post('/{skill}/feedback', [FeedbackController::class, 'store']);
+            ROute::post('/{skill}/feedback', [FeedbackController::class, 'ratingUpdateFeedback']);
         });
         Route::group(['prefix' => 'competencies'], function () {
             Route::get('/', [CompetencyController::class, 'myCompetencies']);
@@ -43,6 +43,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::group(['prefix' => 'endorsements'], function () {
             Route::get('/recent', [EndorsementController::class, 'recentEndorsements']);
             Route::post('/request', [EndorsementController::class, 'requestEndorsement']);
+        });
+        Route::group(['prefix' => 'feedbacks'], function () {
+            Route::post('/request', [FeedbackController::class, 'requestFeedback']);
         });
         Route::get('/teachers', [UserController::class, 'teachers']);
         Route::put('/personal_coach', [UserController::class, 'setPersonalCoach']);

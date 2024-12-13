@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Skill;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
+use App\Events\FeedbackRequested;
 use App\Http\Resources\FeedbackResource;
 use App\Http\Requests\CreateFeedbackRequest;
+use App\Http\Requests\RequestFeedbackRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FeedbackController extends Controller
@@ -26,7 +29,7 @@ class FeedbackController extends Controller
         return FeedbackResource::collection($feedbacks);
     }
 
-    public function store(CreateFeedbackRequest $request, Skill $skill)
+    public function ratingUpdateFeedback(CreateFeedbackRequest $request, Skill $skill)
     {
         $feedback = new Feedback($request->validated());
         $feedback->skill_id = $skill->id;
@@ -35,5 +38,15 @@ class FeedbackController extends Controller
         $feedback->save();
 
         return new FeedbackResource($feedback);
+    }
+
+    public function requestFeedback(RequestFeedbackRequest $request)
+    {
+        $skill = Skill::find($request->skill);
+        $requester = auth()->user();
+        $requestee = User::find($request->user_id);
+        $title = $request->title;
+
+        event(new FeedbackRequested($request->user(), $requestee, $skill, $title));
     }
 }
