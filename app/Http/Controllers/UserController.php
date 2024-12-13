@@ -47,7 +47,7 @@ class UserController extends Controller
             'personal_coach_id' => ['required', 'exists:users,id', new HasRole('teacher')],
         ]);
 
-        $request->user()->personal_coach = $request->teacher;
+        $request->user()->personal_coach = $request->personal_coach_id;
         $request->user()->save();
 
         return response()->json(['message' => 'Personal coach set', 'status' => 'success']);
