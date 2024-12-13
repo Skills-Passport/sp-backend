@@ -12,10 +12,10 @@ class ProfilesSeeder extends Seeder
     {
         $profiles = ['Technologist', 'Director', 'Innovator', 'Analyst'];
         $icons = [
-            'Technologist' => 'Cpu',
-            'Director' => 'Briefcase',
-            'Innovator' => 'LightBulb',
-            'Analyst' => 'ChartBar',
+            'Technologist' => 'MonitorCog',
+            'Director' => 'Clapperboard',
+            'Innovator' => 'Lightbulb',
+            'Analyst' => 'ChartLine',
         ];
         $description = [
             'Technologist' => 'A technologist is a professional who is skilled in the use of technology to solve problems and complete tasks.',
