@@ -14,7 +14,8 @@ class UserController extends Controller
 {
     public function user(Request $request): UserResource
     {
-        return new UserResource($request->user()->load($request->query('with') ? explode(',', $request->query('with')) : []));
+        $user = $request->user()->load(["personalCoach", "roles"]);
+        return new UserResource($user);
     }
 
     public function getRoles()
