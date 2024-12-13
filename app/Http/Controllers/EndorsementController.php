@@ -45,7 +45,7 @@ class EndorsementController extends Controller
 
     public function requestEndorsement(RequestEndorsementRequest $request)
     {
-        if (!$request->user()->hasPersonalCoach) 
+        if (!$request->user()->hasPersonalCoach())
             return response()->json(['message' => 'You need to have a personal coach to request an endorsement', 'error' => 'no_personal_coach'], 403);
 
         $skill = Skill::find($request->skill);
