@@ -2,20 +2,29 @@
 
 namespace App\Notifications;
 
+use App\Models\User;
+use App\Models\Skill;
 use Illuminate\Bus\Queueable;
+use App\Models\FeedbackRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class FeedbackRequestedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $requestDetails;
-
-    public function __construct(array $requestDetails)
+    public function viaQueues(): array
     {
-        $this->requestDetails = $requestDetails;
+        return [
+            'mail' => 'feedbacks'
+        ];
+    }
+    public FeedbackRequest $feedbackRequest;
+
+    public function __construct(FeedbackRequest $feedbackRequest)
+    {
+        $this->feedbackRequest = $feedbackRequest;
     }
 
     public function via($notifiable): array
@@ -26,10 +35,15 @@ class FeedbackRequestedNotification extends Notification implements ShouldQueue
     {
         return [
             'type' => \App\Models\Notification::TYPE_FEEDBACK_REQUEST,
-            'requester' => UserResource::make(User::find($this->requestDetails['requester_id'])),
+            'requester' => UserResource::make(User::find($this->feedbackRequest->requester_id)),
+            'title' => $this->feedbackRequest->title,
+            'group' => $this->feedbackRequest->group? [
+                'id' => $this->feedbackRequest->group->id,
+                'name' => $this->feedbackRequest->group->name,
+            ] : null,
             'skill' => [
-                'id' => $this->requestDetails['skill_id'],
-                'title' => Skill::find($this->requestDetails['skill_id'])->title,
+                'id' => $this->feedbackRequest->skill_id,
+                'title' => $this->feedbackRequest->skill->title,
             ],
         ];
     }

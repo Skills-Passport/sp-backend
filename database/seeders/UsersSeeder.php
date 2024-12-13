@@ -12,21 +12,96 @@ class UsersSeeder extends Seeder
 {
     public function run(): void
     {
-        $users = ['student', 'teacher', 'head-teacher', 'admin'];
+        $users = [
+            [
+                'name' => [
+                    'first_name' => 'Mr',
+                    'last_name' => 'Student',
+                ],
+                'email' => 'student@sp.nl',
+                'role' => 'student',
+                'password' => 'password',
+            ],
+            [
+                'name' => [
+                    'first_name' => 'Mr',
+                    'last_name' => 'Student2',
+                ],
+                'email' => 'std2@sp.nl',
+                'role' => 'student',
+                'password' => 'password',
+            ],
+            [
+                'name' => [
+                    'first_name' => 'Mr',
+                    'last_name' => 'Student3',
+                ],
+                'email' => 'std3@sp.nl',
+                'role' => 'student',
+                'password' => 'password',
+            ],
+            [
+                'name' => [
+                    'first_name' => 'Mr',
+                    'last_name' => 'Teacher',
+                ],
+                'email' => 'teacher@sp.nl',
+                'role' => 'teacher',
+                'password' => 'password',
+            ],
+            [
+                'name' => [
+                    'first_name' => 'Ms',
+                    'last_name' => 'Marit',
+                ],
+                'email' => 'marit@sp.nl',
+                'role' => 'teacher',
+                'password' => 'happylearning',
+            ],
+            [
+                'name' => [
+                    'first_name' => 'Ms',
+                    'last_name' => 'Mirjam',
+                ],
+                'email' => 'mirjam@sp.nl',
+                'role' => 'teacher',
+                'password' => 'happylearning',
+            ],
+            [
+                'name' => [
+                    'first_name' => 'Mr',
+                    'last_name' => 'Admin',
+                ],
+                'email' => 'admin@sp.nl',
+                'role' => 'admin',
+                'password' => 'password',
+            ],
+            [
+                'name' => [
+                    'first_name' => 'Mr',
+                    'last_name' => 'HeadTeacher',
+                ],
+                'email' => 'headTeacher@sp.nl',
+                'role' => 'head-teacher',
+                'password' => 'password',
+            ],
+        ];
+
+
         foreach ($users as $user) {
-            $this->createUserWithRole($user, $user.'@sp.nl', $user);
+            $this->createUserWithRole($user['name'], $user['email'], $user['role'], $user['password']);
         }
     }
 
-    public function createUserWithRole($name, $email, $role)
+    public function createUserWithRole($name, $email, $role, $password): void
     {
         try {
             $user = User::firstOrCreate([
-                'first_name' => 'Mr',
-                'last_name' => strtoupper($name),
+                'first_name' => $name['first_name'],
+                'last_name' => $name['last_name'],
                 'job_title' => $role,
                 'email' => $email,
-                'password' => Hash::make('password'),
+                'password' => Hash::make($password),
                 'image' => 'https://xsgames.co/randomusers/avatar.php?g=male',
             ]);
             $user->assignRole(Role::find(['name' => $role]));

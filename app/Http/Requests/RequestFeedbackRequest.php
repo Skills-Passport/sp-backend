@@ -15,6 +15,7 @@ class RequestFeedbackRequest extends FormRequest
     {
         return [
             'skill_id' => 'required|exists:skills,id',
+            'group_id' => 'nullable|exists:groups,id',
             'user_id' => 'required|exists:users,id',
             'title' => 'required|string',
         ];

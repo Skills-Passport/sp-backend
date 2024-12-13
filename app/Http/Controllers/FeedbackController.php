@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\User;
 use App\Models\Skill;
 use App\Models\Feedback;
@@ -43,10 +44,9 @@ class FeedbackController extends Controller
     public function requestFeedback(RequestFeedbackRequest $request)
     {
         $skill = Skill::find($request->skill);
-        $requester = auth()->user();
         $requestee = User::find($request->user_id);
-        $title = $request->title;
+        $group = $request->group? Group::find($request->group) : null;
 
-        event(new FeedbackRequested($request->user(), $requestee, $skill, $title));
+        event(new FeedbackRequested($request->user(), $requestee, $skill, $request->titlem, $group));
     }
 }
