@@ -49,6 +49,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
         Route::get('/teachers', [UserController::class, 'teachers']);
         Route::put('/personal_coach', [UserController::class, 'setPersonalCoach']);
+        Route::group(['prefix' => 'requests'], function () {
+            Route::get('/', [UserController::class, 'requests']);
+        });
     });
 
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {

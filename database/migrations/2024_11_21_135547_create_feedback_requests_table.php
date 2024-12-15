@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('feedback_request', function (Blueprint $table) {
+        Schema::create('feedback_requests', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->text('title');
             $table->enum('status', ['pending', 'answered', 'declined'])->default('pending');
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignUuid('requester_id')->constrained('users');
             $table->foreignUuid('skill_id')->constrained('skills');
             $table->foreignUuid('recipient_id')->constrained('users');
-            $table->foreignUlid('group_id')->nullable()->constrained('groups');
+            $table->foreignUuid('group_id')->nullable()->constrained('groups');
 
         });
     }

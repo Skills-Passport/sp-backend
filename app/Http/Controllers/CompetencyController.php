@@ -11,14 +11,14 @@ class CompetencyController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        $competencies = Competency::with($request->get('with', []))->filter($request)->paginate($request->query('per_page', 10));
+        $competencies = Competency::with($this->with($request))->filter($request)->paginate($request->query('per_page', 10));
 
         return CompetencyResource::collection($competencies);
     }
 
     public function competency(Request $request, Competency $competency): CompetencyResource
     {
-        $competency->load($request->get('with', []));
+        $competency->load($this->with($request));
         return new CompetencyResource($competency);
     }
 

@@ -4,7 +4,7 @@ namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class CompetencyFilter
+class ProfileCompetencyFilter
 {
     public function filter($builder, $value): Builder
     {

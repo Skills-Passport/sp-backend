@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\NotificationResource;
+use App\Http\Resources\FeedbackRequestResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
@@ -51,5 +52,14 @@ class UserController extends Controller
         $request->user()->save();
 
         return response()->json(['message' => 'Personal coach set', 'status' => 'success']);
+    }
+
+    public function requests(Request $request): AnonymousResourceCollection
+    {
+        $feedbackRequests = $request->user()->feedbackRequests()->with(
+            $request->query('with') ? explode(',', $request->query('with')) : []
+        )->paginate($request->query('per_page') ?? 10);
+
+        return FeedbackRequestResource::collection($feedbackRequests);
     }
 }

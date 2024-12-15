@@ -6,7 +6,7 @@ class SkillFilter extends AbstractFilter
 {
     protected $filters = [
         'search' => TitleFilter::class,
-        'competencies' => CompetencyFilter::class,
+        'competencies' => ProfileCompetencyFilter::class,
         'is_added' => IsAddedFilter::class,
     ];
 }

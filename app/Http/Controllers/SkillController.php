@@ -39,6 +39,10 @@ class SkillController extends Controller
 
     public function addSkill(Request $request, Skill $skill): JsonResponse
     {
+        // check if not already attached
+        if ($request->user()->skills->contains($skill)) {
+            return response()->json(['message' => 'Skill already added'], 400);
+        }
         $request->user()->skills()->attach($skill->id);
 
         return response()->json(['message' => 'Skill added successfully']);

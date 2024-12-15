@@ -47,6 +47,11 @@ class Group extends Model
         return (new GroupFilter($request))->filter($query);
     }
 
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'group_members', 'group_id', 'user_id');
+    }
+
     public function students()
     {
         return $this->belongsToMany(User::class, 'group_members', 'group_id', 'user_id')->wherePivot('role', 'student');

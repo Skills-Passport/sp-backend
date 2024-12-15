@@ -28,7 +28,7 @@ class FeedbackRequested
         $this->recipient = $recipient;
         $this->skill = $skill;
         $this->title = $title;
-        $this->group = $group;
+        $this->group = $group ?? null;
     }
 
     public function requestDetails(): array
