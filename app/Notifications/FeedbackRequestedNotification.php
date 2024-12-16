@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use App\Models\User;
-use App\Models\Skill;
 use Illuminate\Bus\Queueable;
 use App\Models\FeedbackRequest;
 use App\Http\Resources\UserResource;

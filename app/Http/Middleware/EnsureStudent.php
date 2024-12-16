@@ -16,7 +16,7 @@ class EnsureStudent
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()?->role->name !== Role::STUDENT) {
+        if ($request->user()?->hasRole('student')) {
             return response('Unauthorized', 401);
         }
 

@@ -11,12 +11,12 @@ class GroupController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        $relations = $request->query('with') ? explode(',', $request->query('with')) : [];
-        $relations[] = 'students';
-        $relations[] = 'teachers';
-        $relations[] = 'skills';
+        $groupsQuery = Group::with($this->with($request))->filter($request);
 
-        $groups = Group::with($relations)->filter($request)->paginate($request->query('per_page', 10));
+        if ($request->user()->hasRole('teacher')) {
+            $groupsQuery->scopeArchived($request->query('archived', false));
+        }
+        $groups = $groupsQuery->paginate($request->query('per_page', 10));
 
         return GroupResource::collection($groups);
     }
@@ -24,9 +24,8 @@ class GroupController extends Controller
     public function mygroups(Request $request): AnonymousResourceCollection
     {
         $user = $request->user();
-        $relations = $request->query('with') ? explode(',', $request->query('with')) : [];
 
-        $groups = $user->groups()->with($relations)->filter($request)->paginate($request->query('per_page', 10));
+        $groups = $user->groups()->with($this->with($request))->filter($request)->paginate($request->query('per_page', 10));
 
         return GroupResource::collection($groups);
     }

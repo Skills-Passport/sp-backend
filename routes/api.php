@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
         Route::group(['prefix' => 'feedbacks'], function () {
             Route::post('/request', [FeedbackController::class, 'requestFeedback']);
+            Route::post('/{feedbackRequest}/respond', [FeedbackController::class, 'respondFeedbackRequest']);
         });
         Route::get('/teachers', [UserController::class, 'teachers']);
         Route::put('/personal_coach', [UserController::class, 'setPersonalCoach']);
@@ -60,7 +61,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => 'teacher', 'middleware' => 'teacher'], function () {
         Route::get('/skills', [SkillController::class, 'index']);
-        Route::delete('/skills/{skill}', [SkillController::class, 'destroy']);
+        
+        Route::group(['prefix' => 'groups'], function () {
+            Route::get('/', [GroupController::class, 'index']);
+            Route::get('/{group}', [GroupController::class, 'show']);
+        });
     });
 
     Route::group(['prefix' => 'skills'], function () {

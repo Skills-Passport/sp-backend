@@ -16,7 +16,7 @@ class EnsureAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()?->role->name !== Role::ADMIN) {
+        if ($request->user()?->hasRole('admin')) {
             return response($request->user()?->role->name, 401);
         }
 

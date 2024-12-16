@@ -20,6 +20,10 @@ class FeedbackRequest extends Model
         'skill_id',
     ];
 
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_ANSWERED = 'answered';
+    public const STATUS_DECLINED = 'declined';
+
     public function recipient()
     {
         return $this->belongsTo(User::class, 'recipient_id');
