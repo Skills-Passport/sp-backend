@@ -43,10 +43,10 @@ class FeedbackController extends Controller
 
     public function requestFeedback(RequestFeedbackRequest $request)
     {
-        $skill = Skill::find($request->skill);
+        $skill = Skill::find($request->skill_id);
         $requestee = User::find($request->user_id);
-        $group = $request->group? Group::find($request->group) : null;
+        $group = $request->group_id? Group::find($request->group_id) : null;
 
-        event(new FeedbackRequested($request->user(), $requestee, $skill, $request->titlem, $group));
+        event(new FeedbackRequested($request->user(), $requestee, $skill, $request->title, $group));
     }
 }

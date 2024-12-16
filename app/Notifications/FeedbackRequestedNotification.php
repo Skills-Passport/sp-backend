@@ -17,7 +17,7 @@ class FeedbackRequestedNotification extends Notification implements ShouldQueue
     public function viaQueues(): array
     {
         return [
-            'mail' => 'feedbacks'
+            'database' => 'feedbacks'
         ];
     }
     public FeedbackRequest $feedbackRequest;

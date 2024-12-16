@@ -11,10 +11,10 @@ class NotificationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => $this->data->type,
-            'requester' => $this->data->requester,
-            'skill' => $this->data->skill,
-            'requestee_name' => $this->requester->name,
+            'type' => $this->data['type'],
+            'requester' => $this->data['requester'],
+            'skill' => $this->data['skill'],
+            'requestee_name' => $this->requester ? $this->requester->name : null,
             'read_at' => $this->read_at,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];

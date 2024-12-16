@@ -106,6 +106,11 @@ class User extends Authenticatable
         return $this->skills()->with('competency')->get()->pluck('competency')->unique();
     }
 
+    public function feedbackRequests()
+    {
+        return $this->hasMany(FeedbackRequest::class, 'recipient_id');
+    }
+
     public function getRoleAttribute()
     {
         return $this->roles->first();

@@ -20,7 +20,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return UserResource::make(auth()->user());
+        return UserResource::make(auth()->user()->load(['roles', 'personalCoach']));
     }
 
     /**

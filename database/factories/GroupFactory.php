@@ -22,7 +22,7 @@ class GroupFactory extends Factory
         return [
             'name' => "Fake Group #{$this->faker->unique()->numberBetween(1, 100)}",
             'desc' => $this->faker->sentence,
-            'created_by' => User::inRandomOrder()->first()->id,
+            'created_by' => User::role('teacher')->inRandomOrder()->first()->id,
         ];
     }
 
@@ -33,15 +33,16 @@ class GroupFactory extends Factory
             $group->skills()->attach($skills);
 
             $students = User::where('id', '!=', $group->created_by)
+                ->role('student')
                 ->inRandomOrder()
                 ->limit(random_int(1, 5))
                 ->get();
             foreach ($students as $student) {
-                $group->students()->attach($student->id, ['role' => 'student']);
+                $group->members()->attach($student->id, ['role' => 'student']);
             }
             $creator = User::find($group->created_by);
             if ($creator) {
-                $group->teachers()->attach($creator->id, ['role' => 'teacher']);
+                $group->members()->attach($creator->id, ['role' => 'teacher']);
             }
         });
     }

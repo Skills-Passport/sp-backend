@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Events\FeedbackRequested;
 use App\Models\FeedbackRequest;
+use App\Events\FeedbackRequested;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Notifications\FeedbackRequestedNotification;
 
 class SendFeedbackRequestedNotification implements ShouldQueue
 {
@@ -15,6 +15,6 @@ class SendFeedbackRequestedNotification implements ShouldQueue
     {
         $feedbackRequest = FeedbackRequest::create($event->requestDetails());
 
-        $event->recipient->notify(new \App\Notifications\FeedbackRequestedNotification($feedbackRequest));
+        $event->recipient->notify(new FeedbackRequestedNotification($feedbackRequest));
     }
 }

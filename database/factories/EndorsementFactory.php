@@ -23,7 +23,7 @@ class EndorsementFactory extends Factory
             'title' => "Fake Endorsement #{$this->faker->unique()->numberBetween(1, 100)}",
             'skill_id' => Skill::inRandomOrder()->first()->id,
             'content' => $this->faker->sentence,
-            'rating' => $this->faker->randomNumber(4),
+            'rating' => $this->faker->numberBetween(1, 4),
             'created_by' => User::inRandomOrder()->first()->id,
             'created_by_email' => null,
             'approved_at' => $this->faker->dateTimeThisYear,
