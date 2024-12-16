@@ -18,6 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+            'teacher' => \App\Http\Middleware\EnsureTeacher::class,
+            'student' => \App\Http\Middleware\EnsureStudent::class,
+            'admin' => \App\Http\Middleware\EnsureAdmin::class,
+            'head-teacher' => \App\Http\Middleware\EnsureHeadTeacher::class,
         ]);
 
         //

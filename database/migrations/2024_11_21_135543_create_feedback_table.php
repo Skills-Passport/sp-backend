@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('content')->nullable()->comment('feedback content');
             $table->foreignUuid('skill_id')->constrained('skills');
             $table->foreignUuid('user_id')->constrained('users');
+            $table->foreignUuid('group_id')->nullable()->constrained('groups');
             $table->foreignUuid('created_by')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
