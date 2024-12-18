@@ -18,6 +18,7 @@ class GroupResource extends JsonResource
             'students' => UserResource::collection($this->whenLoaded('students')),
             'teachers' => UserResource::collection($this->whenLoaded('teachers')),
             'students_count' => $this->students? $this->students->count() : 0,
+            'archived_at' => $this->archived_at ? $this->archived_at->format('Y-m-d H:i:s') : null,
         ];
     }
 }
