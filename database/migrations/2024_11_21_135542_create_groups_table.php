@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('groups', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name', 255);
+            $table->text('desc')->comment('description of the Group')->nullable();
+            $table->foreignUuid('created_by')->constrained('users');
             $table->timestamp('archived_at')->nullable()->after('desc');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -21,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('groups', function (Blueprint $table) {
-            $table->dropColumn('archived_at');
-        });
+        Schema::dropIfExists('groups');
     }
 };
