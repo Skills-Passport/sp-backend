@@ -21,7 +21,7 @@ class GroupController extends Controller
 
         return GroupResource::collection($groups);
     }
-
+ 
     public function mygroups(Request $request): AnonymousResourceCollection
     {
         $user = $request->user();
