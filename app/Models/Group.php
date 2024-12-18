@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use App\Scopes\ActiveScope;
 
+#[ScopedBy([ActiveScope::class])]
 class Group extends Model
 {
     use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
@@ -21,6 +24,7 @@ class Group extends Model
         'title',
         'desc',
         'overview',
+        'archived_at',
     ];
 
     protected $hidden = [
@@ -34,6 +38,7 @@ class Group extends Model
             'deleted_at' => 'datetime',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
+            'archived_at' => 'datetime',
         ];
     }
 
@@ -46,7 +51,6 @@ class Group extends Model
     {
         return (new GroupFilter($request))->filter($query);
     }
-
     public function members()
     {
         return $this->belongsToMany(User::class, 'group_members', 'group_id', 'user_id');

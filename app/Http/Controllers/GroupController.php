@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\GroupResource;
 use App\Models\Group;
+use App\Scopes\ActiveScope;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -13,8 +14,9 @@ class GroupController extends Controller
     {
         $groupsQuery = Group::with($this->with($request))->filter($request);
 
-        if ($request->user()->hasRole('teacher')) {
-            $groupsQuery->scopeArchived($request->query('archived', false));
+        if ($request->user()->hasRole('teacher') && $request->query('is_archived')) {
+            $groupsQuery->withoutGlobalScope(ActiveScope::class)
+                ->whereNotNull('archived_at');
         }
         $groups = $groupsQuery->paginate($request->query('per_page', 10));
 
