@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->text('desc')->comment('description of the Group')->nullable();
             $table->foreignUuid('created_by')->constrained('users');
-            $table->timestamp('archived_at')->nullable()->after('desc');
+            $table->timestamp('archived_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
