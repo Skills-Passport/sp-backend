@@ -13,7 +13,7 @@ class GroupController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         $groupsQuery = Group::with($this->with($request))->filter($request);
-        if ($request->user()->hasRole('teacher') && (bool)$request->query('is_archived')) {
+        if ($request->user()->hasRole('teacher') && $request->query('is_archived') == 'true') {
             $groupsQuery->withoutGlobalScope(ActiveScope::class)
                 ->whereNotNull('archived_at');
         }
