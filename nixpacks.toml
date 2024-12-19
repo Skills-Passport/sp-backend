@@ -69,7 +69,7 @@ stdout_logfile=/var/log/worker-phpfpm.log
 stderr_logfile=/var/log/worker-phpfpm.log
 '''
 
-"worker-feedbacks.conf": '''
+"worker-feedbacks.conf"= '''
 [program:worker-feedbacks]
 process_name=%(program_name)s_%(process_num)02d
 command=bash -c 'exec php /app/artisan queue:work --queue=feedbacks --sleep=3 --tries=3 --max-time=3600'
@@ -84,7 +84,7 @@ stdout_logfile=/var/log/worker-feedbacks.log
 stderr_logfile=/var/log/worker-feedbacks.log
 '''
 
-"worker-endorsements.conf": '''
+"worker-endorsements.conf"= '''
 [program:worker-endorsements]
 process_name=%(program_name)s_%(process_num)02d
 command=bash -c 'exec php /app/artisan queue:work --queue=endorsements --sleep=3 --tries=3 --max-time=3600'
