@@ -14,6 +14,8 @@ class CompetencyResource extends JsonResource
             'title' => $this->title,
             'desc' => $this->desc,
             'overview' => $this->overview,
+            'endosements_count' => $this->endosements_count,
+            'feedbacks_count' => $this->feedbacks_count,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'skills' => SkillResource::collection($this->whenLoaded('skills')),
             'profiles' => ProfileResource::collection($this->whenLoaded('profiles')),

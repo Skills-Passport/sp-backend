@@ -12,11 +12,6 @@ class CompetencyController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         $query = Competency::with($this->with($request))->filter($request);
-        if ($request->query('count')) {
-            $query->with(['skills' => function ($query) {
-                $query->withCount(['feedbacks', 'endorsements']);
-            }]);
-        }
         $competencies = $query->paginate($request->query('per_page', 10));
 
         return CompetencyResource::collection($competencies);

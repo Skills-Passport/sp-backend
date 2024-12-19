@@ -29,6 +29,7 @@ class ExternalEndorsementRequestFilled
             'type' =>Notification::TYPE_ENDORSEMENT_REQUEST_REVIEW,
             'requester' => User::find($this->request->requester_id), 
             'reqeustee_name' => $this->data->supervisor_name, 
+            
         ];
     }
 }
