@@ -36,7 +36,7 @@ class FeedbackReceivedNotification extends Notification implements ShouldQueue
     {
         return [
             'type' => \App\Models\Notification::TYPE_FEEDBACK_RECEIVED,
-            'sender' => UserResource::make(User::find($this->feedback->user_id)),
+            'requestee' => UserResource::make(User::find($this->feedback->user_id)),
             'skill' => [
                 'id' => $this->feedback->skill_id,
                 'title' => $this->feedback->skill->title,

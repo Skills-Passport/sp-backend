@@ -11,6 +11,7 @@ use App\Models\EndorsementRequest;
 use App\Events\EndorsementRequested;
 use App\Http\Resources\EndorsementResource;
 use App\Events\ExternalEndorsementRequested;
+use App\Events\ExternalEndorsementRequestFilled;
 use App\Http\Requests\RequestEndorsementRequest;
 use App\Http\Resources\EndorsementRequestResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -82,6 +83,8 @@ class EndorsementController extends Controller
             'feedback' => $request->feedback,
         ];
         $endorsementRequest->fulfill($data);
+
+        event(new ExternalEndorsementRequestFilled($endorsementRequest, $data));
     }
     
 }

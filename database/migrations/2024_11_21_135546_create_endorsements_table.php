@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('endorsements', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users');
+            $table->foreignUuid('user_id')->nullable()->constrained('users');
             $table->foreignUuid('skill_id')->constrained('skills');
             $table->string('title', 255)->nullable();
             $table->text('content')->comment('endorsement content');
