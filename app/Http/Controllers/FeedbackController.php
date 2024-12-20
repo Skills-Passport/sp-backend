@@ -64,7 +64,7 @@ class FeedbackController extends Controller
             return response()->json(['message' => 'Feedback request not found'], 404);
 
         $feedbackRequest->update(['status' => FeedbackRequest::STATUS_ANSWERED]);
-        event(new FeedbackAnswered($feedbackRequest, $request->content));
+        event(new FeedbackAnswered($request->content, $request->title, $feedbackRequest));
         return response()->json(['message' => 'Feedback sent successfully']);
     }
 }

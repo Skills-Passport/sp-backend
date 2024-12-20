@@ -6,7 +6,6 @@ namespace App\Notifications;
 use App\Models\User;
 use App\Models\Feedback;
 use Illuminate\Bus\Queueable;
-use App\Models\FeedbackRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,9 +22,23 @@ class FeedbackReceivedNotification extends Notification implements ShouldQueue
     }
     public Feedback $feedback;
 
-    public function __construct(Feedback $feedback)
+    protected $data;
+    public function __construct(Feedback $fb)
     {
-        $this->feedback = $feedback;
+        $this->feedback = $fb;
+        $this->data = [
+            'type' => \App\Models\Notification::TYPE_FEEDBACK_RECEIVED,
+            'requestee' => UserResource::make(User::find($fb->user_id)),
+            'skill' => [
+                'id' => $fb->skill_id,
+                'title' => $fb->skill->title,
+            ],
+            'group' => $fb->skill->group? [
+                'id' => $fb->skill->group->id,
+                'name' => $fb->skill->group->name,
+            ] : null,
+            'content' => $fb->content,
+            ];
     }
 
     public function via($notifiable): array
@@ -34,18 +47,6 @@ class FeedbackReceivedNotification extends Notification implements ShouldQueue
     }
     public function toArray($notifiable): array
     {
-        return [
-            'type' => \App\Models\Notification::TYPE_FEEDBACK_RECEIVED,
-            'requestee' => UserResource::make(User::find($this->feedback->user_id)),
-            'skill' => [
-                'id' => $this->feedback->skill_id,
-                'title' => $this->feedback->skill->title,
-            ],
-            'group' => $this->feedback->skill->group? [
-                'id' => $this->feedback->skill->group->id,
-                'name' => $this->feedback->skill->group->name,
-            ] : null,
-            'content' => $this->feedback->content,
-        ];
+        return $this->data;
     }
 } 

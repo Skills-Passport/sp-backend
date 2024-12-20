@@ -33,7 +33,14 @@ class UserController extends Controller
 
     public function notifications(Request $request): AnonymousResourceCollection
     {
-        return NotificationResource::collection($request->user()->notifications);
+        return NotificationResource::collection($request->user()->unreadNotifications);
+    }
+
+    public function markAsRead(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->user()->unreadNotifications->markAsRead();
+
+        return response()->json(['message' => 'Notifications marked as read']);
     }
 
     public function teachers(): AnonymousResourceCollection
@@ -56,7 +63,7 @@ class UserController extends Controller
 
     public function requests(Request $request): AnonymousResourceCollection
     {
-        $feedbackRequests = $request->user()->feedbackRequests()->with(
+        $feedbackRequests = $request->user()->feedbackRequests()->where('status', 'pending')->with(
             $request->query('with') ? explode(',', $request->query('with')) : []
         )->paginate($request->query('per_page') ?? 10);
 

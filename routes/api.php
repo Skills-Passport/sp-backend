@@ -78,7 +78,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/', [GroupController::class, 'index']);
         Route::get('/{group}', [GroupController::class, 'show']);
     });
-    Route::get('/notifications', [UserController::class, 'notifications']);
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [UserController::class, 'notifications']);
+        Route::get('/{notification}/read', [UserController::class, 'markAsRead']);
+    });
 });
 
 Route::get('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest']);

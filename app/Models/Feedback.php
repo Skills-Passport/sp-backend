@@ -31,6 +31,7 @@ class Feedback extends Model
         'content',
         'skill_id',
         'user_id',
+        'group_id',
         'created_by',
     ];
 

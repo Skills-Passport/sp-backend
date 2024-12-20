@@ -50,7 +50,7 @@ class EndorsementController extends Controller
             return response()->json(['message' => 'You need to have a personal coach to request an endorsement', 'error' => 'no_personal_coach'], 403);
 
         $skill = Skill::find($request->skill);
-        $requestee = User::find($request->user_id);
+        $requestee = User::find($request->requestee);
         $requestee_email = !$requestee ? $request->requestee_email : null;
         if (!$request->user()->hasPersonalCoach() && $requestee_email)
             return response()->json(['message' => 'You need to have a personal coach to request an endorsement', 'error' => 'no_personal_coach'], 403);

@@ -13,9 +13,7 @@ class HandleFeedbackAnswered implements ShouldQueue
 
     public function handle(FeedbackAnswered $event)
     {
-
-        $feedback = new Feedback($event->requestDetails());
-
-        $event->feedbackRequest->user->notify(new FeedbackReceivedNotification($feedback));
+        $feedback = Feedback::create($event->requestDetails());
+        $event->feedbackRequest->requester->notify(new FeedbackReceivedNotification($feedback));
     }
 }
