@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title', 255)->nullable();
             $table->text('content')->comment('endorsement content');
             $table->integer('rating');
+            $table->json('data')->nullable();
             $table->foreignUuid('created_by')->constrained('users');
             $table->string('created_by_email', 255)->nullable();
             $table->timestamp('approved_at')->nullable();

@@ -5,8 +5,6 @@ namespace App\Events;
 use App\Models\EndorsementRequest;
 use App\Models\Notification;
 use App\Models\User;
-use App\Models\Skill;
-use App\Models\FeedbackRequest;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 
@@ -16,10 +14,12 @@ class ExternalEndorsementRequestFilled
 
     public $request;
     public $data;
+    public $requester;
 
     public function __construct(EndorsementRequest $request, $data)
     {
         $this->request = $request;
+        $this->requester = User::find($request->requester_id); 
         $this->data = $data;
     }
 
@@ -27,9 +27,9 @@ class ExternalEndorsementRequestFilled
     {
         return [
             'type' =>Notification::TYPE_ENDORSEMENT_REQUEST_REVIEW,
-            'requester' => User::find($this->request->requester_id), 
-            'reqeustee_name' => $this->data->supervisor_name, 
-            
+            'requester' => $this->requester,
+            'requestee_name' => $this->data['supervisor_name'],
+            'request_id' => $this->request->id,
         ];
     }
 }
