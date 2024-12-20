@@ -77,6 +77,20 @@ class Competency extends Model
             }
         ]);
     }
+
+    public function getFeedbacksCountAttribute()
+    {
+        return $this->skills->map(function ($skill) {
+            return $skill->feedbacks_count;
+        })->sum();
+    }
+
+    public function getEndosementsCountAttribute()
+    {
+        return $this->skills->map(function ($skill) {
+            return $skill->endorsements_count;
+        })->sum();
+    }
     public function scopeFilter($query, $request)
     {
         return (new CompetenciesFilter($request))->filter($query);

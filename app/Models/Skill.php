@@ -68,6 +68,20 @@ class Skill extends Model
         return auth()->user()->skills()->where('skill_id', $this->id)->first()->pivot->last_rating;
     }
 
+    public function getGroupsCountAttribute()
+    {
+        return $this->groups()->count();
+    }
+
+    public function getFeedbacksCountAttribute()
+    {
+        return $this->feedbacks()->count();
+    }
+
+    public function getEndosementsCountAttribute()
+    {
+        return $this->endorsements()->count();
+    }
     public function getIsAddedAttribute()
     {
         return $this->users()->where('user_id', auth()->id())->exists();

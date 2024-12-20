@@ -36,7 +36,7 @@ class FeedbackRequestedNotification extends Notification implements ShouldQueue
             'type' => \App\Models\Notification::TYPE_FEEDBACK_REQUEST,
             'requester' => UserResource::make(User::find($this->feedbackRequest->requester_id)),
             'title' => $this->feedbackRequest->title,
-            'group' => $this->feedbackRequest->group? [
+            'group' => $this->feedbackRequest->group ? [
                 'id' => $this->feedbackRequest->group->id,
                 'name' => $this->feedbackRequest->group->name,
             ] : null,
