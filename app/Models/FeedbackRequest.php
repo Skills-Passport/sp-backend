@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FeedbackRequest extends Model
 {
@@ -21,7 +21,9 @@ class FeedbackRequest extends Model
     ];
 
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_ANSWERED = 'answered';
+
     public const STATUS_DECLINED = 'declined';
 
     public function recipient()

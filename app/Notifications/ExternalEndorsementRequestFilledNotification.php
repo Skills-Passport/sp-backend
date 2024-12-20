@@ -2,8 +2,6 @@
 
 namespace App\Notifications;
 
-use App\Models\EndorsementRequest;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification as BaseNotification;
@@ -12,13 +10,13 @@ class ExternalEndorsementRequestFilledNotification extends BaseNotification impl
 {
     use Queueable;
 
-
     public function viaQueues(): array
     {
         return [
-            'database' => 'endorsements'
+            'database' => 'endorsements',
         ];
     }
+
     public $request;
 
     public function __construct($request)
@@ -30,6 +28,7 @@ class ExternalEndorsementRequestFilledNotification extends BaseNotification impl
     {
         return ['database'];
     }
+
     public function toArray($notifiable): array
     {
         return $this->request;

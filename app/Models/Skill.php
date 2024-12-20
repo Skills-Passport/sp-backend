@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Endorsement;
 use App\Filters\SkillFilter;
-use Illuminate\Http\Request;
 use App\Traits\PopulatesIfEmpty;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Skill extends Model
 {
@@ -82,6 +81,7 @@ class Skill extends Model
     {
         return $this->endorsements()->count();
     }
+
     public function getIsAddedAttribute()
     {
         return $this->users()->where('user_id', auth()->id())->exists();

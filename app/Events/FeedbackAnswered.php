@@ -3,14 +3,15 @@
 namespace App\Events;
 
 use App\Models\FeedbackRequest;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class FeedbackAnswered
 {
     use Dispatchable, SerializesModels;
 
     public string $content;
+
     public string $title;
 
     public FeedbackRequest $feedbackRequest;

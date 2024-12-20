@@ -13,9 +13,10 @@ class ExternalEndorsementRequestNotification extends Notification implements Sho
     public function viaQueues(): array
     {
         return [
-            'mail' => 'endorsements'
+            'mail' => 'endorsements',
         ];
     }
+
     protected $endorsementRequest;
 
     /**
@@ -49,9 +50,9 @@ class ExternalEndorsementRequestNotification extends Notification implements Sho
             ->subject(__('notifications.endorsement_request.subject'))
             ->greeting(__('notifications.endorsement_request.greeting'))
             ->line(__('notifications.endorsement_request.body'))
-            ->line(__('notifications.endorsement_request.from', ['name' => $this->endorsementRequest->requester->first_name . ' ' . $this->endorsementRequest->requester->last_name]))
+            ->line(__('notifications.endorsement_request.from', ['name' => $this->endorsementRequest->requester->first_name.' '.$this->endorsementRequest->requester->last_name]))
             ->line(__('notifications.endorsement_request.skill', ['skill' => $this->endorsementRequest->skill->title]))
-            ->action(__('notifications.endorsement_request.action', ['student' => $this->endorsementRequest->requester->first_name]), url(config('app.frontend_url') . '/endorsement-request/' . $this->endorsementRequest->id))
+            ->action(__('notifications.endorsement_request.action', ['student' => $this->endorsementRequest->requester->first_name]), url(config('app.frontend_url').'/endorsement-request/'.$this->endorsementRequest->id))
             ->line(__('notifications.endorsement_request.thanks'));
     }
 }

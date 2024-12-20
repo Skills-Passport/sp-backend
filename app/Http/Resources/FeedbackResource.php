@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use App\Http\Resources\Educator\SkillResource as EducatorSkillResource;
 use App\Http\Resources\Student\SkillResource as StudentSkillResource;
-use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FeedbackResource extends JsonResource

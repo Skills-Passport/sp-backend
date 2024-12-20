@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use App\Filters\GroupFilter;
+use App\Scopes\ActiveScope;
 use App\Traits\PopulatesIfEmpty;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
-use App\Scopes\ActiveScope;
 
 #[ScopedBy([ActiveScope::class])]
 class Group extends Model
@@ -51,6 +51,7 @@ class Group extends Model
     {
         return (new GroupFilter($request))->filter($query);
     }
+
     public function members()
     {
         return $this->belongsToMany(User::class, 'group_members', 'group_id', 'user_id');

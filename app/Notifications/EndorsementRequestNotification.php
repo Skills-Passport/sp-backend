@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use App\Http\Resources\Educator\SkillResource;
 use App\Http\Resources\UserResource;
 use App\Models\EndorsementRequest;
 use Illuminate\Bus\Queueable;
@@ -12,12 +11,14 @@ use Illuminate\Notifications\Notification;
 class EndorsementRequestNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
     public function viaQueues(): array
     {
         return [
-            'database' => 'endorsements'
+            'database' => 'endorsements',
         ];
     }
+
     public $endorsementRequest;
 
     public function __construct(EndorsementRequest $endorsementRequest)

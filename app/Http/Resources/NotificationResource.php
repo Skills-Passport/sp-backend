@@ -1,8 +1,7 @@
-<?php 
+<?php
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\Student\SkillResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class NotificationResource extends JsonResource
@@ -19,4 +18,4 @@ class NotificationResource extends JsonResource
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
-}   
+}

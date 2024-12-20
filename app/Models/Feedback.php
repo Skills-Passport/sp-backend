@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\PopulatesIfEmpty;
-use Illuminate\Database\Eloquent\Model;
 use App\Http\Resources\FeedbackResource;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\PopulatesIfEmpty;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Feedback extends Model
 {
@@ -15,6 +15,7 @@ class Feedback extends Model
     use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
 
     protected $table = 'feedbacks';
+
     protected static function booted(): void
     {
         static::created(function ($e) {
@@ -26,6 +27,7 @@ class Feedback extends Model
             ]);
         });
     }
+
     protected $fillable = [
         'title',
         'content',
@@ -54,6 +56,7 @@ class Feedback extends Model
     {
         return $this->morphOne(Timeline::class, 'timelineable');
     }
+
     public function resource()
     {
         return new FeedbackResource($this);

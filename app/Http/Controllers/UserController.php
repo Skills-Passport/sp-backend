@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FeedbackRequestResource;
+use App\Http\Resources\NotificationResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Rules\HasRole;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\NotificationResource;
-use App\Http\Resources\FeedbackRequestResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -21,6 +21,7 @@ class UserController extends Controller
     public function getRoles()
     {
         $roles = Role::all();
+
         return response()->json($roles);
     }
 
@@ -46,6 +47,7 @@ class UserController extends Controller
     public function teachers(): AnonymousResourceCollection
     {
         $teachers = User::role('teacher')->get();
+
         return UserResource::collection($teachers);
     }
 

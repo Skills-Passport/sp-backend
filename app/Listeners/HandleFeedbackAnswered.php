@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Models\Feedback;
 use App\Events\FeedbackAnswered;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Feedback;
 use App\Notifications\FeedbackReceivedNotification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class HandleFeedbackAnswered implements ShouldQueue
 {

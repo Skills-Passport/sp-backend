@@ -2,8 +2,8 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
 use App\Models\User;
+use Illuminate\Contracts\Validation\Rule;
 
 class HasRole implements Rule
 {
@@ -12,7 +12,7 @@ class HasRole implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param string $role
+     * @param  string  $role
      */
     public function __construct($role)
     {
