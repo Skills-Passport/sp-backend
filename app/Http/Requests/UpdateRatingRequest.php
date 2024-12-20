@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\AboveCurrentRating;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRatingRequest extends FormRequest

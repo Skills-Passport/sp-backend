@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 class HandleExternalEndorsementRequested implements ShouldQueue
 {
     use InteractsWithQueue;
+
     public $queue = 'endorsements';
 
     public function handle(ExternalEndorsementRequested $event)

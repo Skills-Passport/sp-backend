@@ -2,12 +2,12 @@
 
 namespace App\Notifications;
 
+use App\Http\Resources\UserResource;
+use App\Models\FeedbackRequest;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use App\Models\FeedbackRequest;
-use App\Http\Resources\UserResource;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Notification;
 
 class FeedbackRequestedNotification extends Notification implements ShouldQueue
 {
@@ -16,9 +16,10 @@ class FeedbackRequestedNotification extends Notification implements ShouldQueue
     public function viaQueues(): array
     {
         return [
-            'database' => 'feedbacks'
+            'database' => 'feedbacks',
         ];
     }
+
     public FeedbackRequest $feedbackRequest;
 
     public function __construct(FeedbackRequest $feedbackRequest)
@@ -30,6 +31,7 @@ class FeedbackRequestedNotification extends Notification implements ShouldQueue
     {
         return ['database'];
     }
+
     public function toArray($notifiable): array
     {
         return [

@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Http\Resources\RatingResource;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Rating extends Model
 {
@@ -14,7 +14,7 @@ class Rating extends Model
     protected $table = 'ratings';
 
     protected $fillable = ['user_id', 'skill_id', 'previous_rating', 'new_rating', 'approved_at', 'approved_by'];
-    
+
     protected static function booted(): void
     {
         static::created(function ($e) {
@@ -26,6 +26,7 @@ class Rating extends Model
             ]);
         });
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);

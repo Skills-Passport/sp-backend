@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Models\Feedback;
 use App\Events\FeedbackAnswered;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Feedback;
 use App\Notifications\FeedbackReceivedNotification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class HandleFeedbackAnswered implements ShouldQueue
 {
@@ -13,9 +13,7 @@ class HandleFeedbackAnswered implements ShouldQueue
 
     public function handle(FeedbackAnswered $event)
     {
-
-        $feedback = new Feedback($event->requestDetails());
-
-        $event->feedbackRequest->user->notify(new FeedbackReceivedNotification($feedback));
+        $feedback = Feedback::create($event->requestDetails());
+        $event->feedbackRequest->requester->notify(new FeedbackReceivedNotification($feedback));
     }
 }

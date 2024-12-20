@@ -2,11 +2,11 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use App\Models\Group;
 use App\Models\Skill;
-use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class FeedbackRequested
 {
@@ -22,7 +22,7 @@ class FeedbackRequested
 
     public Group $group;
 
-    public function __construct(User $requester, User $recipient, Skill $skill, string $title, Group $group = null)
+    public function __construct(User $requester, User $recipient, Skill $skill, string $title, ?Group $group = null)
     {
         $this->requester = $requester;
         $this->recipient = $recipient;

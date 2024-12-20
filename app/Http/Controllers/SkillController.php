@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateRatingRequest;
+use App\Http\Resources\Educator\SkillResource as EducatorSkillResource;
+use App\Http\Resources\Student\SkillResource as StudentSkillResource;
+use App\Http\Resources\TimelineResource;
+use App\Models\Feedback;
 use App\Models\Group;
 use App\Models\Skill;
-use App\Models\Feedback;
-use App\Models\Timeline;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use App\Http\Resources\TimelineResource;
-use App\Http\Requests\UpdateRatingRequest;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use App\Http\Resources\Student\SkillResource as StudentSkillResource;
-use App\Http\Resources\Educator\SkillResource as EducatorSkillResource;
 
 class SkillController extends Controller
 {
@@ -51,6 +49,7 @@ class SkillController extends Controller
         $timelines = $skill->timeline($request->user())->with(['timelineable', 'timelineable.createdBy'])->get();
         $timelines = $timelines->map(function ($timeline) {
             $timeline->type = class_basename($timeline->timelineable_type);
+
             return $timeline;
         });
 
@@ -63,6 +62,7 @@ class SkillController extends Controller
 
         return $Resoruce;
     }
+
     public function updateRating(UpdateRatingRequest $request, Skill $skill): JsonResponse
     {
         $feedback = null;
@@ -91,6 +91,7 @@ class SkillController extends Controller
     {
         $user_skills = $request->user()->skills->pluck('id');
         $skills = $group->skills()->whereIn('id', $user_skills)->get();
+
         return $this->getResource()::collection($skills);
     }
 }

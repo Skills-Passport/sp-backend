@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class AboveCurrentRating implements Rule
 {
     protected $request;
+
     protected $skill;
 
     public function __construct(Request $request, $skill)

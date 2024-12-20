@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Traits\PopulatesIfEmpty;
 use App\Filters\CompetenciesFilter;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Competency extends Model
 {
@@ -56,6 +55,7 @@ class Competency extends Model
             return $skill->rating;
         })->avg();
     }
+
     public function scopeWithUserSkills($query, $userId)
     {
         return $query->whereHas('skills.users', function ($query) use ($userId) {
@@ -66,7 +66,7 @@ class Competency extends Model
             });
         }]);
     }
-    
+
     public function loadUserSkills($userId)
     {
         return $this->load([
@@ -74,7 +74,7 @@ class Competency extends Model
                 $query->whereHas('users', function ($query) use ($userId) {
                     $query->where('user_id', $userId);
                 });
-            }
+            },
         ]);
     }
 
@@ -91,11 +91,9 @@ class Competency extends Model
             return $skill->endorsements_count;
         })->sum();
     }
+
     public function scopeFilter($query, $request)
     {
         return (new CompetenciesFilter($request))->filter($query);
     }
-
-
-
 }

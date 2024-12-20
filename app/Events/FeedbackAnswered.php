@@ -3,8 +3,8 @@
 namespace App\Events;
 
 use App\Models\FeedbackRequest;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class FeedbackAnswered
 {
@@ -12,11 +12,14 @@ class FeedbackAnswered
 
     public string $content;
 
+    public string $title;
+
     public FeedbackRequest $feedbackRequest;
 
-    public function __construct(string $content, FeedbackRequest $feedbackRequest)
+    public function __construct(string $content, string $title, FeedbackRequest $feedbackRequest)
     {
         $this->content = $content;
+        $this->title = $title;
         $this->feedbackRequest = $feedbackRequest;
     }
 
@@ -28,6 +31,7 @@ class FeedbackAnswered
             'skill_id' => $this->feedbackRequest->skill_id,
             'group_id' => $this->feedbackRequest->group_id,
             'content' => $this->content,
+            'title' => $this->title,
         ];
     }
 }

@@ -25,7 +25,7 @@ class ExternalEndorsementRequested
         $this->requestee_email = $requestee_email;
         $this->skill = $skill;
         $this->title = $title;
-    }   
+    }
 
     public function requestDetails(): array
     {

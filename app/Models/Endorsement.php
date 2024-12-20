@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Skill;
-use App\Models\Profile;
-use App\Models\Timeline;
-use Illuminate\Http\Request;
-use App\Traits\PopulatesIfEmpty;
 use App\Filters\EndorsementFilter;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\EndorsementResource;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\PopulatesIfEmpty;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Endorsement extends Model
 {
@@ -59,6 +55,7 @@ class Endorsement extends Model
             ]);
         });
     }
+
     public function skill()
     {
         return $this->belongsTo(Skill::class);

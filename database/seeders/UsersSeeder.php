@@ -87,7 +87,6 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-
         foreach ($users as $user) {
             $this->createUserWithRole($user['name'], $user['email'], $user['role'], $user['password']);
         }
