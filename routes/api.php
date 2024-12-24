@@ -55,16 +55,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
     });
 
-    Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
-        Route::get('/skills', [SkillController::class, 'index']);
-    });
-
     Route::group(['prefix' => 'teacher', 'middleware' => 'teacher'], function () {
-        Route::get('/skills', [SkillController::class, 'index']);
-
-        Route::group(['prefix' => 'groups'], function () {
-            Route::get('/', [GroupController::class, 'index']);
-            Route::get('/{group}', [GroupController::class, 'show']);
+        Route::resource('skills', SkillController::class)->only(['index', 'show', 'create', 'update', 'destroy']);
+        Route::resource('groups', GroupController::class)->only(['index', 'show', 'create', 'update', 'destroy']);
+        Route::group(['prefix' => 'students'], function () {
+            Route::get('/', [UserController::class, 'students']);
+            Route::get('/{student}', [UserController::class, 'student']);
         });
     });
 

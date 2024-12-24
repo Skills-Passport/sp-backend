@@ -18,6 +18,19 @@ class UserController extends Controller
         return new UserResource($request->user()->load($request->query('with') ? explode(',', $request->query('with')) : []));
     }
 
+    public function students(Request $request): AnonymousResourceCollection
+    {
+        $students = User::role('student')->with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page') ?? 10);
+
+        return UserResource::collection($students);
+    }
+
+    public function student(Request $request, User $student): UserResource
+    {
+        $student->load($this->loadRelations($request));
+        return new UserResource($student);
+    }
+
     public function getRoles()
     {
         $roles = Role::all();

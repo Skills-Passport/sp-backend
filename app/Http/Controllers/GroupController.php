@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\GroupResource;
 use App\Models\Group;
 use App\Scopes\ActiveScope;
 use Illuminate\Http\Request;
+use App\Http\Resources\GroupResource;
+use App\Http\Requests\CreateUpdateGroupRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class GroupController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        $groupsQuery = Group::with($this->with($request))->filter($request);
+        $groupsQuery = Group::with($this->loadRelations($request))->filter($request);
         if ($request->user()->hasRole('teacher') && $request->query('is_archived') == 'true') {
             $groupsQuery->withoutGlobalScope(ActiveScope::class)
                 ->whereNotNull('archived_at');
@@ -26,7 +27,7 @@ class GroupController extends Controller
     {
         $user = $request->user();
 
-        $groups = $user->groups()->with($this->with($request))->filter($request)->paginate($request->query('per_page', 10));
+        $groups = $user->groups()->with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page', 10));
 
         return GroupResource::collection($groups);
     }
@@ -38,25 +39,50 @@ class GroupController extends Controller
         return new GroupResource($group);
     }
 
-    public function addGroup(Request $request, Group $group)
+    public function create(CreateUpdateGroupRequest $request): GroupResource
     {
         $group = Group::create($request->all());
 
-        return response()->json($group, 201);
+        if ($request->has('skills')) {
+            $group->skills()->attach($request->skills);
+        }
+
+        if ($request->has('teachers')) {
+            $group->teachers()->attach($request->teachers);
+        }
+
+        if ($request->has('students')) {
+            $group->students()->attach($request->students);
+        }
+        return GroupResource::make($group->load('students', 'teachers', 'skills'));
     }
 
-    public function addStudent(Request $request, Group $group)
+    public function update(CreateUpdateGroupRequest $request, Group $group): GroupResource
     {
-        $group->students()->attach($request->student_id);
+        $group->update($request->all());
 
-        return response()->json($group, 201);
+        if ($request->has('skills')) {
+            $group->skills()->sync($request->skills);
+        }
+
+        if ($request->has('teachers')) {
+            $group->teachers()->sync($request->teachers);
+        }
+
+        if ($request->has('students')) {
+            $group->students()->sync($request->students);
+        }
+        return GroupResource::make($group->load('students', 'teachers', 'skills'));
     }
 
-    public function addTeacher(Request $request, Group $group)
+    public function destroy(Group $group)
     {
-        $group->teachers()->attach($request->teacher_id);
+        if (!auth()->user()->hasPermissionTo('delete groups') || $group->created_by != auth()->id()) {
+            return response()->json('You are not authorized to delete this group', 403);
+        }
+        $group->delete();
 
-        return response()->json($group, 201);
+        return response()->json('Group deleted', 200);
     }
 
     public function joinGroup(Request $request, Group $group)

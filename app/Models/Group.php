@@ -21,10 +21,10 @@ class Group extends Model
     protected $table = 'groups';
 
     protected $fillable = [
-        'title',
+        'name',
         'desc',
-        'overview',
         'archived_at',
+        'created_by'
     ];
 
     protected $hidden = [
