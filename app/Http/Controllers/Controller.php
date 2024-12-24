@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 
 abstract class Controller
 {
-    public function with(Request $request)
+    public function loadRelations(Request $request)
     {
         return $request->query('with') ? explode(',', $request->query('with')) : [];
     }
 }
+

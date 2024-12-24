@@ -17,7 +17,7 @@ class SkillController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        $skills = Skill::with($this->with($request))->filter($request)->paginate($request->query('per_page', 10));
+        $skills = Skill::with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page', 10));
         $competencies = $skills->pluck('competency')->unique()->values()->toArray();
         $resoruce = $this->getResource();
 
