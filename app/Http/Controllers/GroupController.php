@@ -77,6 +77,9 @@ class GroupController extends Controller
 
     public function destroy(Group $group)
     {
+        if (!auth()->user()->hasPermissionTo('delete groups') || $group->created_by != auth()->id()) {
+            return response()->json('You are not authorized to delete this group', 403);
+        }
         $group->delete();
 
         return response()->json('Group deleted', 200);

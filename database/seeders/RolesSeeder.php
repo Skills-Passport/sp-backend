@@ -27,6 +27,9 @@ class RolesSeeder extends Seeder
                 'permissions' => [
                     'view groups',
                     'view skills',
+                    'create skills',
+                    'edit skills',
+                    'delete skills',
                     'view feedbacks',
                     'review feedbacks',
                     'give endorsements',
@@ -42,6 +45,9 @@ class RolesSeeder extends Seeder
                 'permissions' => [
                     'view groups',
                     'view skills',
+                    'create skills',
+                    'edit skills',
+                    'delete skills',
                     'view feedbacks',
                     'review feedbacks',
                     'give endorsements',
