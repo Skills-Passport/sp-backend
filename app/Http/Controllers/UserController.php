@@ -25,6 +25,12 @@ class UserController extends Controller
         return UserResource::collection($students);
     }
 
+    public function student(Request $request, User $student): UserResource
+    {
+        $student->load($this->loadRelations($request));
+        return new UserResource($student);
+    }
+
     public function getRoles()
     {
         $roles = Role::all();
