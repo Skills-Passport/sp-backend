@@ -75,7 +75,7 @@ class GroupController extends Controller
         return GroupResource::make($group->load('students', 'teachers', 'skills'));
     }
 
-    public function delete(Group $group)
+    public function destroy(Group $group)
     {
         $group->delete();
 
