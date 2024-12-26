@@ -30,11 +30,7 @@ class ProfilesSeeder extends Seeder
             'Analyst' => '#f1f5c9',
         ];
         foreach ($profiles as $profile) {
-            $createdBy = User::first()->id;
-            if (!$createdBy) {
-                dd('No user found for profile' . $profile);
-            }
-            Profile::firstOrCreate(['title' => $profile, 'desc' => $description[$profile], 'icon' => $icons[$profile], 'created_by' => $createdBy, 'color' => $colors[$profile]]);
+            Profile::firstOrCreate(['title' => $profile, 'desc' => $description[$profile], 'icon' => $icons[$profile], 'created_by' => User::first()->id], ['color' => $colors[$profile]]);
         }
     }
 }
