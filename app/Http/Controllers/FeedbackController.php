@@ -28,7 +28,7 @@ class FeedbackController extends Controller
     public function skillFeedback(Request $request, Skill $skill): AnonymousResourceCollection
     {
         $feedbacks = auth()->user()->feedbacks()
-            ->where('skill_id', $skill->id)->with($request->query('with') ? explode(',', $request->query('with')) : [])
+            ->where('skill_id', $skill->id)->with($this->loadRelations($request))
             ->paginate($request->query('per_page', 10));
 
         return FeedbackResource::collection($feedbacks);

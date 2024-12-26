@@ -28,7 +28,7 @@ class EndorsementController extends Controller
     public function skillEndorsements(Request $request, Skill $skill)
     {
         $endorsements = auth()->user()->endorsements()
-            ->where('skill_id', $skill->id)->with($request->query('with') ? explode(',', $request->query('with')) : [])
+            ->where('skill_id', $skill->id)->with($this->loadRelations($request))
             ->paginate($request->query('per_page', 10));
 
         return EndorsementResource::collection($endorsements);
@@ -36,7 +36,7 @@ class EndorsementController extends Controller
 
     public function recentEndorsements(Request $request): AnonymousResourceCollection
     {
-        $endorsements = auth()->user()->endorsements()->filter($request)->with($request->query('with') ? explode(',', $request->query('with')) : [])
+        $endorsements = auth()->user()->endorsements()->filter($request)->with($this->loadRelations($request))
             ->where('created_at', '>=', Carbon::now()->subDays(30))
             ->orderBy('created_at', 'desc')
             ->paginate($request->query('per_page', 10));

@@ -4,8 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Filters\UserFilter;
+use Illuminate\Http\Request;
+use App\Filters\GroupSkillFilter;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -142,8 +145,13 @@ class User extends Authenticatable
         return $this->personal_coach !== null;
     }
 
-    public function scopeFilter($query, $request)
+    public function scopeFilter(Builder $query, Request $request)
     {
         return (new UserFilter($request))->filter($query);
     }
+    public function scopeSkillFilter(Builder $query, Request $request): Builder
+    {
+        return (new GroupSkillFilter($request))->filter($query);
+    }
+
 }

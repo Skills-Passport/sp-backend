@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title', 255);
             $table->text('desc')->comment('description of the Competency')->nullable();
+            $table->foreignUuid('created_by')->constrained('users');
             $table->text('overview')->comment('More detailed explanation of the competency')->nullable();
             $table->timestamps();
             $table->softDeletes();
