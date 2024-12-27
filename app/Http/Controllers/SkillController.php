@@ -78,7 +78,6 @@ class SkillController extends Controller
 
     public function updateRating(UpdateRatingRequest $request, Skill $skill): JsonResponse
     {
-        $feedback = null;
         $user = $request->user();
 
         $userSkillPivot = $user->skills()->where('skill_id', $skill->id)->first()->pivot;
@@ -88,10 +87,9 @@ class SkillController extends Controller
             'previous_rating' => $userSkillPivot->last_rating,
             'new_rating' => $request->rating,
         ]);
-        $feedback = Feedback::create([
+        Feedback::create([
             'user_id' => $request->user()->id,
             'skill_id' => $skill->id,
-            'created_by' => $request->user()->id,
             'title' => 'Rating updated',
             'content' => $request->feedback,
         ]);

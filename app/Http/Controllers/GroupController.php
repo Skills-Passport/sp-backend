@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Scopes\ActiveScope;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\UserResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Requests\CreateUpdateGroupRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -14,9 +17,10 @@ class GroupController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         $groupsQuery = Group::with($this->loadRelations($request))->filter($request);
-        if ($request->user()->hasRole('teacher') && $request->query('is_archived') == 'true') {
-            $groupsQuery->withoutGlobalScope(ActiveScope::class)
-                ->whereNotNull('archived_at');
+        if ($request->user()->isTeacher && $request->query('is_archived') == 'true') {
+            $groupsQuery->whereNotNull('archived_at');
+        } else {
+            $groupsQuery->active();
         }
         $groups = $groupsQuery->paginate($request->query('per_page', 10));
 
@@ -27,10 +31,11 @@ class GroupController extends Controller
     {
         $user = $request->user();
 
-        $groups = $user->groups()->with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page', 10));
+        $groups = $user->groups()->with($this->loadRelations($request))->filter($request)->active()->paginate($request->query('per_page', 10));
 
         return GroupResource::collection($groups);
     }
+
 
     public function show(Group $group): GroupResource
     {
@@ -39,43 +44,76 @@ class GroupController extends Controller
         return new GroupResource($group);
     }
 
-    public function create(CreateUpdateGroupRequest $request): GroupResource
+    public function students(Request $request, Group $group): AnonymousResourceCollection
     {
-        $group = Group::create($request->all());
+        $students = $group->students()->skillFilter(request())->paginate(request()->query('per_page', 10))->load($this->loadRelations($request));
 
-        if ($request->has('skills')) {
-            $group->skills()->attach($request->skills);
-        }
-
-        if ($request->has('teachers')) {
-            $group->teachers()->attach($request->teachers);
-        }
-
-        if ($request->has('students')) {
-            $group->students()->attach($request->students);
-        }
-        return GroupResource::make($group->load('students', 'teachers', 'skills'));
+        return UserResource::collection($students);
     }
 
-    public function update(CreateUpdateGroupRequest $request, Group $group): GroupResource
+    public function create(CreateUpdateGroupRequest $request): GroupResource|JsonResponse
     {
-        $group->update($request->all());
+        DB::beginTransaction();
 
-        if ($request->has('skills')) {
-            $group->skills()->sync($request->skills);
-        }
+        try {
+            $group = Group::create($request->only(['name', 'desc']));
+            if ($request->has('skills')) {
+                $group->skills()->attach($request->skills);
+            }
 
-        if ($request->has('teachers')) {
-            $group->teachers()->sync($request->teachers);
-        }
+            if ($request->has('teachers')) {
+                $group->teachers()->attach($request->teachers);
+                $group->teachers()->attach($request->user()->id, ['role' => 'teacher']);
+            }
 
-        if ($request->has('students')) {
-            $group->students()->sync($request->students);
+            if ($request->has('students')) {
+                $group->students()->attach($request->students);
+            }
+
+            DB::commit();
+
+            return GroupResource::make($group->load('students', 'teachers', 'skills'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Failed to create group',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-        return GroupResource::make($group->load('students', 'teachers', 'skills'));
     }
 
-    public function destroy(Group $group)
+    public function update(CreateUpdateGroupRequest $request, Group $group): GroupResource|JsonResponse
+    {
+        DB::beginTransaction();
+
+        try {
+            $group->update($request->only(['name', 'desc', 'archived_at']));
+
+            if ($request->has('skills')) {
+                $group->skills()->sync($request->skills);
+            }
+
+            if ($request->has('teachers')) {
+                $group->teachers()->sync($request->teachers);
+            }
+
+            if ($request->has('students')) {
+                $group->students()->sync($request->students);
+            }
+
+            DB::commit();
+
+            return GroupResource::make($group->load('students', 'teachers', 'skills'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Failed to update group',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function destroy(Group $group): JsonResponse
     {
         if (!auth()->user()->hasPermissionTo('delete groups') || $group->created_by != auth()->id()) {
             return response()->json('You are not authorized to delete this group', 403);

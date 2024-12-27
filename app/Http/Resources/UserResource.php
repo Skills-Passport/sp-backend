@@ -15,6 +15,7 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'job_title' => $this->job_title,
             'personal_coach' => $this->personal_coach ? UserResource::make($this->whenLoaded('personalCoach')) : null,
+            'skills' => SkillResource::collection($this->whenLoaded('skills')),
             'address' => $this->address,
             'field' => $this->field,
             'image' => $this->image,

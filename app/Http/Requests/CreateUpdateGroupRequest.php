@@ -22,7 +22,7 @@ class CreateUpdateGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'nullable|uuid',
+            'id' => 'nullable|uuid|exists:groups,id',
             'name' => 'required|string',
             'desc' => 'required|string',
             'skills' => 'nullable|array',
@@ -36,19 +36,13 @@ class CreateUpdateGroupRequest extends FormRequest
 
     public function passedValidation()
     {
-        if (!$this->has('id')) {
-            $this->merge([
-                'created_by' => auth()->id(),
-            ]);
-        }
         if ($this->has('teachers')) {
             $this->merge([
                 'teachers' => collect($this->teachers)->map(function ($teacher) {
                     return ['user_id' => $teacher, 'role' => 'teacher'];
                 })->toArray(),
             ]);
-        }
-        else {
+        } else {
             $this->merge([
                 'teachers' => [],
             ]);
@@ -58,9 +52,5 @@ class CreateUpdateGroupRequest extends FormRequest
                 'students' => [],
             ]);
         }
-
-        $this->merge([
-            'teachers' => array_merge($this->teachers, [['user_id' => auth()->id(), 'role' => 'teacher']]),
-        ]);
     }
 }

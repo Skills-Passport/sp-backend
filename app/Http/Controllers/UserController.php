@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function user(Request $request): UserResource
     {
-        return new UserResource($request->user()->load($request->query('with') ? explode(',', $request->query('with')) : []));
+        return new UserResource($request->user()->load($this->loadRelations($request)));
     }
 
     public function students(Request $request): AnonymousResourceCollection
@@ -79,7 +79,7 @@ class UserController extends Controller
     public function requests(Request $request): AnonymousResourceCollection
     {
         $feedbackRequests = $request->user()->feedbackRequests()->where('status', 'pending')->with(
-            $request->query('with') ? explode(',', $request->query('with')) : []
+            $this->loadRelations($request)
         )->paginate($request->query('per_page') ?? 10);
 
         return FeedbackRequestResource::collection($feedbackRequests);

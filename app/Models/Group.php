@@ -3,20 +3,26 @@
 namespace App\Models;
 
 use App\Filters\GroupFilter;
-use App\Scopes\ActiveScope;
+use Illuminate\Http\Request;
 use App\Traits\PopulatesIfEmpty;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
 
-#[ScopedBy([ActiveScope::class])]
 class Group extends Model
 {
     use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
+
+    protected static function booted(): void
+    {
+        static::creating(function ($group) {
+            if ($group->created_by === null) {
+                $group->created_by = auth()->id();
+            }
+        });
+    }
 
     protected $table = 'groups';
 
@@ -50,6 +56,11 @@ class Group extends Model
     public function scopeFilter(Builder $query, Request $request): Builder
     {
         return (new GroupFilter($request))->filter($query);
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->whereNull('archived_at');
     }
 
     public function members()
