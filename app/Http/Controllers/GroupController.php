@@ -46,8 +46,12 @@ class GroupController extends Controller
 
     public function students(Request $request, Group $group): AnonymousResourceCollection
     {
+        $groupSkills = $group->skills()->pluck('id');
         $students = $group->students()->skillFilter(request())->paginate(request()->query('per_page', 10))->load($this->loadRelations($request));
-
+        $students->transform(function ($student) use ($groupSkills) {
+            $student->skills = $student->skills()->whereIn('skills.id', $groupSkills)->get();
+            return $student;
+        });
         return UserResource::collection($students);
     }
 
@@ -63,7 +67,6 @@ class GroupController extends Controller
 
             if ($request->has('teachers')) {
                 $group->teachers()->attach($request->teachers);
-                $group->teachers()->attach($request->user()->id, ['role' => 'teacher']);
             }
 
             if ($request->has('students')) {
