@@ -33,7 +33,7 @@ class Skill extends Model
 
     public function competency()
     {
-        return $this->belongsTo(Competency::class);
+        return $this->belongsTo(Competency::class)->whereNull('deleted_at');
     }
 
     public function users()

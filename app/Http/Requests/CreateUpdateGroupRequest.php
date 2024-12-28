@@ -27,7 +27,7 @@ class CreateUpdateGroupRequest extends FormRequest
             'desc' => 'required|string',
             'skills' => 'nullable|array',
             'skills.id' => 'uuid|exists:skills,id',
-            'teachers' => 'nullable|array',
+            'teachers' => 'required|array',
             'teachers.id' => 'uuid|exists:users,id',
             'students' => 'nullable|array',
             'students.id' => 'uuid|exists:users,id',
@@ -36,17 +36,11 @@ class CreateUpdateGroupRequest extends FormRequest
 
     public function passedValidation()
     {
-        if ($this->has('teachers')) {
-            $this->merge([
-                'teachers' => collect($this->teachers)->map(function ($teacher) {
-                    return ['user_id' => $teacher, 'role' => 'teacher'];
-                })->toArray(),
-            ]);
-        } else {
-            $this->merge([
-                'teachers' => [],
-            ]);
-        }
+        $this->merge([
+            'teachers' => collect($this->teachers)->map(function ($teacher) {
+                return ['user_id' => $teacher, 'role' => 'teacher'];
+            })->toArray(),
+        ]);
         if (!$this->has('students')) {
             $this->merge([
                 'students' => [],
