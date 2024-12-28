@@ -18,14 +18,16 @@ class SkillController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         $skills = Skill::with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page', 10));
-        $competencies = $skills->pluck('competency')->unique()->values()->toArray();
-
+        $competencies = $skills->filter(function ($skill) {
+            return $skill->competency && is_null($skill->competency->deleted_at);
+        })->pluck('competency')->unique()->values()->toArray();
         return SkillResource::collection($skills)->additional(['meta' => ['competencies' => $competencies]]);
     }
 
-    public function show(Skill $skill): SkillResource
+    public function show(Request $request, Skill $skill): SkillResource
     {
-        $skill = Skill::with(['competency', 'competency.profiles'])->find($skill->id);
+
+        $skill = Skill::with($this->loadRelations($request, ['competency', 'competency.profiles','groups']))->find($skill->id);
 
         return new SkillResource($skill);
     }
