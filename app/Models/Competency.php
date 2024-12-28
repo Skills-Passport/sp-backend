@@ -18,13 +18,21 @@ class Competency extends Model
         'title',
         'desc',
         'overview',
+        'created_by',
     ];
 
     protected $hidden = [
         'deleted_at',
         'updated_at',
     ];
-
+    protected static function booted(): void
+    {
+        static::creating(function ($competency) {
+            if ($competency->created_by === null) {
+                $competency->created_by = auth()->id();
+            }
+        });
+    }
     protected function casts(): array
     {
         return [
@@ -32,6 +40,11 @@ class Competency extends Model
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function profiles()
@@ -60,11 +73,13 @@ class Competency extends Model
     {
         return $query->whereHas('skills.users', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->with(['skills' => function ($query) use ($userId) {
-            $query->whereHas('users', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            });
-        }]);
+        })->with([
+                    'skills' => function ($query) use ($userId) {
+                        $query->whereHas('users', function ($query) use ($userId) {
+                            $query->where('user_id', $userId);
+                        });
+                    }
+                ]);
     }
 
     public function loadUserSkills($userId)

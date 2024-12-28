@@ -26,6 +26,10 @@ class Feedback extends Model
                 'skill_id' => $e->skill_id,
             ]);
         });
+
+        static::creating(function ($e) {
+            $e->created_by = auth()->id();
+        });
     }
 
     protected $fillable = [

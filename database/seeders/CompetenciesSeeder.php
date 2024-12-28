@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Competency;
+use App\Models\User;
 use App\Models\Profile;
+use App\Models\Competency;
 use Illuminate\Database\Seeder;
 
 class CompetenciesSeeder extends Seeder
@@ -22,7 +23,7 @@ class CompetenciesSeeder extends Seeder
         ];
 
         foreach ($competencies as $competency) {
-            $comp = Competency::firstOrCreate(['title' => $competency, 'overview' => 'A competency is a set of defined behaviors that provide a structured guide enabling the identification, evaluation and development of the behaviors in individual employees.', 'desc' => 'A competency is a set of defined behaviors']);
+            $comp = Competency::firstOrCreate(['title' => $competency, 'overview' => 'A competency is a set of defined behaviors that provide a structured guide enabling the identification, evaluation and development of the behaviors in individual employees.', 'desc' => 'A competency is a set of defined behaviors', 'created_by' => User::first()->id]);
 
             $comp->profiles()->attach(Profile::whereIn('title', $competency_profiles[$competency])->get());
         }

@@ -18,8 +18,18 @@ class Skill extends Model
     protected $fillable = [
         'title',
         'desc',
+        'created_by',
         'competency_id',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function ($skill) {
+            if ($skill->created_by === null) {
+                $skill->created_by = auth()->id();
+            }
+        });
+    }
 
     public function competency()
     {

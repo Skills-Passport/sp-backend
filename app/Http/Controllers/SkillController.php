@@ -2,40 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateRatingRequest;
-use App\Http\Resources\Educator\SkillResource as EducatorSkillResource;
-use App\Http\Resources\Student\SkillResource as StudentSkillResource;
-use App\Http\Resources\TimelineResource;
-use App\Models\Feedback;
 use App\Models\Group;
 use App\Models\Skill;
-use Illuminate\Http\JsonResponse;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Resources\SkillResource;
+use App\Http\Resources\TimelineResource;
+use App\Http\Requests\UpdateRatingRequest;
+use App\Http\Requests\CreateUpdateSkillRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SkillController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        $skills = Skill::with($this->with($request))->filter($request)->paginate($request->query('per_page', 10));
+        $skills = Skill::with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page', 10));
         $competencies = $skills->pluck('competency')->unique()->values()->toArray();
-        $resoruce = $this->getResource();
 
-        return $resoruce::collection($skills)->additional(['meta' => ['competencies' => $competencies]]);
+        return SkillResource::collection($skills)->additional(['meta' => ['competencies' => $competencies]]);
     }
 
-    public function show(Skill $skill): StudentSkillResource|EducatorSkillResource
+    public function show(Skill $skill): SkillResource
     {
-        $resource = $this->getResource();
-
         $skill = Skill::with(['competency', 'competency.profiles'])->find($skill->id);
 
-        return new $resource($skill);
+        return new SkillResource($skill);
+    }
+
+    public function create(CreateUpdateSkillRequest $request): SkillResource
+    {
+        $skill = Skill::create($request->all());
+
+        return new SkillResource($skill->load('competency'));
+    }
+
+    public function update(CreateUpdateSkillRequest $request, Skill $skill): SkillResource
+    {
+        $skill->update($request->all());
+
+        return new SkillResource($skill->load('competency'));
+    }
+
+    public function destroy(Skill $skill): JsonResponse
+    {
+        if (!auth()->user()->hasPermissionTo('delete skills')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $skill->delete();
+
+        return response()->json(['message' => 'Skill deleted successfully']);
     }
 
     public function addSkill(Request $request, Skill $skill): JsonResponse
     {
-        // check if not already attached
         if ($request->user()->skills->contains($skill)) {
             return response()->json(['message' => 'Skill already added'], 400);
         }
@@ -56,16 +76,8 @@ class SkillController extends Controller
         return TimelineResource::collection($timelines);
     }
 
-    public function getResource(): string
-    {
-        $Resoruce = request()->user()->hasRole('student') ? StudentSkillResource::class : EducatorSkillResource::class;
-
-        return $Resoruce;
-    }
-
     public function updateRating(UpdateRatingRequest $request, Skill $skill): JsonResponse
     {
-        $feedback = null;
         $user = $request->user();
 
         $userSkillPivot = $user->skills()->where('skill_id', $skill->id)->first()->pivot;
@@ -75,10 +87,9 @@ class SkillController extends Controller
             'previous_rating' => $userSkillPivot->last_rating,
             'new_rating' => $request->rating,
         ]);
-        $feedback = Feedback::create([
+        Feedback::create([
             'user_id' => $request->user()->id,
             'skill_id' => $skill->id,
-            'created_by' => $request->user()->id,
             'title' => 'Rating updated',
             'content' => $request->feedback,
         ]);
@@ -92,6 +103,6 @@ class SkillController extends Controller
         $user_skills = $request->user()->skills->pluck('id');
         $skills = $group->skills()->whereIn('id', $user_skills)->get();
 
-        return $this->getResource()::collection($skills);
+        return SkillResource::collection($skills);
     }
 }

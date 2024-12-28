@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Models\Competency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,6 +22,7 @@ class SkillFactory extends Factory
             'title' => "Fake Skill #{$this->faker->unique()->numberBetween(1, 100)}",
             'desc' => $this->faker->sentence,
             'competency_id' => Competency::inRandomOrder()->first()->id,
+            'created_by' => User::inRandomOrder()->first()->id,
         ];
     }
 }

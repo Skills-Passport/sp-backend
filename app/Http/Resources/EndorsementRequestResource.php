@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\Student\SkillResource;
+use App\Http\Resources\SkillResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EndorsementRequestResource extends JsonResource
