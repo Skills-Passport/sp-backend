@@ -96,6 +96,7 @@ class RolesSeeder extends Seeder
                     'edit roles',
                     'delete roles',
                     'create competencies',
+                    'view all students',
                 ],
             ],
         ];

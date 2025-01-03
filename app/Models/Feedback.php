@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Http\Resources\FeedbackResource;
+use App\Filters\FeedbackFilter;
 use App\Traits\PopulatesIfEmpty;
+use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\FeedbackResource;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Feedback extends Model
 {
@@ -64,5 +65,10 @@ class Feedback extends Model
     public function resource()
     {
         return new FeedbackResource($this);
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        return (new FeedbackFilter($request))->filter($query);
     }
 }

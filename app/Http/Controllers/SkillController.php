@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Group;
 use App\Models\Skill;
 use App\Models\Feedback;
@@ -27,7 +28,7 @@ class SkillController extends Controller
     public function show(Request $request, Skill $skill): SkillResource
     {
 
-        $skill = Skill::with($this->loadRelations($request, ['competency', 'competency.profiles','groups']))->find($skill->id);
+        $skill = Skill::with($this->loadRelations($request, ['competency', 'competency.profiles', 'groups']))->find($skill->id);
 
         return new SkillResource($skill);
     }
@@ -106,5 +107,17 @@ class SkillController extends Controller
         $skills = $group->skills()->whereIn('id', $user_skills)->get();
 
         return SkillResource::collection($skills);
+    }
+
+    public function studentSkill(Request $request, User $student, Skill $skill): SkillResource
+    {
+        $skill = $student->skills()->where('skill_id', $skill->id)->withPivot('last_rating')->first();
+
+        if (!$skill->exists()) {
+            return response()->json(['message' => 'Skill already added'], 400);
+        }
+        $skill->load($this->loadRelations($request, ['competency', 'groups']));
+
+        return new SkillResource($skill);
     }
 }
