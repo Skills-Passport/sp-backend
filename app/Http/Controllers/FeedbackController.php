@@ -45,6 +45,19 @@ class FeedbackController extends Controller
         return new FeedbackResource($feedback);
     }
 
+    public function recentFeedbacks(Request $request, User $user = null): AnonymousResourceCollection
+    {
+        if (! $user) {
+            $user = auth()->user();
+        }
+        $feedbacks = $user->feedbacks()->filter($request)->with($this->loadRelations($request))
+            ->where('created_at', '>=', now()->subDays(30))
+            ->orderBy('created_at', 'desc')
+            ->paginate($request->query('per_page', 10));
+
+        return FeedbackResource::collection($feedbacks);
+    }
+
     public function requestFeedback(RequestFeedbackRequest $request): JsonResponse
     {
         $skill = Skill::find($request->skill_id);

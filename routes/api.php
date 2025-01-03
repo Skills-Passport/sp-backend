@@ -77,6 +77,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::group(['prefix' => 'students'], function () {
             Route::get('/', [UserController::class, 'students']);
             Route::get('/{student}', [UserController::class, 'student']);
+            Route::get('/{student}/endorsements/recent', [EndorsementController::class, 'recentEndorsements']);
+            Route::get('/{student}/feedbacks/recent', [FeedbackController::class, 'recentFeedbacks']);
+            Route::get('/{student}/{skill}', [SkillController::class, 'studentSkill']);
         });
 
         Route::group(['prefix' => 'profiles'], function () {
@@ -96,6 +99,52 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
     });
 
+    Route::group(['prefix' => 'skills'], function () {
+        Route::get('/{skill}/feedbacks', [FeedbackController::class, 'skillFeedback']);
+        Route::get('/{skill}/endorsements', [EndorsementController::class, 'skillEndorsements']);
+        Route::get('/{skill}/timeline', [SkillController::class, 'skillTimeline']);
+    });
+
+    Route::group(['prefix' => 'groups'], function () {
+        Route::get('/', [GroupController::class, 'index']);
+        Route::get('/{group}', [GroupController::class, 'show']);
+    });
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [UserController::class, 'notifications']);
+        Route::get('/{notification}/read', [UserController::class, 'markAsRead']);
+    });
+});
+
+Route::get('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest']);
+Route::post('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'endorseEndorsementRequest']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  Extra for now
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'head-teacher', 'middleware' => 'head-teacher'], function () {
         Route::group(['prefix' => 'skills'], function () {
             Route::get('/', [SkillController::class, 'index']);
@@ -135,7 +184,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::delete('/{competency}', [CompetencyController::class, 'destroy']);
         });
     });
-
 
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::group(['prefix' => 'skills'], function () {
@@ -177,21 +225,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
     });
 
-    Route::group(['prefix' => 'skills'], function () {
-        Route::get('/{skill}/feedbacks', [FeedbackController::class, 'skillFeedback']);
-        Route::get('/{skill}/endorsements', [EndorsementController::class, 'skillEndorsements']);
-        Route::get('/{skill}/timeline', [SkillController::class, 'skillTimeline']);
-    });
-
-    Route::group(['prefix' => 'groups'], function () {
-        Route::get('/', [GroupController::class, 'index']);
-        Route::get('/{group}', [GroupController::class, 'show']);
-    });
-    Route::group(['prefix' => 'notifications'], function () {
-        Route::get('/', [UserController::class, 'notifications']);
-        Route::get('/{notification}/read', [UserController::class, 'markAsRead']);
-    });
 });
 
-Route::get('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest']);
-Route::post('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'endorseEndorsementRequest']);

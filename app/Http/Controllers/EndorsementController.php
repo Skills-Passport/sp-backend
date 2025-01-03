@@ -34,9 +34,12 @@ class EndorsementController extends Controller
         return EndorsementResource::collection($endorsements);
     }
 
-    public function recentEndorsements(Request $request): AnonymousResourceCollection
+    public function recentEndorsements(Request $request, User $user = null)
     {
-        $endorsements = auth()->user()->endorsements()->filter($request)->with($this->loadRelations($request))
+        if (! $user) {
+            $user = auth()->user();
+        }
+        $endorsements = $user->endorsements()->filter($request)->with($this->loadRelations($request))
             ->where('created_at', '>=', Carbon::now()->subDays(30))
             ->orderBy('created_at', 'desc')
             ->paginate($request->query('per_page', 10));
