@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\FeedbackRequestResource;
-use App\Http\Resources\NotificationResource;
-use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Rules\HasRole;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\Permission\Models\Role;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\NotificationResource;
+use App\Http\Resources\FeedbackRequestResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
@@ -20,7 +21,21 @@ class UserController extends Controller
 
     public function students(Request $request): AnonymousResourceCollection
     {
-        $students = User::role('student')->with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page') ?? 10);
+        $user = $request->user();
+        if ($user->hasPermissionTo('view all students')) {
+            $students = User::role('student')->with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page') ?? 10);
+        } else {
+            $groups = $user->groups;
+            $students = User::role('student')->whereHas('groups', function ($query) use ($groups) {
+                $query->whereIn('group_id', $groups->pluck('id'));
+            })->with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page') ?? 10);
+        }
+
+        $students->each(function ($student) use ($user) {
+            $student->groups = $student->groups->filter(function ($group) use ($user) {
+                return $user->groups->contains('id', $group->id);
+            });
+        });
 
         return UserResource::collection($students);
     }
@@ -28,6 +43,16 @@ class UserController extends Controller
     public function student(Request $request, User $student): UserResource
     {
         $student->load($this->loadRelations($request));
+        $student->groups = $student->groups->filter(function ($group) use ($request) {
+            return $request->user()->groups->contains('id', $group->id);
+        });
+
+        $student->groups->each(function ($group) use ($student) {
+            $group->skills = $group->skills->filter(function ($skill) use ($student) {
+                return $student->skills->contains('id', $skill->id);
+            });
+        });
+
         return new UserResource($student);
     }
 
@@ -47,15 +72,15 @@ class UserController extends Controller
 
     public function notifications(Request $request): AnonymousResourceCollection
     {
-        return NotificationResource::collection($request->user()->unreadNotifications);
+        $threeDaysAgo = Carbon::now()->subDays(3);
+
+        $notifications = $request->user()->notifications()
+            ->where('created_at', '>=', $threeDaysAgo)
+            ->paginate($request->query('per_page') ?? 10);
+
+        return NotificationResource::collection($notifications);
     }
 
-    public function markAsRead(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $request->user()->unreadNotifications->markAsRead();
-
-        return response()->json(['message' => 'Notifications marked as read']);
-    }
 
     public function teachers(): AnonymousResourceCollection
     {

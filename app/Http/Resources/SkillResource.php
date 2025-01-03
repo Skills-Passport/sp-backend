@@ -23,6 +23,8 @@ class SkillResource extends JsonResource
                     ];
                 });
             })),
+            'count_feedbacks' => $this->whenLoaded('feedbacks', $this->feedbacks->count()),
+            'count_endorsements' => $this->whenLoaded('endorsements', $this->endorsements->count()),
             'is_added' => $this->when($request->user()->isStudent, $this->is_added),
             'rating' => $this->when($request->user()->isStudent && $this->is_added, function () {
                 return $this->rating;
