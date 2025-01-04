@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureTeacher
+class EnsureEducator
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class EnsureTeacher
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user()?->hasRole('teacher')) {
+        if (! $request->user()?->isEducator) {
             return response($request->user()?->role->name, 401);
         }
 

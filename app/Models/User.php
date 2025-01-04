@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Filters\UserFilter;
 use Illuminate\Http\Request;
 use App\Filters\GroupSkillFilter;
+use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,7 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, HasRoles, HasUuids, Notifiable;
+    use HasFactory, HasRoles, HasUuids, Notifiable, HasPermissions;
 
     protected $table = 'users';
 
@@ -120,24 +121,14 @@ class User extends Authenticatable
         return $this->roles->first();
     }
 
-    public function getIsAdminAttribute()
-    {
-        return $this->hasRole('admin');
-    }
-
-    public function getIsTeacherAttribute()
-    {
-        return $this->hasRole('teacher');
-    }
-
     public function getIsStudentAttribute()
     {
         return $this->hasRole('student');
     }
 
-    public function getIsHeadTeacherAttribute()
+    public function getIsEducatorAttribute()
     {
-        return $this->hasRole('head-teacher');
+        return $this->hasAnyRole(['admin', 'head-teacher', 'teacher']);
     }
 
     public function hasPersonalCoach()

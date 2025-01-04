@@ -18,7 +18,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('/roles', [UserController::class, 'getRoles']);
 
-    Route::group(['prefix' => 'student'], function () {
+    Route::group(['prefix' => 'student', 'middleware' => 'role:student'], function () {
         Route::group(['prefix' => 'skills'], function () {
             Route::get('/', [SkillController::class, 'index']);
             Route::get('/{skill}', [SkillController::class, 'show']);
@@ -55,47 +55,56 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
     });
 
-    Route::group(['prefix' => 'teacher', 'middleware' => 'teacher'], function () {
-
+    Route::group(['prefix' => 'educator', 'middleware' => 'educator'], function () {
         Route::group(['prefix' => 'skills'], function () {
-            Route::get('/', [SkillController::class, 'index']);
-            Route::get('/{skill}', [SkillController::class, 'show']);
-            Route::post('/create', [SkillController::class, 'create']);
-            Route::put('/{skill}', [SkillController::class, 'update']);
-            Route::delete('/{skill}', [SkillController::class, 'destroy']);
+            Route::group(['middleware' => 'can:view skills'], function () {
+                Route::get('/', [SkillController::class, 'index']);
+                Route::get('/{skill}', [SkillController::class, 'show']);
+            });
+            Route::post('/create', [SkillController::class, 'create'])->middleware('can:create skills');
+            Route::put('/{skill}', [SkillController::class, 'update'])->middleware('can:update skills');
+            Route::delete('/{skill}', [SkillController::class, 'destroy'])->middleware('can:delete skills');
         });
 
         Route::group(['prefix' => 'groups'], function () {
-            Route::get('/', [GroupController::class, 'index']);
-            Route::get('/{group}', [GroupController::class, 'show']);
-            Route::get('/{group}/students', [GroupController::class, 'students']);
-            Route::post('/create', [GroupController::class, 'create']);
-            Route::put('/{group}', [GroupController::class, 'update']);
-            Route::delete('/{group}', [GroupController::class, 'destroy']);
+            Route::group(['middleware' => 'can:view groups'], function () {
+                Route::get('/', [GroupController::class, 'index']);
+                Route::get('/{group}', [GroupController::class, 'show']);
+                Route::get('/{group}/students', [GroupController::class, 'students']);
+            });
+            Route::post('/create', [GroupController::class, 'create'])->middleware('can:create groups');
+            Route::put('/{group}', [GroupController::class, 'update'])->middleware('can:update groups');
+            Route::delete('/{group}', [GroupController::class, 'destroy'])->middleware('can:delete groups');
         });
 
         Route::group(['prefix' => 'students'], function () {
-            Route::get('/', [UserController::class, 'students']);
-            Route::get('/{student}', [UserController::class, 'student']);
-            Route::get('/{student}/endorsements/recent', [EndorsementController::class, 'recentEndorsements']);
-            Route::get('/{student}/feedbacks/recent', [FeedbackController::class, 'recentFeedbacks']);
-            Route::get('/{student}/{skill}', [SkillController::class, 'studentSkill']);
+            Route::group(['middleware' => 'can:view students'], function () {
+                Route::get('/', [UserController::class, 'students']);
+                Route::get('/{student}', [UserController::class, 'student']);
+                Route::get('/{student}/endorsements/recent', [EndorsementController::class, 'recentEndorsements']);
+                Route::get('/{student}/feedbacks/recent', [FeedbackController::class, 'recentFeedbacks']);
+                Route::get('/{student}/{skill}', [SkillController::class, 'studentSkill']);
+            });
         });
 
         Route::group(['prefix' => 'profiles'], function () {
-            Route::get('/', [ProfileController::class, 'index']);
-            Route::get('/{profile}', [ProfileController::class, 'show']);
-            Route::post('/create', [ProfileController::class, 'create']);
-            Route::put('/{profile}', [ProfileController::class, 'update']);
-            Route::delete('/{profile}', [ProfileController::class, 'destroy']);
+            Route::group(['middleware' => 'can:view profiles'], function () {
+                Route::get('/', [ProfileController::class, 'index']);
+                Route::get('/{profile}', [ProfileController::class, 'show']);
+            });
+            Route::post('/create', [ProfileController::class, 'create'])->middleware('can:create profiles');
+            Route::put('/{profile}', [ProfileController::class, 'update'])->middleware('can:update profiles');
+            Route::delete('/{profile}', [ProfileController::class, 'destroy'])->middleware('can:delete profiles');
         });
 
         Route::group(['prefix' => 'competencies'], function () {
-            Route::get('/', [CompetencyController::class, 'index']);
-            Route::get('/{competency}', [CompetencyController::class, 'competency']);
-            Route::post('/create', [CompetencyController::class, 'create']);
-            Route::put('/{competency}', [CompetencyController::class, 'update']);
-            Route::delete('/{competency}', [CompetencyController::class, 'destroy']);
+            Route::group(['middleware' => 'can:view competencies'], function () {
+                Route::get('/', [CompetencyController::class, 'index']);
+                Route::get('/{competency}', [CompetencyController::class, 'competency']);
+            });
+            Route::post('/create', [CompetencyController::class, 'create'])->middleware('can:create competencies');
+            Route::put('/{competency}', [CompetencyController::class, 'update'])->middleware('can:update competencies');
+            Route::delete('/{competency}', [CompetencyController::class, 'destroy'])->middleware('can:delete competencies');
         });
     });
 
@@ -117,113 +126,3 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 Route::get('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest']);
 Route::post('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'endorseEndorsementRequest']);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//  Extra for now
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::group(['prefix' => 'head-teacher', 'middleware' => 'head-teacher'], function () {
-        Route::group(['prefix' => 'skills'], function () {
-            Route::get('/', [SkillController::class, 'index']);
-            Route::get('/{skill}', [SkillController::class, 'show']);
-            Route::post('/create', [SkillController::class, 'create']);
-            Route::put('/{skill}', [SkillController::class, 'update']);
-            Route::delete('/{skill}', [SkillController::class, 'destroy']);
-        });
-
-        Route::group(['prefix' => 'groups'], function () {
-            Route::get('/', [GroupController::class, 'index']);
-            Route::get('/{group}', [GroupController::class, 'show']);
-            Route::get('/{group}/students', [GroupController::class, 'students']);
-            Route::post('/create', [GroupController::class, 'create']);
-            Route::put('/{group}', [GroupController::class, 'update']);
-            Route::delete('/{group}', [GroupController::class, 'destroy']);
-        });
-
-        Route::group(['prefix' => 'students'], function () {
-            Route::get('/', [UserController::class, 'students']);
-            Route::get('/{student}', [UserController::class, 'student']);
-        });
-
-        Route::group(['prefix' => 'profiles'], function () {
-            Route::get('/', [ProfileController::class, 'index']);
-            Route::get('/{profile}', [ProfileController::class, 'show']);
-            Route::post('/create', [ProfileController::class, 'create']);
-            Route::put('/{profile}', [ProfileController::class, 'update']);
-            Route::delete('/{profile}', [ProfileController::class, 'destroy']);
-        });
-
-        Route::group(['prefix' => 'competencies'], function () {
-            Route::get('/', [CompetencyController::class, 'index']);
-            Route::get('/{competency}', [CompetencyController::class, 'competency']);
-            Route::post('/create', [CompetencyController::class, 'create']);
-            Route::put('/{competency}', [CompetencyController::class, 'update']);
-            Route::delete('/{competency}', [CompetencyController::class, 'destroy']);
-        });
-    });
-
-    Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
-        Route::group(['prefix' => 'skills'], function () {
-            Route::get('/', [SkillController::class, 'index']);
-            Route::get('/{skill}', [SkillController::class, 'show']);
-            Route::post('/create', [SkillController::class, 'create']);
-            Route::put('/{skill}', [SkillController::class, 'update']);
-            Route::delete('/{skill}', [SkillController::class, 'destroy']);
-        });
-
-        Route::group(['prefix' => 'groups'], function () {
-            Route::get('/', [GroupController::class, 'index']);
-            Route::get('/{group}', [GroupController::class, 'show']);
-            Route::get('/{group}/students', [GroupController::class, 'students']);
-            Route::post('/create', [GroupController::class, 'create']);
-            Route::put('/{group}', [GroupController::class, 'update']);
-            Route::delete('/{group}', [GroupController::class, 'destroy']);
-        });
-
-        Route::group(['prefix' => 'students'], function () {
-            Route::get('/', [UserController::class, 'students']);
-            Route::get('/{student}', [UserController::class, 'student']);
-        });
-
-        Route::group(['prefix' => 'profiles'], function () {
-            Route::get('/', [ProfileController::class, 'index']);
-            Route::get('/{profile}', [ProfileController::class, 'show']);
-            Route::post('/create', [ProfileController::class, 'create']);
-            Route::put('/{profile}', [ProfileController::class, 'update']);
-            Route::delete('/{profile}', [ProfileController::class, 'destroy']);
-        });
-
-        Route::group(['prefix' => 'competencies'], function () {
-            Route::get('/', [CompetencyController::class, 'index']);
-            Route::get('/{competency}', [CompetencyController::class, 'competency']);
-            Route::post('/create', [CompetencyController::class, 'create']);
-            Route::put('/{competency}', [CompetencyController::class, 'update']);
-            Route::delete('/{competency}', [CompetencyController::class, 'destroy']);
-        });
-    });
-
-});
-
