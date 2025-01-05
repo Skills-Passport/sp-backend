@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filters;
+namespace App\Filters\Queries;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class OnSkillFilter
+class SkillQuery
 {
     public function filter(Builder $builder, $value) 
     {

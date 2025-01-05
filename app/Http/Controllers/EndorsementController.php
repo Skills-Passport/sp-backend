@@ -67,6 +67,8 @@ class EndorsementController extends Controller
         } else {
             event(new ExternalEndorsementRequested($request->user(), $requestee_email, $skill, $title));
         }
+
+        return response()->json(['message' => 'Endorsement request sent']);
     }
 
     public function showEndorsementRequest(EndorsementRequest $endorsementRequest)

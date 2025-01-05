@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Filters\Queries\FeedbackRequestFilter;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FeedbackRequest extends Model
 {
@@ -19,6 +21,8 @@ class FeedbackRequest extends Model
         'recipient_id',
         'skill_id',
     ];
+
+    protected $withs = ['recipient', 'requester', 'skill', 'group'];
 
     public const STATUS_PENDING = 'pending';
 
@@ -49,5 +53,10 @@ class FeedbackRequest extends Model
     public function feedbacks()
     {
         return $this->hasMany(Feedback::class);
+    }
+
+    public function scopeFilter($query, Request $request)
+    {
+        return (new FeedbackRequestFilter($request))->filter($query);
     }
 }

@@ -15,6 +15,12 @@ class Rating extends Model
 
     protected $fillable = ['user_id', 'skill_id', 'previous_rating', 'new_rating', 'approved_at', 'approved_by'];
 
+    protected $withs = ['user', 'skill', 'approvedBy', 'createdBy'];
+
+    protected $casts = [
+        'approved_at' => 'datetime',
+    ];
+
     protected static function booted(): void
     {
         static::created(function ($e) {

@@ -32,7 +32,7 @@ class UserResource extends JsonResource
                 'id' => $this->role->id,
                 'name' => $this->role->name,
             ] : null,
-            'is_teacher' => $this->is_teacher,
+            'is_teacher' => $this->is_educator,
             'is_admin' => $this->is_admin,
             'is_head_teacher' => $this->is_head_teacher,
         ];

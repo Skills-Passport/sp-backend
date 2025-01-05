@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filters;
+namespace App\Filters\Queries;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class EndorsementCompetencyFilter
+class SkillsCompetenciesQuery
 {
     public function filter($builder, $value): Builder
     {

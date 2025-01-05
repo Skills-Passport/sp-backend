@@ -22,6 +22,20 @@ class Skill extends Model
         'competency_id',
     ];
 
+    protected $withs = [
+        'competency',
+        'users',
+        'groups',
+        'ratings',
+        'feedbacks',
+        'endorsements',
+        'timelines',
+    ];
+
+    protected $appends = [
+        'ratings'
+    ];
+
     protected static function booted(): void
     {
         static::creating(function ($skill) {

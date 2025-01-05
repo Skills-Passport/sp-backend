@@ -52,6 +52,11 @@ class RolesSeeder extends Seeder
                     'update competencies',
                     'delete competencies',
 
+                    // Requests permissions
+                    'view requests',
+                    'give feedback',
+
+
                     'view feedbacks',
                     'review feedbacks',
                     'give endorsements',
@@ -86,6 +91,10 @@ class RolesSeeder extends Seeder
                     'create competencies',
                     'update competencies',
                     'delete competencies',
+                    
+                    // Requests permissions
+                    'view requests',
+                    'give feedback',
 
                     'view feedbacks',
                     'review feedbacks',
@@ -109,6 +118,7 @@ class RolesSeeder extends Seeder
 
                     // students permissions
                     'view students',
+                    'view all students',
 
                     // Profile permissions
                     'view profiles',
@@ -121,6 +131,10 @@ class RolesSeeder extends Seeder
                     'create competencies',
                     'update competencies',
                     'delete competencies',
+                    
+                    // Requests permissions
+                    'view requests',
+                    'give feedback',
 
                     'view feedbacks',
                     'review feedbacks',

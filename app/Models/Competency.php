@@ -25,6 +25,8 @@ class Competency extends Model
         'deleted_at',
         'updated_at',
     ];
+
+    protected $withs = ['createdBy', 'skills', 'profiles'];
     protected static function booted(): void
     {
         static::creating(function ($competency) {

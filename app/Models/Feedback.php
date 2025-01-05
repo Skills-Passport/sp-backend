@@ -17,6 +17,7 @@ class Feedback extends Model
 
     protected $table = 'feedbacks';
 
+    protected $withs = ['skill', 'user', 'createdBy'];
     protected static function booted(): void
     {
         static::created(function ($e) {

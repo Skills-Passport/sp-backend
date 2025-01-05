@@ -52,6 +52,15 @@ class User extends Authenticatable
         'role',
     ];
 
+    protected $withs = [
+        'skills',
+        'groups',
+        'personalCoach',
+        'feedbacks',
+        'endorsements',
+        'ratings',
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -68,6 +77,11 @@ class User extends Authenticatable
     public function personalCoach()
     {
         return $this->belongsTo(User::class, 'personal_coach');
+    }
+
+    public function students()
+    {
+        return $this->hasMany(User::class, 'personal_coach');
     }
 
     public function writtenFeedbacks()
@@ -116,6 +130,11 @@ class User extends Authenticatable
         return $this->hasMany(FeedbackRequest::class, 'recipient_id');
     }
 
+    public function endorsementsRequests()
+    {
+        return $this->hasMany(EndorsementRequest::class, 'recipient_id');
+    }
+
     public function getRoleAttribute()
     {
         return $this->roles->first();
@@ -129,6 +148,16 @@ class User extends Authenticatable
     public function getIsEducatorAttribute()
     {
         return $this->hasAnyRole(['admin', 'head-teacher', 'teacher']);
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function getIsHeadTeacherAttribute()
+    {
+        return $this->hasRole('head-teacher');
     }
 
     public function hasPersonalCoach()

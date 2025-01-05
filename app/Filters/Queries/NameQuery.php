@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filters;
+namespace App\Filters\Queries;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class TitleFilter
+class NameQuery
 {
     public function filter(Builder $builder, string $value): Builder
     {
-        return $builder->where('title', 'like', '%'.$value.'%');
+        return $builder->where('name', 'like', '%'.$value.'%');
     }
 }

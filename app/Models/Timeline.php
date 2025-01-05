@@ -34,6 +34,11 @@ class Timeline extends Model
         ];
     }
 
+    protected $withs = [
+        'user',
+        'skill',
+    ];
+
     public function timelineable()
     {
         return $this->morphTo();

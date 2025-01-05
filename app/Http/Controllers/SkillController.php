@@ -79,6 +79,18 @@ class SkillController extends Controller
         return TimelineResource::collection($timelines);
     }
 
+    public function StudentSkillTimeline(Request $request, User $student, Skill $skill): AnonymousResourceCollection
+    {
+        $timelines = $skill->timeline($student)->with(['timelineable', 'timelineable.createdBy'])->get();
+        $timelines = $timelines->map(function ($timeline) {
+            $timeline->type = class_basename($timeline->timelineable_type);
+
+            return $timeline;
+        });
+
+        return TimelineResource::collection($timelines);
+    }
+
     public function updateRating(UpdateRatingRequest $request, Skill $skill): JsonResponse
     {
         $user = $request->user();

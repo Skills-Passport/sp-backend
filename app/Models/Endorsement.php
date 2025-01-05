@@ -44,6 +44,8 @@ class Endorsement extends Model
         ];
     }
 
+    protected $withs = ['skill', 'user', 'profile', 'createdBy'];
+
     protected static function booted(): void
     {
         static::created(function ($e) {

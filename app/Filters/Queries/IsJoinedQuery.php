@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filters;
+namespace App\Filters\Queries;
 
-class IsJoinedFilter
+class IsJoinedQuery
 {
     public function filter($builder, $value)
     {

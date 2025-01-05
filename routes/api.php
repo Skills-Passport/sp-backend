@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', [UserController::class, 'user']);
+    Route::get('/roles', [UserController::class, 'getRoles']);
+
     Route::group(['prefix' => 'competencies'], function () {
         Route::get('/', [CompetencyController::class, 'index']);
         Route::get('/{competency}', [CompetencyController::class, 'competency']);
     });
-
-    Route::get('/roles', [UserController::class, 'getRoles']);
 
     Route::group(['prefix' => 'student', 'middleware' => 'role:student'], function () {
         Route::group(['prefix' => 'skills'], function () {
@@ -77,13 +77,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::delete('/{group}', [GroupController::class, 'destroy'])->middleware('can:delete groups');
         });
 
-        Route::group(['prefix' => 'students'], function () {
-            Route::group(['middleware' => 'can:view students'], function () {
-                Route::get('/', [UserController::class, 'students']);
-                Route::get('/{student}', [UserController::class, 'student']);
-                Route::get('/{student}/endorsements/recent', [EndorsementController::class, 'recentEndorsements']);
-                Route::get('/{student}/feedbacks/recent', [FeedbackController::class, 'recentFeedbacks']);
-                Route::get('/{student}/{skill}', [SkillController::class, 'studentSkill']);
+        Route::group(['prefix' => 'students', 'middleware' => 'can:view students'], function () {
+            Route::get('/', [UserController::class, 'students']);
+            Route::group(['prefix' => '{student}'], function () {
+                Route::get('', [UserController::class, 'student']);
+                Route::get('/endorsements/recent', [EndorsementController::class, 'recentEndorsements']);
+                Route::get('/feedbacks/recent', [FeedbackController::class, 'recentFeedbacks']);
+                Route::get('/{skill}', [SkillController::class, 'studentSkill']);
+                Route::get('/{skill}/timeline', [SkillController::class, 'StudentSkillTimeline']);
             });
         });
 
@@ -106,6 +107,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::put('/{competency}', [CompetencyController::class, 'update'])->middleware('can:update competencies');
             Route::delete('/{competency}', [CompetencyController::class, 'destroy'])->middleware('can:delete competencies');
         });
+
+        Route::group(['prefix' => 'requests'], function () {
+            Route::group(['middleware' => 'can:view requests'], function () {
+                Route::get('/feedbacks', [UserController::class, 'requests']);
+                Route::get('/endorsements', [UserController::class, 'endorsementRequests']);
+                Route::get('/count', [UserController::class, 'requestsCount']);
+            });
+        });
     });
 
     Route::group(['prefix' => 'skills'], function () {
@@ -118,6 +127,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/', [GroupController::class, 'index']);
         Route::get('/{group}', [GroupController::class, 'show']);
     });
+
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/', [UserController::class, 'notifications']);
         Route::get('/{notification}/read', [UserController::class, 'markAsRead']);
