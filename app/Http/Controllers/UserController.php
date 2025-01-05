@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Rules\HasRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Models\EndorsementRequest;
 use Spatie\Permission\Models\Role;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\FeedbackRequestResource;
+use App\Http\Resources\EndorsementRequestResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
@@ -81,7 +83,6 @@ class UserController extends Controller
         return NotificationResource::collection($notifications);
     }
 
-
     public function teachers(): AnonymousResourceCollection
     {
         $teachers = User::role('teacher')->get();
@@ -103,10 +104,71 @@ class UserController extends Controller
 
     public function requests(Request $request): AnonymousResourceCollection
     {
-        $feedbackRequests = $request->user()->feedbackRequests()->where('status', 'pending')->with(
+
+        if (!$request->has('is_archived')) {
+            $request->merge(['is_archived' => 'false']);
+        }
+
+        $feedbackRequests = $request->user()->feedbackRequests()->filter($request)->with(
             $this->loadRelations($request)
         )->paginate($request->query('per_page') ?? 10);
 
         return FeedbackRequestResource::collection($feedbackRequests);
     }
+
+    public function endorsementRequests(Request $request): AnonymousResourceCollection
+    {
+
+        $studentsCoaching = $request->user()->students()->get()->map(function ($student) {
+            return $student->id;
+        });
+        $requests = EndorsementRequest::where('requestee_id', $request->user()->id)
+            ->orWhere(function ($query) use ($studentsCoaching) {
+                $query->whereNull('requestee_id')
+                    ->whereIn('requester_id', $studentsCoaching)
+                    ->whereNotNull('data');
+            });
+
+        if (!$request->has('is_archived')) {
+            $request->merge(['is_archived' => 'false']);
+        }
+
+        $requests = $requests->filter($request)->with(
+            $this->loadRelations($request)
+        )->paginate($request->query('per_page') ?? 10);
+
+        return EndorsementRequestResource::collection($requests);
+    }
+
+    public function requestsCount(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!$request->has('is_archived')) {
+            $request->merge(['is_archived' => 'false']);
+        }
+
+        $feedbackRequestsCount = $request->user()->feedbackRequests()
+            ->filter($request)
+            ->count();
+
+        $studentsCoaching = $request->user()->students()->pluck('id');
+
+        $endorsementRequestsCount = EndorsementRequest::where('requestee_id', $request->user()->id)
+            ->orWhere(function ($query) use ($studentsCoaching) {
+                $query->whereNull('requestee_id')
+                    ->whereIn('requester_id', $studentsCoaching)
+                    ->whereNotNull('data');
+            })
+            ->filter($request)
+            ->count();
+
+        $totalRequestsCount = $feedbackRequestsCount + $endorsementRequestsCount;
+
+        return response()->json([
+            'feedback_requests_count' => $feedbackRequestsCount,
+            'endorsement_requests_count' => $endorsementRequestsCount,
+            'total_requests_count' => $totalRequestsCount,
+        ]);
+
+    }
+
 }

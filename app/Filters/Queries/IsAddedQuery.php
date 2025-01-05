@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filters;
+namespace App\Filters\Queries;
 
-class IsAddedFilter
+class IsAddedQuery
 {
     public function filter($builder, $value)
     {

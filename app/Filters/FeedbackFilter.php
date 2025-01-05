@@ -2,16 +2,14 @@
 
 namespace App\Filters;
 
-use Illuminate\Http\Request;
+use App\Filters\AbstractFilter;
+use App\Filters\Queries\TitleQuery;
+
 
 class FeedbackFilter extends AbstractFilter
 {
-    public function __construct(Request $request)
-    {
-        parent::__construct($request);
-
-        $this->filters = [
-            'search' => TitleFilter::class,
-        ];
-    }
+    protected $filters = [
+        'search' => TitleQuery::class,
+        'is_archived' => FeedbackArchiveQuery::class,
+    ];
 }

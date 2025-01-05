@@ -11,6 +11,7 @@ class Profile extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
+    protected $withs = ['createdBy', 'competencies'];
     protected static function booted(): void
     {
         static::creating(function ($profile) {

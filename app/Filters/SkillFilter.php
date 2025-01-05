@@ -2,11 +2,16 @@
 
 namespace App\Filters;
 
+use App\Filters\AbstractFilter;
+use App\Filters\Queries\TitleQuery;
+use App\Filters\Queries\IsAddedQuery;
+use App\Filters\Queries\CompetenciesQuery;
+
 class SkillFilter extends AbstractFilter
 {
     protected $filters = [
-        'search' => TitleFilter::class,
-        'competencies' => ProfileCompetencyFilter::class,
-        'is_added' => IsAddedFilter::class,
+        'search' => TitleQuery::class,
+        'competencies' => CompetenciesQuery::class,
+        'is_added' => IsAddedQuery::class,
     ];
 }

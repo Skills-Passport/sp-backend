@@ -38,6 +38,9 @@ class Group extends Model
         'updated_at',
     ];
 
+    protected $withs = ['skills', 'members', 'students', 'teachers'];
+        
+
     protected function casts(): array
     {
         return [

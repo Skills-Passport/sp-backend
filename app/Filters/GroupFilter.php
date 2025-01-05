@@ -2,10 +2,15 @@
 
 namespace App\Filters;
 
+use App\Filters\AbstractFilter;
+use App\Filters\Queries\NameQuery;
+use App\Filters\Queries\IsJoinedQuery;
+
+
 class GroupFilter extends AbstractFilter
 {
     protected $filters = [
-        'search' => SearchFilter::class,
-        'is_joined' => IsJoinedFilter::class,
+        'search' => NameQuery::class,
+        'is_joined' => IsJoinedQuery::class,
     ];
 }

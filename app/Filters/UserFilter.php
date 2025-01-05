@@ -2,9 +2,11 @@
 
 namespace App\Filters;
 
+use App\Filters\NameQuery;
+
 class UserFilter extends AbstractFilter
 {
     protected $filters = [
-        'search' => SearchFilter::class,
+        'search' => NameQuery::class,
     ];
 }

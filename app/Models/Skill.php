@@ -22,6 +22,20 @@ class Skill extends Model
         'competency_id',
     ];
 
+    protected $withs = [
+        'competency',
+        'users',
+        'groups',
+        'ratings',
+        'feedbacks',
+        'endorsements',
+        'timelines',
+    ];
+
+    protected $appends = [
+        'ratings'
+    ];
+
     protected static function booted(): void
     {
         static::creating(function ($skill) {
@@ -92,8 +106,11 @@ class Skill extends Model
         return $this->endorsements()->count();
     }
 
-    public function getIsAddedAttribute()
+    public function IsSkillAdded(User $user = null)
     {
+        if ($user === null) {
+            $user = auth()->user();
+        }
         return $this->users()->where('user_id', auth()->id())->exists();
     }
 

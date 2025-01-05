@@ -25,78 +25,120 @@ class RolesSeeder extends Seeder
             'teacher' => [
                 'name' => 'teacher',
                 'permissions' => [
-                    'view groups',
+                    // Skill permissions
                     'view skills',
                     'create skills',
-                    'edit skills',
+                    'update skills',
                     'delete skills',
+
+                    // Group permissions
+                    'view groups',
+                    'create groups',
+                    'update groups',
+                    'delete groups',
+
+                    // students permissions
+                    'view students',
+
+                    // Profile permissions
+                    'view profiles',
+                    'create profiles',
+                    'update profiles',
+                    'delete profiles',
+
+                    // Competency permissions
+                    'view competencies',
+                    'create competencies',
+                    'update competencies',
+                    'delete competencies',
+
+                    // Requests permissions
+                    'view requests',
+                    'give feedback',
+
+
                     'view feedbacks',
                     'review feedbacks',
                     'give endorsements',
-                    'view students',
-                    'view teachers',
-                    'create profiles',
-                    'edit profiles',
-                    'delete profiles',
-                    'create groups',
-                    'edit groups',
-                    'delete groups',
-                    'create competencies',
                 ],
             ],
             'head-teacher' => [
                 'name' => 'head-teacher',
                 'permissions' => [
-                    'view groups',
+                    // Skill permissions
                     'view skills',
                     'create skills',
-                    'edit skills',
+                    'update skills',
                     'delete skills',
+
+                    // Group permissions
+                    'view groups',
+                    'create groups',
+                    'update groups',
+                    'delete groups',
+
+                    // students permissions
+                    'view students',
+
+                    // Profile permissions
+                    'view profiles',
+                    'create profiles',
+                    'update profiles',
+                    'delete profiles',
+
+                    // Competency permissions
+                    'view competencies',
+                    'create competencies',
+                    'update competencies',
+                    'delete competencies',
+                    
+                    // Requests permissions
+                    'view requests',
+                    'give feedback',
+
                     'view feedbacks',
                     'review feedbacks',
                     'give endorsements',
-                    'view students',
-                    'view teachers',
-                    'create groups',
-                    'create profiles',
-                    'edit profiles',
-                    'delete profiles',
-                    'edit groups',
-                    'delete groups',
-                    'add students',
-                    'create competencies',
-                    'add teachers',
                 ],
             ],
             'admin' => [
                 'name' => 'admin',
                 'permissions' => [
-                    'view groups',
+                    // Skill permissions
                     'view skills',
-                    'view feedback',
-                    'create feedback',
-                    'view endorsements',
-                    'create endorsements',
-                    'view students',
-                    'view teachers',
-                    'create profiles',
-                    'edit profiles',
-                    'delete profiles',
+                    'create skills',
+                    'update skills',
+                    'delete skills',
+
+                    // Group permissions
+                    'view groups',
                     'create groups',
-                    'edit groups',
+                    'update groups',
                     'delete groups',
-                    'add students',
-                    'add teachers',
-                    'view users',
-                    'create users',
-                    'edit users',
-                    'delete users',
-                    'view roles',
-                    'create roles',
-                    'edit roles',
-                    'delete roles',
-                    'create competencies',
+
+                    // students permissions
+                    'view students',
                     'view all students',
+
+                    // Profile permissions
+                    'view profiles',
+                    'create profiles',
+                    'update profiles',
+                    'delete profiles',
+
+                    // Competency permissions
+                    'view competencies',
+                    'create competencies',
+                    'update competencies',
+                    'delete competencies',
+                    
+                    // Requests permissions
+                    'view requests',
+                    'give feedback',
+
+                    'view feedbacks',
+                    'review feedbacks',
+                    'give endorsements',
                 ],
             ],
         ];

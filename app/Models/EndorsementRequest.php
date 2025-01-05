@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Skill;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Filters\EndorsementRequestFilter;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EndorsementRequest extends Model
 {
@@ -28,6 +31,8 @@ class EndorsementRequest extends Model
         'deleted_at',
         'updated_at',
     ];
+
+    protected $withs = ['requester', 'requestee', 'skill'];
 
     protected function casts(): array
     {
@@ -68,5 +73,10 @@ class EndorsementRequest extends Model
         ]);
 
         return $this;
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        return (new EndorsementRequestFilter($request))->filter($query);
     }
 }
