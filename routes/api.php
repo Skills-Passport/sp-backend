@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', [UserController::class, 'user']);
-    Route::get('/roles', [UserController::class, 'getRoles']);
+    Route::get('/teachers', [UserController::class, 'teachers']);
 
     Route::group(['prefix' => 'competencies'], function () {
         Route::get('/', [CompetencyController::class, 'index']);
         Route::get('/{competency}', [CompetencyController::class, 'competency']);
     });
 
-    Route::group(['prefix' => 'student', 'middleware' => 'role:student'], function () {
+    Route::group(['prefix' => 'student', 'middleware' => 'role:Student'], function () {
         Route::group(['prefix' => 'skills'], function () {
             Route::get('/', [SkillController::class, 'index']);
             Route::get('/{skill}', [SkillController::class, 'show']);
@@ -48,7 +48,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/request', [FeedbackController::class, 'requestFeedback']);
             Route::post('/{feedbackRequest}/respond', [FeedbackController::class, 'respondFeedbackRequest']);
         });
-        Route::get('/teachers', [UserController::class, 'teachers']);
         Route::put('/personal_coach', [UserController::class, 'setPersonalCoach']);
         Route::group(['prefix' => 'requests'], function () {
             Route::get('/', [UserController::class, 'requests']);
@@ -64,6 +63,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/create', [SkillController::class, 'create'])->middleware('can:create skills');
             Route::put('/{skill}', [SkillController::class, 'update'])->middleware('can:update skills');
             Route::delete('/{skill}', [SkillController::class, 'destroy'])->middleware('can:delete skills');
+        });
+
+        Route::group(['prefix' => 'users'], function () {
+            Route::group(['middleware' => 'can:view users'], function () {
+                Route::get('/', [UserController::class, 'index']);
+                Route::get('/{user}', [UserController::class, 'show']);
+            });
+            Route::post('/{user}', [UserController::class, 'update'])->middleware('can:update users');
+            Route::delete('/{user}', [UserController::class, 'destroy'])->middleware('can:delete users');
         });
 
         Route::group(['prefix' => 'groups'], function () {
@@ -133,6 +141,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/{notification}/read', [UserController::class, 'markAsRead']);
     });
 });
-
+Route::get('/roles', [UserController::class, 'getRoles']);
 Route::get('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'showEndorsementRequest']);
 Route::post('/endorsements/request/{endorsementRequest}', [EndorsementController::class, 'endorseEndorsementRequest']);

@@ -8,6 +8,7 @@ class NameQuery
 {
     public function filter(Builder $builder, string $value): Builder
     {
-        return $builder->where('name', 'like', '%'.$value.'%');
+        return $builder->where('first_name', 'like', "%{$value}%")
+            ->orWhere('last_name', 'like', "%{$value}%");
     }
 }

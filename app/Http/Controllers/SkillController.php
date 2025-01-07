@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Skill;
+use App\Models\Rating;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -63,6 +64,14 @@ class SkillController extends Controller
             return response()->json(['message' => 'Skill already added'], 400);
         }
         $request->user()->skills()->attach($skill->id);
+
+        Rating::create([
+            'user_id' => $request->user()->id,
+            'skill_id' => $skill->id,
+            'previous_rating' => 0,
+            'new_rating' => 1,
+            'approved_at' => now(),
+        ]);
 
         return response()->json(['message' => 'Skill added successfully']);
     }

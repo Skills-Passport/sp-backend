@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
                     'last_name' => 'Student',
                 ],
                 'email' => 'student@sp.nl',
-                'role' => 'student',
+                'role' => 'Student',
                 'password' => 'password',
             ],
             [
@@ -28,7 +28,7 @@ class UsersSeeder extends Seeder
                     'last_name' => 'Student2',
                 ],
                 'email' => 'std2@sp.nl',
-                'role' => 'student',
+                'role' => 'Student',
                 'password' => 'password',
             ],
             [
@@ -37,7 +37,7 @@ class UsersSeeder extends Seeder
                     'last_name' => 'Student3',
                 ],
                 'email' => 'std3@sp.nl',
-                'role' => 'student',
+                'role' => 'Student',
                 'password' => 'password',
             ],
             [
@@ -46,7 +46,7 @@ class UsersSeeder extends Seeder
                     'last_name' => 'Teacher',
                 ],
                 'email' => 'teacher@sp.nl',
-                'role' => 'teacher',
+                'role' => 'Teacher',
                 'password' => 'password',
             ],
             [
@@ -55,7 +55,7 @@ class UsersSeeder extends Seeder
                     'last_name' => 'Marit',
                 ],
                 'email' => 'marit@sp.nl',
-                'role' => 'teacher',
+                'role' => 'Teacher',
                 'password' => 'happylearning',
             ],
             [
@@ -64,7 +64,7 @@ class UsersSeeder extends Seeder
                     'last_name' => 'Mirjam',
                 ],
                 'email' => 'mirjam@sp.nl',
-                'role' => 'teacher',
+                'role' => 'Teacher',
                 'password' => 'happylearning',
             ],
             [
@@ -73,7 +73,7 @@ class UsersSeeder extends Seeder
                     'last_name' => 'Admin',
                 ],
                 'email' => 'admin@sp.nl',
-                'role' => 'admin',
+                'role' => 'Admin',
                 'password' => 'password',
             ],
             [
@@ -82,7 +82,7 @@ class UsersSeeder extends Seeder
                     'last_name' => 'HeadTeacher',
                 ],
                 'email' => 'headTeacher@sp.nl',
-                'role' => 'head-teacher',
+                'role' => 'Head-teacher',
                 'password' => 'password',
             ],
         ];

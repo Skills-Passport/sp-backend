@@ -18,6 +18,7 @@ class EndorsementRequest extends Model
     protected $table = 'endorsement_requests';
 
     protected $fillable = [
+        'title',
         'requester_id',
         'requestee_id',
         'skill_id',

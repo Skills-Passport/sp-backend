@@ -7,16 +7,16 @@ use Illuminate\Contracts\Validation\Rule;
 
 class HasRole implements Rule
 {
-    private $role;
+    private $roles;
 
     /**
      * Create a new rule instance.
      *
-     * @param  string  $role
+     * @param  array  $roles
      */
-    public function __construct($role)
+    public function __construct($roles)
     {
-        $this->role = $role;
+        $this->roles = $roles;
     }
 
     /**
@@ -30,7 +30,7 @@ class HasRole implements Rule
     {
         $user = User::find($value);
 
-        return $user && $user->hasRole($this->role);
+        return $user && $user->hasAnyRole($this->roles);
     }
 
     /**
@@ -40,6 +40,6 @@ class HasRole implements Rule
      */
     public function message()
     {
-        return "The selected user does not have the '{$this->role}' role.";
+        return "The selected user does not have the required role.";
     }
 }

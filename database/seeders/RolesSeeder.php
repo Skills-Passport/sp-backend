@@ -12,7 +12,7 @@ class RolesSeeder extends Seeder
     {
         $roles = [
             'student' => [
-                'name' => 'student',
+                'name' => 'Student',
                 'permissions' => [
                     'view groups',
                     'view skills',
@@ -23,7 +23,7 @@ class RolesSeeder extends Seeder
                 ],
             ],
             'teacher' => [
-                'name' => 'teacher',
+                'name' => 'Teacher',
                 'permissions' => [
                     // Skill permissions
                     'view skills',
@@ -63,7 +63,7 @@ class RolesSeeder extends Seeder
                 ],
             ],
             'head-teacher' => [
-                'name' => 'head-teacher',
+                'name' => 'Head-teacher',
                 'permissions' => [
                     // Skill permissions
                     'view skills',
@@ -102,7 +102,7 @@ class RolesSeeder extends Seeder
                 ],
             ],
             'admin' => [
-                'name' => 'admin',
+                'name' => 'Admin',
                 'permissions' => [
                     // Skill permissions
                     'view skills',
@@ -135,6 +135,11 @@ class RolesSeeder extends Seeder
                     // Requests permissions
                     'view requests',
                     'give feedback',
+
+                    // users permissions
+                    'view users',
+                    'update users',
+                    'delete users',
 
                     'view feedbacks',
                     'review feedbacks',
