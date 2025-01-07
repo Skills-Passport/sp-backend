@@ -32,9 +32,7 @@ class Skill extends Model
         'timelines',
     ];
 
-    protected $appends = [
-        'ratings'
-    ];
+    protected $with = ['ratings'];
 
     protected static function booted(): void
     {

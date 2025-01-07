@@ -14,6 +14,7 @@ class EndorsementRequestResource extends JsonResource
             'requester' => $this->requester,
             'skill' => new SkillResource($this->whenLoaded('skill')),
             'title' => $this->title,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }

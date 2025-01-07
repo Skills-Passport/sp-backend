@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use App\Models\EndorsementRequest;
 use Spatie\Permission\Models\Role;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\FeedbackRequestResource;
 use App\Http\Resources\EndorsementRequestResource;
@@ -16,6 +17,33 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
 {
+
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $users = User::with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page') ?? 10);
+
+        return UserResource::collection($users);
+    }
+
+    public function show(Request $request, User $user): UserResource
+    {
+        return new UserResource($user->load($this->loadRelations($request)));
+    }
+
+    public function update(UpdateUserRequest $request, User $user): UserResource
+    {
+        $user->update($request->all());
+
+        return new UserResource($user->load($this->loadRelations($request)));
+    }
+
+    public function destroy(User $user): \Illuminate\Http\JsonResponse
+    {
+        $user->delete();
+
+        return response()->json(['message' => 'User deleted', 'status' => 'success']);
+    }
+
     public function user(Request $request): UserResource
     {
         return new UserResource($request->user()->load($this->loadRelations($request)));
@@ -25,10 +53,10 @@ class UserController extends Controller
     {
         $user = $request->user();
         if ($user->hasPermissionTo('view all students')) {
-            $students = User::role('student')->with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page') ?? 10);
+            $students = User::role('Student')->with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page') ?? 10);
         } else {
             $groups = $user->groups;
-            $students = User::role('student')->whereHas('groups', function ($query) use ($groups) {
+            $students = User::role('Student')->whereHas('groups', function ($query) use ($groups) {
                 $query->whereIn('group_id', $groups->pluck('id'));
             })->with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page') ?? 10);
         }
@@ -83,9 +111,16 @@ class UserController extends Controller
         return NotificationResource::collection($notifications);
     }
 
+    public function markAsRead($notification): \Illuminate\Http\JsonResponse
+    {
+        $notification->markAsRead();
+
+        return response()->json(['message' => 'Notification marked as read', 'status' => 'success']);
+    }
+
     public function teachers(): AnonymousResourceCollection
     {
-        $teachers = User::role('teacher')->get();
+        $teachers = User::role(['Teacher', 'Head-teacher'])->with($this->loadRelations(request()))->filter(request())->paginate(request()->query('per_page') ?? 10);
 
         return UserResource::collection($teachers);
     }
@@ -93,7 +128,7 @@ class UserController extends Controller
     public function setPersonalCoach(Request $request): \Illuminate\Http\JsonResponse
     {
         $request->validate([
-            'personal_coach_id' => ['required', 'exists:users,id', new HasRole('teacher')],
+            'personal_coach_id' => ['required', 'exists:users,id', new HasRole(['Teacher', 'Head-teacher'])]
         ]);
 
         $request->user()->personal_coach = $request->personal_coach_id;

@@ -142,22 +142,22 @@ class User extends Authenticatable
 
     public function getIsStudentAttribute()
     {
-        return $this->hasRole('student');
+        return $this->hasRole('Student');
     }
 
     public function getIsEducatorAttribute()
     {
-        return $this->hasAnyRole(['admin', 'head-teacher', 'teacher']);
+        return $this->hasAnyRole(['Admin', 'Head-teacher', 'Teacher']);
     }
 
     public function getIsAdminAttribute()
     {
-        return $this->hasRole('admin');
+        return $this->hasRole('Admin');
     }
 
     public function getIsHeadTeacherAttribute()
     {
-        return $this->hasRole('head-teacher');
+        return $this->hasRole('Head-teacher');
     }
 
     public function hasPersonalCoach()

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('group_members', function (Blueprint $table) {
             $table->foreignUuid('group_id')->constrained('groups');
             $table->foreignUuid('user_id')->constrained('users');
-            $table->string('role')->default('student');
+            $table->string('role')->default('Student');
             $table->timestamps();
             $table->softDeletes();
             $table->primary(['group_id', 'user_id']);

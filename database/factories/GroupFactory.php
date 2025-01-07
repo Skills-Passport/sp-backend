@@ -22,7 +22,7 @@ class GroupFactory extends Factory
         return [
             'name' => "Fake Group #{$this->faker->unique()->numberBetween(1, 100)}",
             'desc' => $this->faker->sentence,
-            'created_by' => User::role('teacher')->inRandomOrder()->first()->id,
+            'created_by' => User::role('Teacher')->inRandomOrder()->first()->id,
         ];
     }
 
@@ -33,7 +33,7 @@ class GroupFactory extends Factory
             $group->skills()->attach($skills);
 
             $students = User::where('id', '!=', $group->created_by)
-                ->role('student')
+                ->role('Student')
                 ->inRandomOrder()
                 ->limit(random_int(1, 5))
                 ->get();
