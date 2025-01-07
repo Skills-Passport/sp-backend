@@ -83,4 +83,13 @@ class FeedbackController extends Controller
 
         return response()->json(['message' => 'Feedback sent successfully']);
     }
+
+    public function studentSkillFeedbacks(Request $request, User $student, Skill $skill): AnonymousResourceCollection
+    {
+        $feedbacks = $student->feedbacks()->filter($request)->with($this->loadRelations($request))
+            ->where('skill_id', $skill->id)
+            ->paginate($request->query('per_page', 10));
+
+        return FeedbackResource::collection($feedbacks);
+    }
 }

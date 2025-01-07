@@ -13,7 +13,7 @@ class Rating extends Model
 
     protected $table = 'ratings';
 
-    protected $fillable = ['user_id', 'skill_id', 'previous_rating', 'new_rating', 'approved_at', 'approved_by'];
+    protected $fillable = ['user_id', 'skill_id', 'new_rating', 'approved_at', 'approved_by'];
 
     protected $withs = ['user', 'skill', 'approvedBy', 'createdBy'];
 

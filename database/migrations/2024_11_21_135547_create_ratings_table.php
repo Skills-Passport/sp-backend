@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users');
             $table->foreignUuid('skill_id')->constrained('skills');
-            $table->integer('previous_rating');
             $table->integer('new_rating');
             $table->timestamp('approved_at')->nullable();
             $table->foreignUuid('approved_by')->nullable()->constrained('users');

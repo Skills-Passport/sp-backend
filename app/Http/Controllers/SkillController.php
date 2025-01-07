@@ -68,7 +68,6 @@ class SkillController extends Controller
         Rating::create([
             'user_id' => $request->user()->id,
             'skill_id' => $skill->id,
-            'previous_rating' => 0,
             'new_rating' => 1,
             'approved_at' => now(),
         ]);
@@ -108,7 +107,6 @@ class SkillController extends Controller
 
         $user->ratings()->create([
             'skill_id' => $skill->id,
-            'previous_rating' => $userSkillPivot->last_rating,
             'new_rating' => $request->rating,
         ]);
         Feedback::create([

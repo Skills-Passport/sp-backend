@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Skill;
+use App\Models\Endorsement;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Models\EndorsementRequest;
 use App\Events\EndorsementRequested;
+use App\Http\Resources\EndorsementResource;
 use App\Events\ExternalEndorsementRequested;
 use App\Events\ExternalEndorsementRequestFilled;
 use App\Http\Requests\RequestEndorsementRequest;
+use App\Http\Requests\RespondEndorsementRequest;
 use App\Http\Resources\EndorsementRequestResource;
-use App\Http\Resources\EndorsementResource;
-use App\Models\Endorsement;
-use App\Models\EndorsementRequest;
-use App\Models\Skill;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Notifications\EndorsementReceivedNotification;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Carbon;
 
 class EndorsementController extends Controller
 {
@@ -36,7 +38,7 @@ class EndorsementController extends Controller
 
     public function recentEndorsements(Request $request, User $user = null)
     {
-        if (! $user) {
+        if (!$user) {
             $user = auth()->user();
         }
         $endorsements = $user->endorsements()->filter($request)->with($this->loadRelations($request))
@@ -49,20 +51,17 @@ class EndorsementController extends Controller
 
     public function requestEndorsement(RequestEndorsementRequest $request)
     {
-        if (! $request->user()->hasPersonalCoach()) {
-            return response()->json(['message' => 'You need to have a personal coach to request an endorsement', 'error' => 'no_personal_coach'], 403);
-        }
 
         $skill = Skill::find($request->skill);
         $requestee = User::find($request->requestee);
-        $requestee_email = ! $requestee ? $request->requestee_email : null;
-        if (! $request->user()->hasPersonalCoach() && $requestee_email) {
+        $requestee_email = !$requestee ? $request->requestee_email : null;
+        if (!$request->user()->hasPersonalCoach() && $requestee_email) {
             return response()->json(['message' => 'You need to have a personal coach to request an endorsement', 'error' => 'no_personal_coach'], 403);
         }
 
         $title = $request->title;
 
-        if (! $requestee_email) {
+        if (!$requestee_email) {
             event(new EndorsementRequested($request->user(), $requestee, $skill, $title));
         } else {
             event(new ExternalEndorsementRequested($request->user(), $requestee_email, $skill, $title));
@@ -96,4 +95,14 @@ class EndorsementController extends Controller
 
         event(new ExternalEndorsementRequestFilled($endorsementRequest, $data));
     }
+
+    public function respondEndorsementRequest(RespondEndorsementRequest $request, EndorsementRequest $endorsementRequest) : \Illuminate\Http\JsonResponse
+    {
+        $endormsnet = $endorsementRequest->respond($request->only(['title', 'rating', 'created_by', 'content', 'skill_id', 'user_id','approved_at']));
+
+        $endormsnet->user->notify(new EndorsementReceivedNotification($endormsnet));
+
+        return response()->json(['message' => 'Endorsement submitted successfully']);
+    }
+
 }
