@@ -7,6 +7,7 @@ use App\Rules\HasRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\EndorsementRequest;
+use Illuminate\Notifications\DatabaseNotification as Notification;
 use Spatie\Permission\Models\Role;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\UpdateUserRequest;
@@ -111,7 +112,7 @@ class UserController extends Controller
         return NotificationResource::collection($notifications);
     }
 
-    public function markAsRead($notification): \Illuminate\Http\JsonResponse
+    public function markAsRead(Notification $notification): \Illuminate\Http\JsonResponse
     {
         $notification->markAsRead();
 

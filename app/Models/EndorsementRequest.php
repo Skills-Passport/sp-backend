@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Skill;
+use App\Models\Rating;
 use Illuminate\Database\Eloquent\Model;
 use App\Filters\EndorsementRequestFilter;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -43,7 +44,12 @@ class EndorsementRequest extends Model
             'updated_at' => 'datetime:Y-m-d H:i:s',
             'filled_at' => 'datetime:Y-m-d H:i:s',
         ];
-    }
+    }   
+
+    public const STATUS_APPROVED = 'approved';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_FILLED = 'filled';
+    public const STATUS_REJECTED = 'rejected';
 
     public function requester(): BelongsTo
     {
@@ -74,6 +80,25 @@ class EndorsementRequest extends Model
         ]);
 
         return $this;
+    }
+
+    public function respond(array $data): Endorsement
+    {
+        $endorsement = Endorsement::create($data);
+
+        $this->update([
+            'status' => $this::STATUS_APPROVED,
+        ]);
+
+        Rating::create([
+            'rating' => $data['rating'],
+            'skill_id' => $data['skill_id'],
+            'user_id' => $data['user_id'],
+            'new_rating' => 1,
+            'approved_at' => now(),
+        ]);
+
+        return $endorsement;
     }
 
     public function scopeFilter($query, $request)

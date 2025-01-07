@@ -93,6 +93,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
                 Route::get('/feedbacks/recent', [FeedbackController::class, 'recentFeedbacks']);
                 Route::get('/{skill}', [SkillController::class, 'studentSkill']);
                 Route::get('/{skill}/timeline', [SkillController::class, 'StudentSkillTimeline']);
+                Route::get('/skills/{skill}/feedbacks', [FeedbackController::class, 'studentSkillFeedbacks']);
             });
         });
 
@@ -121,6 +122,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
                 Route::get('/feedbacks', [UserController::class, 'requests']);
                 Route::get('/endorsements', [UserController::class, 'endorsementRequests']);
                 Route::get('/count', [UserController::class, 'requestsCount']);
+                Route::post('/endorsement/{endorsementRequest}/respond', [EndorsementController::class, 'respondEndorsementRequest']);
+                Route::post('/feedbacks/{feedbackRequest}/respond', [FeedbackController::class, 'respondFeedbackRequest']);
             });
         });
     });
