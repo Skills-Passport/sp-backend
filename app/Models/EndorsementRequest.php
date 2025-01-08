@@ -94,7 +94,7 @@ class EndorsementRequest extends Model
             'rating' => $data['rating'],
             'skill_id' => $data['skill_id'],
             'user_id' => $data['user_id'],
-            'new_rating' => 1,
+            'new_rating' => $data['rating'],
             'approved_at' => now(),
         ]);
 
