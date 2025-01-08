@@ -20,7 +20,7 @@ class UsersSeeder extends Seeder
                 ],
                 'email' => 'student@sp.nl',
                 'role' => 'Student',
-                'password' => 'VwDaY01EY0ilc9',
+                'password' => 'password',
             ],
             [
                 'name' => [
@@ -47,7 +47,7 @@ class UsersSeeder extends Seeder
                 ],
                 'email' => 'teacher@sp.nl',
                 'role' => 'Teacher',
-                'password' => '5lDzZR8BddgWIM',
+                'password' => 'password',
             ],
             [
                 'name' => [
@@ -56,7 +56,7 @@ class UsersSeeder extends Seeder
                 ],
                 'email' => 'marit@sp.nl',
                 'role' => 'Teacher',
-                'password' => 'mNY3z7Xuzoi3Qo',
+                'password' => 'password',
             ],
             [
                 'name' => [
@@ -65,7 +65,7 @@ class UsersSeeder extends Seeder
                 ],
                 'email' => 'mirjam@sp.nl',
                 'role' => 'Teacher',
-                'password' => '8WSwIVKwIzuyr5',
+                'password' => 'password',
             ],
             [
                 'name' => [
@@ -74,7 +74,7 @@ class UsersSeeder extends Seeder
                 ],
                 'email' => 'admin@sp.nl',
                 'role' => 'Admin',
-                'password' => '9sQAg13ZY0CKm1',
+                'password' => 'password',
             ],
             [
                 'name' => [
@@ -83,7 +83,7 @@ class UsersSeeder extends Seeder
                 ],
                 'email' => 'headTeacher@sp.nl',
                 'role' => 'Head-teacher',
-                'password' => '0aY6V3HxkLN61T',
+                'password' => 'password',
             ],
         ];
 
