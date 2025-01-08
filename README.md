@@ -200,11 +200,6 @@ storage/logs/laravel.log
 ```
 
 The log file contains detailed information about any errors or unexpected behavior in the queue processing.
-## Appendix
-
-Any additional information goes here
-
-
 ## API Reference
 
 # Student Environment API Documentation
