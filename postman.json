@@ -1,0 +1,2837 @@
+{
+	"info": {
+		"_postman_id": "f7721933-ec59-4944-bdc1-7a9f12ccb15c",
+		"name": "Sp - Sanctum",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31392087",
+		"_collection_link": "https://interstellar-meadow-676017.postman.co/workspace/SkillsPassport-API~4e1bc5b7-33c3-4424-84c5-0e4ccc2a41af/collection/31392087-f7721933-ec59-4944-bdc1-7a9f12ccb15c?action=share&source=collection_link&creator=31392087"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{xsrf-cookie}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "admin@sp.nl",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "teacher@sp.nl",
+									"description": "\n",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "student@sp.nl",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{xsrf-cookie}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{xsrf-cookie}}",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "{{host}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "Mr",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "student@app.test3",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "student",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Student Environment",
+			"item": [
+				{
+					"name": "Skills",
+					"item": [
+						{
+							"name": "Skills",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/skills?with=ratings&is_added=true",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"skills"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "ratings"
+										},
+										{
+											"key": "is_added",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Skill",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/skills/9de349af-8edb-43f3-a94a-c2d5dcf8b389?with=ratings",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"skills",
+										"9de349af-8edb-43f3-a94a-c2d5dcf8b389"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "ratings"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Skill Feedbacks",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/skills/9db30574-fe99-4901-940c-fb531dfddc33/feedbacks?with=skill,createdBy",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"skills",
+										"9db30574-fe99-4901-940c-fb531dfddc33",
+										"feedbacks"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "skill,createdBy"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Skill timeline",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/skills/9de45017-ed81-41f6-bd55-33bfaad39910/timeline?per_page=20",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"skills",
+										"9de45017-ed81-41f6-bd55-33bfaad39910",
+										"timeline"
+									],
+									"query": [
+										{
+											"key": "per_page",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "endorsements",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/skills/9d92e9e4-1c7f-4adf-9fa2-6d5abb610153/endorsements",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"skills",
+										"9d92e9e4-1c7f-4adf-9fa2-6d5abb610153",
+										"endorsements"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "test internal request",
+											"type": "text"
+										},
+										{
+											"key": "skill",
+											"value": "9da50b39-598d-438e-972d-3e0494dd38e0",
+											"type": "text"
+										},
+										{
+											"key": "requestee",
+											"value": "9da50b12-3be0-4e84-81db-f4e31840860b",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/student/skills/9db70f85-4219-4fe6-bd34-f435452aa855/add",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"skills",
+										"9db70f85-4219-4fe6-bd34-f435452aa855",
+										"add"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Groups",
+					"item": [
+						{
+							"name": "Groups",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/groups?with=students,skills&is_archived=false",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"groups"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "students,skills"
+										},
+										{
+											"key": "is_archived",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "My Groups",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `\r",
+											"<style type=\"text/css\">\r",
+											"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+											"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+											"    .tftable tr {background-color:#ffffff;}\r",
+											"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+											"    .tftable tr:hover {background-color:#e0ffff;}\r",
+											"</style>\r",
+											"\r",
+											"<table class=\"tftable\" border=\"1\">\r",
+											"    <tr>\r",
+											"        <th>ID</th>\r",
+											"        <th>Name</th>\r",
+											"        <th>Description</th>\r",
+											"        <th>Created At</th>\r",
+											"    </tr>\r",
+											"    \r",
+											"    {{#each response.data}}\r",
+											"        <tr>\r",
+											"            <td>{{id}}</td>\r",
+											"            <td>{{name}}</td>\r",
+											"            <td>{{desc}}</td>\r",
+											"            <td>{{created_at}}</td>\r",
+											"        </tr>\r",
+											"    {{/each}}\r",
+											"</table>\r",
+											"`;\r",
+											"\r",
+											"function constructVisualizerPayload() {\r",
+											"    return { response: pm.response.json() }\r",
+											"}\r",
+											"\r",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/groups?with=students,skills",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"groups"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "students,skills"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Skills",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/groups/9db30574-d379-41a5-8d07-864088dfbd15/skills",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"groups",
+										"9db30574-d379-41a5-8d07-864088dfbd15",
+										"skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Group",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/groups/9db7114d-e4b1-4855-b057-56b5103ea997",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"groups",
+										"9db7114d-e4b1-4855-b057-56b5103ea997"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "join",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/groups/9db30574-d379-41a5-8d07-864088dfbd15/join",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"groups",
+										"9db30574-d379-41a5-8d07-864088dfbd15",
+										"join"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "leave",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/groups/9db30574-d379-41a5-8d07-864088dfbd15/leave",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"groups",
+										"9db30574-d379-41a5-8d07-864088dfbd15",
+										"leave"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Profiles",
+					"item": [
+						{
+							"name": "Profiles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/profiles?with=competencies",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"profiles"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "competencies"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/profiles/9d92d4a6-71ad-4e21-a0ca-cd0327235b79?with=competencies",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"profiles",
+										"9d92d4a6-71ad-4e21-a0ca-cd0327235b79"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "competencies"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Endorsements",
+					"item": [
+						{
+							"name": "Profile",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/profiles/9d92d4a6-71ad-4e21-a0ca-cd0327235b79?with=competencies",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"profiles",
+										"9d92d4a6-71ad-4e21-a0ca-cd0327235b79"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "competencies"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Recent",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/endorsements/recent?with=skill&competency=9db71d72-300b-49b5-8daa-7c5f58b56541",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"endorsements",
+										"recent"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "skill"
+										},
+										{
+											"key": "competency",
+											"value": "9db71d72-300b-49b5-8daa-7c5f58b56541"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Request",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "test internal request",
+											"type": "text"
+										},
+										{
+											"key": "skill",
+											"value": "9db71d78-370b-432f-b942-ddbc993c75d7",
+											"type": "text"
+										},
+										{
+											"key": "requestee_email",
+											"value": "m7madsh206@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "requestee",
+											"value": "9da50b12-3be0-4e84-81db-f4e31840860b",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/student/endorsements/request",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"endorsements",
+										"request"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Competencies",
+					"item": [
+						{
+							"name": "Competency",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/competencies/9da2d82b-6f87-4838-ae95-485540338aff?with=skills&profile=9db71d72-2a98-4fef-9b64-75783ea36aab",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"competencies",
+										"9da2d82b-6f87-4838-ae95-485540338aff"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "skills"
+										},
+										{
+											"key": "profile",
+											"value": "9db71d72-2a98-4fef-9b64-75783ea36aab"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "competencies",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/competencies?with=profiles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"competencies"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "profiles"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Personal coach",
+					"item": [
+						{
+							"name": "Teachers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/student/teachers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"teachers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set personal coach",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "personal_coach_id",
+											"value": "9db70dbb-f50e-4e51-a6c0-239e962eb2ed",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/student/personal_coach",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"personal_coach"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Feedbacks",
+					"item": [
+						{
+							"name": "Request",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "test internal request",
+											"type": "text"
+										},
+										{
+											"key": "skill_id",
+											"value": "9db71d78-37a3-49c0-91db-e27f94a8ae1b",
+											"type": "text"
+										},
+										{
+											"key": "group_id",
+											"value": "9db71f1f-e96e-48c7-94e6-e1529baa7a6f",
+											"type": "text"
+										},
+										{
+											"key": "user_id",
+											"value": "9db71d6f-ee60-40e3-b2a4-60afa99d56de",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/student/feedbacks/request",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"student",
+										"feedbacks",
+										"request"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Competencies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "{{host}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/competencies?with=skills&count",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"competencies"
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "skills"
+								},
+								{
+									"key": "count",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "{{host}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/student/requests?with=requester,skill,group",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"student",
+								"requests"
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "requester,skill,group"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Educator Environment",
+			"item": [
+				{
+					"name": "Skills",
+					"item": [
+						{
+							"name": "Skills",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/skills",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"skills"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Skill",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/skills/9dd03cef-696b-47e5-82bd-5fbb206f3661",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"skills",
+										"9dd03cef-696b-47e5-82bd-5fbb206f3661"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Skill Timeline",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/students/9de44fe8-78e3-4591-9ab4-ef591367ea08/9de45017-ed81-41f6-bd55-33bfaad39910/timeline",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"students",
+										"9de44fe8-78e3-4591-9ab4-ef591367ea08",
+										"9de45017-ed81-41f6-bd55-33bfaad39910",
+										"timeline"
+									]
+								},
+								"description": "api/educator/students/{student_id}/{skill_id}/timeline"
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "test123"
+										},
+										{
+											"key": "desc",
+											"value": "desc"
+										},
+										{
+											"key": "competency_id",
+											"value": "9de03670-88b5-4785-bdc7-33f7dbdf81ee"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/educator/skills/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"skills",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/skills/9dcdab7a-d3bc-4fa6-87d6-7ebf1603b0b7?title=test-22asd12312&desc=descasdads&competency_id=9dcdaacf-7f3b-4ece-ae14-eef6ac6c8e8f",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"skills",
+										"9dcdab7a-d3bc-4fa6-87d6-7ebf1603b0b7"
+									],
+									"query": [
+										{
+											"key": "title",
+											"value": "test-22asd12312"
+										},
+										{
+											"key": "desc",
+											"value": "descasdads"
+										},
+										{
+											"key": "competency_id",
+											"value": "9dcdaacf-7f3b-4ece-ae14-eef6ac6c8e8f"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/skills/9dcdab7a-d3bc-4fa6-87d6-7ebf1603b0b7",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"skills",
+										"9dcdab7a-d3bc-4fa6-87d6-7ebf1603b0b7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Groups",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "test-5"
+										},
+										{
+											"key": "desc",
+											"value": "desc"
+										},
+										{
+											"key": "skills[]",
+											"value": "9dcd62ea-e078-47ea-a014-8313b26828a6"
+										},
+										{
+											"key": "skills[]",
+											"value": "9dcd62ea-dfe3-4cb8-b015-30c7635b30ab",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "teachers[]",
+											"value": "9dcd48bd-757e-467b-a8f3-359b3b982b76"
+										},
+										{
+											"key": "students[]",
+											"value": "9dcd48bc-2263-4b81-9210-d2dcfffd876c",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "ac",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/educator/groups/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"groups",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "students",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/educator/groups/9dd03cef-f0ed-4d5e-bc57-efc2b449df5c/students?with=skills",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"groups",
+										"9dd03cef-f0ed-4d5e-bc57-efc2b449df5c",
+										"students"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "skills"
+										},
+										{
+											"key": "skills[]",
+											"value": "9dd03cef-f0ed-4d5e-bc57-efc2b449df5c",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "test-update-7",
+											"type": "text"
+										},
+										{
+											"key": "desc",
+											"value": "desc",
+											"type": "text"
+										},
+										{
+											"key": "skills[]",
+											"value": "9dcd62ea-e078-47ea-a014-8313b26828a6",
+											"type": "text"
+										},
+										{
+											"key": "skills[]",
+											"value": "9dcd62ea-dfe3-4cb8-b015-30c7635b30ab",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "teachers[]",
+											"value": "9dcd48bd-757e-467b-a8f3-359b3b982b76",
+											"type": "text"
+										},
+										{
+											"key": "students[]",
+											"value": "9dcd48bc-2263-4b81-9210-d2dcfffd876c",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/educator/groups/9dcd8527-7ddf-4ede-9745-e65adfa816bc",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"groups",
+										"9dcd8527-7ddf-4ede-9745-e65adfa816bc"
+									],
+									"query": [
+										{
+											"key": "ac",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/groups/9dcd8527-7ddf-4ede-9745-e65adfa816bc",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"groups",
+										"9dcd8527-7ddf-4ede-9745-e65adfa816bc"
+									],
+									"query": [
+										{
+											"key": "ac",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Students",
+					"item": [
+						{
+							"name": "students",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/students?with=groups",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"students"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "groups"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "student",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/students/9de0366e-d600-4dcf-99d2-edaf177c5ba6",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"students",
+										"9de0366e-d600-4dcf-99d2-edaf177c5ba6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Skill's Feedbacks",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/students/9de923db-e7d6-49d3-b3ac-cd9ec15e7658/skills/9de923f4-777f-4ae3-abdb-ecbe83caff8b/feedbacks",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"students",
+										"9de923db-e7d6-49d3-b3ac-cd9ec15e7658",
+										"skills",
+										"9de923f4-777f-4ae3-abdb-ecbe83caff8b",
+										"feedbacks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "student Skill",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/students/9de0366e-d600-4dcf-99d2-edaf177c5ba6/9de03694-ea4b-44e8-a1ae-ead8e6b88bc3?with=groups",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"students",
+										"9de0366e-d600-4dcf-99d2-edaf177c5ba6",
+										"9de03694-ea4b-44e8-a1ae-ead8e6b88bc3"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "groups"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Recent endorsements",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/students/9de0366e-9070-4bb6-877f-d113418a97d5/endorsements/recent",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"students",
+										"9de0366e-9070-4bb6-877f-d113418a97d5",
+										"endorsements",
+										"recent"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Recent Feedbacks",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/students/9de0366e-9070-4bb6-877f-d113418a97d5/feedbacks/recent",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"students",
+										"9de0366e-9070-4bb6-877f-d113418a97d5",
+										"feedbacks",
+										"recent"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Profiles",
+					"item": [
+						{
+							"name": "Profiles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/profiles?with=competencies",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"profiles"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "competencies"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/profiles/9de25e88-5dc8-45a9-b7a5-4b638613ac00",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"profiles",
+										"9de25e88-5dc8-45a9-b7a5-4b638613ac00"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "icon",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "title",
+											"value": "12s12",
+											"type": "text"
+										},
+										{
+											"key": "desc",
+											"value": "desc"
+										},
+										{
+											"key": "color",
+											"value": "#123123",
+											"type": "text"
+										},
+										{
+											"key": "competencies[]",
+											"value": "9dd014fa-9e33-4bcf-ad8a-47851a730f93",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "competencies[]",
+											"value": "9dd014fa-a03a-40b9-895e-d58ad1081a59",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/educator/profiles/9de25e88-5dc8-45a9-b7a5-4b638613ac00",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"profiles",
+										"9de25e88-5dc8-45a9-b7a5-4b638613ac00"
+									],
+									"query": [
+										{
+											"key": "ac",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/profiles/9dd02d7d-daa9-48ba-8c4e-9d3678f42b34",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"profiles",
+										"9dd02d7d-daa9-48ba-8c4e-9d3678f42b34"
+									],
+									"query": [
+										{
+											"key": "ac",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "dadsasd",
+											"type": "text"
+										},
+										{
+											"key": "desc",
+											"value": "desc"
+										},
+										{
+											"key": "icon",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "color",
+											"value": "#123123",
+											"type": "text"
+										},
+										{
+											"key": "competencies[]",
+											"value": "9dd014fa-9e33-4bcf-ad8a-47851a730f93",
+											"type": "text"
+										},
+										{
+											"key": "competencies[]",
+											"value": "9dd014fa-a03a-40b9-895e-d58ad1081a59",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/educator/profiles/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"profiles",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "competencies",
+					"item": [
+						{
+							"name": "competencies",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/competencies",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"competencies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "competency",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/competencies/9de25e88-632f-4b81-a52f-68bfb5cc0f24",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"competencies",
+										"9de25e88-632f-4b81-a52f-68bfb5cc0f24"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "123123asd22asd",
+											"type": "text"
+										},
+										{
+											"key": "desc",
+											"value": "desc"
+										},
+										{
+											"key": "overview",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "profiles[]",
+											"value": "9dd03caf-8048-46f3-bb9a-79b670daa750",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "profiles[]",
+											"value": "9dd03caf-810c-4bab-95ac-dad9a4bacbd6",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "skills[]",
+											"value": "9dd03cef-696b-47e5-82bd-5fbb206f3661",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/educator/competencies/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"competencies",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "1223",
+											"type": "text"
+										},
+										{
+											"key": "desc",
+											"value": "adasd"
+										},
+										{
+											"key": "overview",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "profiles[]",
+											"value": "9dd03caf-8048-46f3-bb9a-79b670daa750",
+											"type": "text"
+										},
+										{
+											"key": "profiles[]",
+											"value": "9dd03caf-810c-4bab-95ac-dad9a4bacbd6",
+											"type": "text"
+										},
+										{
+											"key": "skills[]",
+											"value": "9dd03cef-696b-47e5-82bd-5fbb206f3661",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/educator/competencies/9dd0409d-0a33-47cb-bf59-f83c23868f76",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"competencies",
+										"9dd0409d-0a33-47cb-bf59-f83c23868f76"
+									],
+									"query": [
+										{
+											"key": "ac",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"description": "\n",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{xsrf-cookie}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/competencies/9dd0409d-0a33-47cb-bf59-f83c23868f76",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"competencies",
+										"9dd0409d-0a33-47cb-bf59-f83c23868f76"
+									],
+									"query": [
+										{
+											"key": "ac",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Requests",
+					"item": [
+						{
+							"name": "Feedbacks",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/requests/feedbacks?with=group,skill&is_archived=true",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"requests",
+										"feedbacks"
+									],
+									"query": [
+										{
+											"key": "with",
+											"value": "group,skill"
+										},
+										{
+											"key": "is_archived",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Endorsements",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/requests/endorsements?is_archived=trueasd&type=review",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"requests",
+										"endorsements"
+									],
+									"query": [
+										{
+											"key": "is_archived",
+											"value": "trueasd"
+										},
+										{
+											"key": "type",
+											"value": "review"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Count",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/requests/count",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"requests",
+										"count"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "{{host}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/educator/users?roles=4",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"educator",
+										"users"
+									],
+									"query": [
+										{
+											"key": "roles",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "notifications",
+			"item": [
+				{
+					"name": "notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "{{host}}",
+								"description": "\n",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notifications"
+							],
+							"query": [
+								{
+									"key": "ac",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "{{host}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/995135aa-9242-49aa-a5ba-a9f900a4df92/read",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								"995135aa-9242-49aa-a5ba-a9f900a4df92",
+								"read"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Referer",
+						"value": "{{host}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/user/?with=roles,personalCoach",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						""
+					],
+					"query": [
+						{
+							"key": "with",
+							"value": "roles,personalCoach"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Roles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Referer",
+						"value": "{{host}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/roles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teachers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Referer",
+						"value": "{{host}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/roles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest({",
+					"    url: pm.collectionVariables.get('base_url')+'/sanctum/csrf-cookie',",
+					"    method: 'GET'",
+					"}, function (error, response, {cookies}) {",
+					"    if (!error){",
+					"        pm.collectionVariables.set('xsrf-cookie', cookies.get('XSRF-TOKEN'))",
+					"    }",
+					"})"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "localhost:3000"
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		},
+		{
+			"key": "xsrf-cookie",
+			"value": ""
+		}
+	]
+}
