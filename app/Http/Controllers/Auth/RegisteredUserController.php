@@ -25,14 +25,14 @@ class RegisteredUserController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'role_id' => [
-                'required', 
+                'required',
                 'exists:roles,id',
                 function ($attribute, $value, $fail) {
                     $adminRoleId = Role::where('name', 'Admin')->value('id');
                     if ($value == $adminRoleId) {
                         $fail('The selected role is not allowed.');
                     }
-                }
+                },
             ],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],

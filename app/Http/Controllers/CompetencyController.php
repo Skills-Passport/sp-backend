@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Skill;
-use App\Models\Competency;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use App\Http\Resources\CompetencyResource;
 use App\Http\Requests\CreateUpdateCompetencyRequest;
+use App\Http\Resources\CompetencyResource;
+use App\Models\Competency;
+use App\Models\Skill;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
 
 class CompetencyController extends Controller
 {
@@ -68,6 +68,7 @@ class CompetencyController extends Controller
             return new CompetencyResource($competency->load(['skills', 'profiles']));
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Failed to create competency',
                 'error' => $e->getMessage(),
@@ -90,6 +91,7 @@ class CompetencyController extends Controller
             return new CompetencyResource($competency->load(['skills', 'profiles']));
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Failed to update competency',
                 'error' => $e->getMessage(),

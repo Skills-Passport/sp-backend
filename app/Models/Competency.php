@@ -27,6 +27,7 @@ class Competency extends Model
     ];
 
     protected $withs = ['createdBy', 'skills', 'profiles'];
+
     protected static function booted(): void
     {
         static::creating(function ($competency) {
@@ -35,6 +36,7 @@ class Competency extends Model
             }
         });
     }
+
     protected function casts(): array
     {
         return [
@@ -76,12 +78,12 @@ class Competency extends Model
         return $query->whereHas('skills.users', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->with([
-                    'skills' => function ($query) use ($userId) {
-                        $query->whereHas('users', function ($query) use ($userId) {
-                            $query->where('user_id', $userId);
-                        });
-                    }
-                ]);
+            'skills' => function ($query) use ($userId) {
+                $query->whereHas('users', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                });
+            },
+        ]);
     }
 
     public function loadUserSkills($userId)

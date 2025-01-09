@@ -26,7 +26,6 @@ class Endorsement extends Model
         'created_by',
         'created_by_email',
         'user_id',
-        'approved_at',
     ];
 
     protected $hidden = [
@@ -40,7 +39,6 @@ class Endorsement extends Model
             'deleted_at' => 'datetime',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
-            'approved_at' => 'datetime',
         ];
     }
 

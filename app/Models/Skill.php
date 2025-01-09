@@ -104,11 +104,12 @@ class Skill extends Model
         return $this->endorsements()->count();
     }
 
-    public function IsSkillAdded(User $user = null)
+    public function IsSkillAdded(?User $user = null)
     {
         if ($user === null) {
             $user = auth()->user();
         }
+
         return $this->users()->where('user_id', auth()->id())->exists();
     }
 

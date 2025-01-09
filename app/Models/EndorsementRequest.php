@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Skill;
-use App\Models\Rating;
-use Illuminate\Database\Eloquent\Model;
 use App\Filters\EndorsementRequestFilter;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EndorsementRequest extends Model
 {
@@ -44,11 +41,14 @@ class EndorsementRequest extends Model
             'updated_at' => 'datetime:Y-m-d H:i:s',
             'filled_at' => 'datetime:Y-m-d H:i:s',
         ];
-    }   
+    }
 
     public const STATUS_APPROVED = 'approved';
+
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_FILLED = 'filled';
+
     public const STATUS_REJECTED = 'rejected';
 
     public function requester(): BelongsTo
@@ -84,6 +84,35 @@ class EndorsementRequest extends Model
 
     public function respond(array $data): Endorsement
     {
+        $endorsement = Endorsement::create($data);
+
+        $this->update([
+            'status' => $this::STATUS_APPROVED,
+        ]);
+
+        Rating::create([
+            'rating' => $data['rating'],
+            'skill_id' => $data['skill_id'],
+            'user_id' => $data['user_id'],
+            'new_rating' => $data['rating'],
+            'approved_at' => now(),
+        ]);
+
+        return $endorsement;
+    }
+
+    public function approve(): Endorsement
+    {
+
+        $data = [
+            'title' => $this->title,
+            'user_id' => $this->requester_id,
+            'skill_id' => $this->skill_id,
+            'rating' => $this->data['rating'],
+            'created_by_email' => $this->requestee_email,
+            'content' => $this->data['feedback'],
+        ];
+
         $endorsement = Endorsement::create($data);
 
         $this->update([

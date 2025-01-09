@@ -13,6 +13,7 @@ class FeedbackArchiveQuery
         } elseif ($value === 'false') {
             return $builder->where('status', 'pending');
         }
+
         return $builder;
     }
 }

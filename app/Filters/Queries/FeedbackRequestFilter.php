@@ -3,7 +3,6 @@
 namespace App\Filters\Queries;
 
 use App\Filters\AbstractFilter;
-use App\Filters\Queries\FeedbackArchiveQuery;
 
 class FeedbackRequestFilter extends AbstractFilter
 {

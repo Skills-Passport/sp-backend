@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -45,9 +46,11 @@ class EndorsementReceivedNotification extends Notification implements ShouldQueu
      */
     public function toArray($notifiable)
     {
+        $requestee_name = $this->endorsement->requestee_id ? $this->endorsement->createdBy->name : $this->endorsement->data['supervisor_name'] ?? $this->endorsement->requestee_email;
+
         return [
             'type' => \App\Models\Notification::TYPE_ENDORSEMENT_RECEIVED,
-            'requestee_name' => $this->endorsement->createdBy->name,
+            'requestee_name' => $requestee_name,
             'skill' => [
                 'id' => $this->endorsement->skill->id,
                 'title' => $this->endorsement->skill->title,

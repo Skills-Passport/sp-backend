@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RespondEndorsementRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -34,8 +33,6 @@ class RespondEndorsementRequest extends FormRequest
             'created_by' => auth()->id(),
             'skill_id' => $this->endorsementRequest->skill_id,
             'user_id' => $this->endorsementRequest->requester_id,
-            'approved_at' => now(),
         ]);
     }
-
 }

@@ -2,10 +2,8 @@
 
 namespace App\Filters;
 
-use App\Filters\AbstractFilter;
-use App\Filters\Queries\NameQuery;
 use App\Filters\Queries\IsJoinedQuery;
-
+use App\Filters\Queries\NameQuery;
 
 class GroupFilter extends AbstractFilter
 {

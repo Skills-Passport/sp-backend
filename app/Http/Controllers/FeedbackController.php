@@ -6,6 +6,7 @@ use App\Events\FeedbackAnswered;
 use App\Events\FeedbackRequested;
 use App\Http\Requests\CreateFeedbackRequest;
 use App\Http\Requests\RequestFeedbackRequest;
+use App\Http\Requests\RespondFeedbackRequest;
 use App\Http\Resources\FeedbackResource;
 use App\Models\Feedback;
 use App\Models\FeedbackRequest;
@@ -45,7 +46,7 @@ class FeedbackController extends Controller
         return new FeedbackResource($feedback);
     }
 
-    public function recentFeedbacks(Request $request, User $user = null): AnonymousResourceCollection
+    public function recentFeedbacks(Request $request, ?User $user = null): AnonymousResourceCollection
     {
         if (! $user) {
             $user = auth()->user();
@@ -69,11 +70,8 @@ class FeedbackController extends Controller
         return response()->json(['message' => 'Feedback request sent successfully']);
     }
 
-    public function respondFeedbackRequest(Request $request, FeedbackRequest $feedbackRequest): JsonResponse
+    public function respondFeedbackRequest(RespondFeedbackRequest $request, FeedbackRequest $feedbackRequest): JsonResponse
     {
-        $request->validate([
-            'content' => 'required|string',
-        ]);
         if ($feedbackRequest->recipient_id !== auth()->id()) {
             return response()->json(['message' => 'Feedback request not found'], 404);
         }

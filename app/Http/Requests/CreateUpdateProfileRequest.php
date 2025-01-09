@@ -26,7 +26,7 @@ class CreateUpdateProfileRequest extends FormRequest
 
     public function passedValidation()
     {
-        if (!$this->has('competencies')) {
+        if (! $this->has('competencies')) {
             $this->merge([
                 'competencies' => [],
             ]);

@@ -12,14 +12,16 @@ class Profile extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     protected $withs = ['createdBy', 'competencies'];
+
     protected static function booted(): void
     {
         static::creating(function ($profile) {
-            if ($profile->created_by === null){
+            if ($profile->created_by === null) {
                 $profile->created_by = auth()->id();
             }
         });
     }
+
     protected $fillable = [
         'title',
         'desc',

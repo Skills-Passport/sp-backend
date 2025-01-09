@@ -14,7 +14,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['email', 'unique:users,email,' . $this->user->id],
+            'email' => ['email', 'unique:users,email,'.$this->user->id],
             'first_name' => ['string'],
             'last_name' => ['string'],
             'personal_coach' => ['exists:users,id'],

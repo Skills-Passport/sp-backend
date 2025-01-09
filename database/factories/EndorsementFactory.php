@@ -26,7 +26,6 @@ class EndorsementFactory extends Factory
             'rating' => $this->faker->numberBetween(1, 4),
             'created_by' => User::inRandomOrder()->first()->id,
             'created_by_email' => null,
-            'approved_at' => $this->faker->dateTimeThisYear,
         ];
     }
 }

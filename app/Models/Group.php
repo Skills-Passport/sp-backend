@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Filters\GroupFilter;
-use Illuminate\Http\Request;
 use App\Traits\PopulatesIfEmpty;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Group extends Model
 {
@@ -30,7 +30,7 @@ class Group extends Model
         'name',
         'desc',
         'archived_at',
-        'created_by'
+        'created_by',
     ];
 
     protected $hidden = [
@@ -39,7 +39,6 @@ class Group extends Model
     ];
 
     protected $withs = ['skills', 'members', 'students', 'teachers'];
-        
 
     protected function casts(): array
     {
