@@ -2,10 +2,8 @@
 
 namespace App\Filters;
 
-use App\Filters\AbstractFilter;
-use App\Filters\Queries\TitleQuery;
 use App\Filters\Queries\ProfilesQuery;
-
+use App\Filters\Queries\TitleQuery;
 
 class CompetenciesFilter extends AbstractFilter
 {

@@ -40,6 +40,6 @@ class HasRole implements Rule
      */
     public function message()
     {
-        return "The selected user does not have the required role.";
+        return 'The selected user does not have the required role.';
     }
 }

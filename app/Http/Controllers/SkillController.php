@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Group;
-use App\Models\Skill;
-use App\Models\Rating;
-use App\Models\Feedback;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\CreateUpdateSkillRequest;
+use App\Http\Requests\UpdateRatingRequest;
 use App\Http\Resources\SkillResource;
 use App\Http\Resources\TimelineResource;
-use App\Http\Requests\UpdateRatingRequest;
-use App\Http\Requests\CreateUpdateSkillRequest;
+use App\Models\Feedback;
+use App\Models\Group;
+use App\Models\Rating;
+use App\Models\Skill;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SkillController extends Controller
@@ -23,6 +23,7 @@ class SkillController extends Controller
         $competencies = $skills->filter(function ($skill) {
             return $skill->competency && is_null($skill->competency->deleted_at);
         })->pluck('competency')->unique()->values()->toArray();
+
         return SkillResource::collection($skills)->additional(['meta' => ['competencies' => $competencies]]);
     }
 
@@ -50,7 +51,7 @@ class SkillController extends Controller
 
     public function destroy(Skill $skill): JsonResponse
     {
-        if (!auth()->user()->hasPermissionTo('delete skills')) {
+        if (! auth()->user()->hasPermissionTo('delete skills')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         $skill->delete();
@@ -132,7 +133,7 @@ class SkillController extends Controller
     {
         $skill = $student->skills()->where('skill_id', $skill->id)->withPivot('last_rating')->first();
 
-        if (!$skill->exists()) {
+        if (! $skill->exists()) {
             return response()->json(['message' => 'Skill already added'], 400);
         }
         $skill->load($this->loadRelations($request, ['competency', 'groups']));

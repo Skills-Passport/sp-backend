@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\EndorsementRequestResource;
+use App\Http\Resources\FeedbackRequestResource;
+use App\Http\Resources\NotificationResource;
+use App\Http\Resources\UserResource;
+use App\Models\EndorsementRequest;
 use App\Models\User;
 use App\Rules\HasRole;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use App\Models\EndorsementRequest;
-use Illuminate\Notifications\DatabaseNotification as Notification;
-use Spatie\Permission\Models\Role;
-use App\Http\Resources\UserResource;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\NotificationResource;
-use App\Http\Resources\FeedbackRequestResource;
-use App\Http\Resources\EndorsementRequestResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Notifications\DatabaseNotification as Notification;
+use Illuminate\Support\Carbon;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-
     public function index(Request $request): AnonymousResourceCollection
     {
         $users = User::with($this->loadRelations($request))->filter($request)->paginate($request->query('per_page') ?? 10);
@@ -129,7 +128,7 @@ class UserController extends Controller
     public function setPersonalCoach(Request $request): \Illuminate\Http\JsonResponse
     {
         $request->validate([
-            'personal_coach_id' => ['required', 'exists:users,id', new HasRole(['Teacher', 'Head-teacher'])]
+            'personal_coach_id' => ['required', 'exists:users,id', new HasRole(['Teacher', 'Head-teacher'])],
         ]);
 
         $request->user()->personal_coach = $request->personal_coach_id;
@@ -141,7 +140,7 @@ class UserController extends Controller
     public function requests(Request $request): AnonymousResourceCollection
     {
 
-        if (!$request->has('is_archived')) {
+        if (! $request->has('is_archived')) {
             $request->merge(['is_archived' => 'false']);
         }
 
@@ -165,7 +164,7 @@ class UserController extends Controller
                     ->whereNotNull('data');
             });
 
-        if (!$request->has('is_archived')) {
+        if (! $request->has('is_archived')) {
             $request->merge(['is_archived' => 'false']);
         }
 
@@ -178,7 +177,7 @@ class UserController extends Controller
 
     public function requestsCount(Request $request): \Illuminate\Http\JsonResponse
     {
-        if (!$request->has('is_archived')) {
+        if (! $request->has('is_archived')) {
             $request->merge(['is_archived' => 'false']);
         }
 
@@ -206,5 +205,4 @@ class UserController extends Controller
         ]);
 
     }
-
 }

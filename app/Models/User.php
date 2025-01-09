@@ -3,21 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Filters\UserFilter;
-use Illuminate\Http\Request;
 use App\Filters\GroupSkillFilter;
-use Spatie\Permission\Traits\HasPermissions;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
+use App\Filters\UserFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, HasRoles, HasUuids, Notifiable, HasPermissions;
+    use HasFactory, HasPermissions, HasRoles, HasUuids, Notifiable;
 
     protected $table = 'users';
 
@@ -169,9 +169,9 @@ class User extends Authenticatable
     {
         return (new UserFilter($request))->filter($query);
     }
+
     public function scopeSkillFilter(Builder $query, Request $request): Builder
     {
         return (new GroupSkillFilter($request))->filter($query);
     }
-
 }

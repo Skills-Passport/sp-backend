@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolesSeeder extends Seeder
 {
@@ -56,7 +56,6 @@ class RolesSeeder extends Seeder
                     'view requests',
                     'give feedback',
 
-
                     'view feedbacks',
                     'review feedbacks',
                     'give endorsements',
@@ -91,7 +90,7 @@ class RolesSeeder extends Seeder
                     'create competencies',
                     'update competencies',
                     'delete competencies',
-                    
+
                     // Requests permissions
                     'view requests',
                     'give feedback',
@@ -131,7 +130,7 @@ class RolesSeeder extends Seeder
                     'create competencies',
                     'update competencies',
                     'delete competencies',
-                    
+
                     // Requests permissions
                     'view requests',
                     'review requests',

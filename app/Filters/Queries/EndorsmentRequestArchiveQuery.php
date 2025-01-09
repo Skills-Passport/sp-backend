@@ -10,10 +10,10 @@ class EndorsmentRequestArchiveQuery
     {
         if ($value === 'true') {
             return $builder->whereIn('status', ['approved', 'rejected']);
-        }
-        elseif ($value === 'false') {
+        } elseif ($value === 'false') {
             return $builder->whereNotIn('status', ['approved', 'rejected']);
         }
+
         return $builder;
     }
 }

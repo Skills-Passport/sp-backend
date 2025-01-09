@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Group;
-use App\Scopes\ActiveScope;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\GroupResource;
 use App\Http\Requests\CreateUpdateGroupRequest;
+use App\Http\Resources\GroupResource;
+use App\Http\Resources\UserResource;
+use App\Models\Group;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
@@ -36,7 +35,6 @@ class GroupController extends Controller
         return GroupResource::collection($groups);
     }
 
-
     public function show(Group $group): GroupResource
     {
         $group->load('students', 'teachers', 'skills');
@@ -50,8 +48,10 @@ class GroupController extends Controller
         $students = $group->students()->skillFilter(request())->paginate(request()->query('per_page', 10))->load($this->loadRelations($request));
         $students->transform(function ($student) use ($groupSkills) {
             $student->skills = $student->skills()->whereIn('skills.id', $groupSkills)->get();
+
             return $student;
         });
+
         return UserResource::collection($students);
     }
 
@@ -78,6 +78,7 @@ class GroupController extends Controller
             return GroupResource::make($group->load('students', 'teachers', 'skills'));
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Failed to create group',
                 'error' => $e->getMessage(),
@@ -109,6 +110,7 @@ class GroupController extends Controller
             return GroupResource::make($group->load('students', 'teachers', 'skills'));
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Failed to update group',
                 'error' => $e->getMessage(),
@@ -118,7 +120,7 @@ class GroupController extends Controller
 
     public function destroy(Group $group): JsonResponse
     {
-        if (!auth()->user()->hasPermissionTo('delete groups') || $group->created_by != auth()->id()) {
+        if (! auth()->user()->hasPermissionTo('delete groups') || $group->created_by != auth()->id()) {
             return response()->json('You are not authorized to delete this group', 403);
         }
         $group->delete();

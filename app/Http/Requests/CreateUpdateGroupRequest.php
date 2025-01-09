@@ -33,7 +33,7 @@ class CreateUpdateGroupRequest extends FormRequest
                 return ['user_id' => $teacher, 'role' => 'teacher'];
             })->toArray(),
         ]);
-        if (!$this->has('students')) {
+        if (! $this->has('students')) {
             $this->merge([
                 'students' => [],
             ]);

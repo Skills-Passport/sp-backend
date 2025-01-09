@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
-use App\Http\Resources\CompetencyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SkillResource extends JsonResource
@@ -12,6 +11,7 @@ class SkillResource extends JsonResource
     {
         $user = $request->get('student') ? User::find($request->get('student')) : $request->user();
         $is_added = $this->IsSkillAdded($user);
+
         return [
             'id' => $this->id,
             'title' => $this->title,

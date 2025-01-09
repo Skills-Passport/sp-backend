@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\SkillResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FeedbackResource extends JsonResource

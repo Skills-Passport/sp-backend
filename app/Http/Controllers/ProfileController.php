@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profile;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use App\Http\Resources\ProfileResource;
 use App\Http\Requests\CreateUpdateProfileRequest;
+use App\Http\Resources\ProfileResource;
+use App\Models\Profile;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -42,6 +42,7 @@ class ProfileController extends Controller
             return new ProfileResource($profile);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Failed to create profile',
                 'error' => $e->getMessage(),
@@ -66,6 +67,7 @@ class ProfileController extends Controller
             return new ProfileResource($profile->load('competencies'));
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Failed to update profile',
                 'error' => $e->getMessage(),

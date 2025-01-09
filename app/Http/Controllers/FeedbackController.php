@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Group;
-use App\Models\Skill;
-use App\Models\Feedback;
-use Illuminate\Http\Request;
-use App\Models\FeedbackRequest;
 use App\Events\FeedbackAnswered;
 use App\Events\FeedbackRequested;
-use Illuminate\Http\JsonResponse;
-use App\Http\Resources\FeedbackResource;
 use App\Http\Requests\CreateFeedbackRequest;
 use App\Http\Requests\RequestFeedbackRequest;
 use App\Http\Requests\RespondFeedbackRequest;
+use App\Http\Resources\FeedbackResource;
+use App\Models\Feedback;
+use App\Models\FeedbackRequest;
+use App\Models\Group;
+use App\Models\Skill;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FeedbackController extends Controller
@@ -46,7 +46,7 @@ class FeedbackController extends Controller
         return new FeedbackResource($feedback);
     }
 
-    public function recentFeedbacks(Request $request, User $user = null): AnonymousResourceCollection
+    public function recentFeedbacks(Request $request, ?User $user = null): AnonymousResourceCollection
     {
         if (! $user) {
             $user = auth()->user();
