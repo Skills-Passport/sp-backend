@@ -126,8 +126,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::group(['middleware' => 'can:review requests'], function () {
                 Route::post('/endorsement/{endorsementRequest}/respond', [EndorsementController::class, 'respondEndorsementRequest']);
                 Route::post('/feedbacks/{feedbackRequest}/respond', [FeedbackController::class, 'respondFeedbackRequest']);
-                Route::post('/endorsement/{endorsementRequest}/approve', [EndorsementController::class, 'approveEndorsementRequest']);
-                Route::post('/endorsement/{endorsementRequest}/reject', [EndorsementController::class, 'rejectEndorsementRequest']);
+                Route::post('/endorsement/{endorsementRequest}/review', [EndorsementController::class, 'approveEndorsementRequest']);
             });
         });
     });
