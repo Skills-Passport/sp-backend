@@ -54,8 +54,8 @@ This guide will help you set up the Skills Passport backend application and run 
 
 - [PHP](https://laravel.com/docs/11.x/installation#installing-php) >= 8.2
 - [Composer](https://laravel.com/docs/11.x/installation#installing-php)
-- MySQL/MariaDB # or any other database but then change the `.env` file accordingly [Documention](https://laravel.com/docs/11.x/database)
-- Git
+- [MySQL/MariaDB](https://dev.mysql.com/downloads/installer/) # or any other database but then change the `.env` file accordingly [Documention](https://laravel.com/docs/11.x/database)
+- [Git](https://github.com/git-guides/install-git)
 
 ## Installation Steps
 
