@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\EndorsementRequest;
 use App\Events\EndorsementRequested;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\EndorsementResource;
 use App\Events\ExternalEndorsementRequested;
 use App\Events\ExternalEndorsementRequestFilled;
@@ -96,13 +97,50 @@ class EndorsementController extends Controller
         event(new ExternalEndorsementRequestFilled($endorsementRequest, $data));
     }
 
-    public function respondEndorsementRequest(RespondEndorsementRequest $request, EndorsementRequest $endorsementRequest) : \Illuminate\Http\JsonResponse
+    public function respondEndorsementRequest(RespondEndorsementRequest $request, EndorsementRequest $endorsementRequest): \Illuminate\Http\JsonResponse
     {
-        $endormsnet = $endorsementRequest->respond($request->only(['title', 'rating', 'created_by', 'content', 'skill_id', 'user_id','approved_at']));
+        $endormsnet = $endorsementRequest->respond($request->only(['title', 'rating', 'created_by', 'content', 'skill_id', 'user_id']));
 
         $endormsnet->user->notify(new EndorsementReceivedNotification($endormsnet));
 
         return response()->json(['message' => 'Endorsement submitted successfully']);
+    }
+
+    private function approveEndorsementRequest(EndorsementRequest $endorsementRequest): \Illuminate\Http\JsonResponse
+    {
+        $validator = Validator::make($endorsementRequest->toArray(), [
+            'title' => 'required',
+            'requester_id' => 'required',
+            'requestee_id' => 'required',
+            'skill_id' => 'required',
+            'requestee_email' => 'required',
+            'data' => 'required',
+            'status' => 'in:filled',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'This request dose not have all the required data', 'error' => 'missing_data'], 400);
+        }
+        $endorsement = $endorsementRequest->approve();
+
+        $endorsement->user->notify(new EndorsementReceivedNotification($endorsement));
+
+        return response()->json(['message' => 'Endorsement approved successfully']);
+    }
+
+    public function rejectEndorsementRequest(EndorsementRequest $endorsementRequest): \Illuminate\Http\JsonResponse
+    {
+        $validator = Validator::make($endorsementRequest->toArray(), [
+            'status' => 'in:filled',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'This request dose not have all the required data', 'error' => 'missing_data'], 400);
+        }
+
+        $endorsementRequest->update([
+            'status' => EndorsementRequest::STATUS_REJECTED,
+        ]);
+
+        return response()->json(['message' => 'Endorsement request rejected']);
     }
 
 }

@@ -101,6 +101,34 @@ class EndorsementRequest extends Model
         return $endorsement;
     }
 
+    public function approve(): Endorsement
+    {
+
+        $data = [
+            'title' => $this->title,
+            'user_id' => $this->requester_id,
+            'skill_id' => $this->skill_id,
+            'rating' => $this->data['rating'],
+            'created_by_email' => $this->requestee_email,
+            'content' => $this->data['feedback'],
+        ];
+
+        $endorsement = Endorsement::create($data);
+
+        $this->update([
+            'status' => $this::STATUS_APPROVED,
+        ]);
+
+        Rating::create([
+            'rating' => $data['rating'],
+            'skill_id' => $data['skill_id'],
+            'user_id' => $data['user_id'],
+            'new_rating' => $data['rating'],
+            'approved_at' => now(),
+        ]);
+
+        return $endorsement;
+    }
     public function scopeFilter($query, $request)
     {
         return (new EndorsementRequestFilter($request))->filter($query);

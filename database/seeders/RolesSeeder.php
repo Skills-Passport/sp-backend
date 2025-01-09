@@ -134,7 +134,7 @@ class RolesSeeder extends Seeder
                     
                     // Requests permissions
                     'view requests',
-                    'give feedback',
+                    'review requests',
 
                     // users permissions
                     'view users',
