@@ -131,7 +131,7 @@ The application will be available at `http://localhost:8000`.
 
 ## Frontend Integration
 
-For the frontend setup, please refer to the [sp-frontend repository](https://github.com/davidhoen/sp-frontend).
+For the frontend setup, please refer to the [sp-frontend repository](https://github.com/Skills-Passport/sp-frontend).
 
 ## Troubleshooting
 
