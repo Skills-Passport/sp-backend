@@ -43,7 +43,7 @@ This repository is the backend of the project and it includes the database, APIs
 
 ## Authors
 
-- [@Mohmmad shabrani](https://www.github.com/Mohmmadshabrani)
+- [@Mohammad shabrani](https://www.github.com/Mohmmadshabrani)
 - [@David Hoen](https://github.com/davidhoen)
 
 # Installation and running locally guide
@@ -52,8 +52,8 @@ This guide will help you set up the Skills Passport backend application and run 
 
 ## Prerequisites
 
-- PHP >= 8.2
-- Composer
+- [PHP](https://laravel.com/docs/11.x/installation#installing-php) >= 8.2
+- [Composer](https://laravel.com/docs/11.x/installation#installing-php)
 - MySQL/MariaDB # or any other database but then change the `.env` file accordingly [Documention](https://laravel.com/docs/11.x/database)
 - Git
 
