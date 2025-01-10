@@ -4,7 +4,7 @@ namespace App\Filters\Queries;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class NameQuery
+class FirstNameQuery
 {
     public function filter(Builder $builder, string $value): Builder
     {

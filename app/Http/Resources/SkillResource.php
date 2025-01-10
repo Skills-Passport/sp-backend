@@ -31,7 +31,7 @@ class SkillResource extends JsonResource
             'count_endorsements' => $this->whenLoaded('endorsements', $this->endorsements->count()),
             'is_added' => $this->when($user?->isStudent, $is_added),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'groups' => $this->when($user?->isTeacher, $this->whenLoaded('groups')),
+            'groups' => $this->when($user?->isEducator, $this->whenLoaded('groups')),
         ];
     }
 }
