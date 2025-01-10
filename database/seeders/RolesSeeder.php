@@ -54,7 +54,7 @@ class RolesSeeder extends Seeder
 
                     // Requests permissions
                     'view requests',
-                    'give feedback',
+                    'review requests',
 
                     'view feedbacks',
                     'review feedbacks',
@@ -93,7 +93,7 @@ class RolesSeeder extends Seeder
 
                     // Requests permissions
                     'view requests',
-                    'give feedback',
+                    'review requests',
 
                     'view feedbacks',
                     'review feedbacks',
