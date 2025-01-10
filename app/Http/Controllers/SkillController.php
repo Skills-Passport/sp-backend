@@ -31,7 +31,6 @@ class SkillController extends Controller
     {
 
         $skill = Skill::with($this->loadRelations($request, ['competency', 'competency.profiles', 'groups']))->find($skill->id);
-
         return new SkillResource($skill);
     }
 
