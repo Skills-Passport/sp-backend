@@ -8,6 +8,7 @@ class EndorsementRequestResource extends JsonResource
 {
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'requester' => $this->requester,
