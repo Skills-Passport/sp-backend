@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Feedback extends Model
 {
     /** @use HasFactory<\Database\Factories\FeedbackFactory> */
-    use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $table = 'feedbacks';
 

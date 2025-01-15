@@ -37,7 +37,7 @@ class FeedbackController extends Controller
 
     public function ratingUpdateFeedback(CreateFeedbackRequest $request, Skill $skill): FeedbackResource
     {
-        $feedback = new Feedback($request->validated());
+        $feedback = new Feedback($request->safe());
         $feedback->skill_id = $skill->id;
         $feedback->user_id = auth()->id();
         $feedback->created_by = auth()->id();

@@ -32,9 +32,26 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user): UserResource
     {
-        $user->update($request->all());
-
+        $user->update($request->safe()->only(['email', 'first_name', 'last_name', 'personal_coach', 'job_title', 'field', 'image', 'address']));
+        
+        if ($request->has('role_id')) {
+            $role = Role::find($request->role_id);
+            $user->syncRoles($role);
+        }
         return new UserResource($user->load($this->loadRelations($request)));
+    }
+
+    public function updateRole(Request $request, User $user): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'role_id' => ['required', 'exists:roles,id'],
+        ]);
+
+        $role = Role::find($request->role_id);
+
+        $user->syncRoles($role);
+
+        return response()->json(['message' => 'Role updated', 'status' => 'success']);
     }
 
     public function destroy(User $user): \Illuminate\Http\JsonResponse
@@ -169,7 +186,7 @@ class UserController extends Controller
         }
 
         $requests = $requests->filter($request)->with(
-            $this->loadRelations($request)
+            $this->loadRelations($request, ['requester', 'requestee', 'skill'])
         )->paginate($request->query('per_page') ?? 10);
 
         return EndorsementRequestResource::collection($requests);

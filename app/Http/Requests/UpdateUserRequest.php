@@ -22,6 +22,7 @@ class UpdateUserRequest extends FormRequest
             'field' => ['string'],
             'image' => ['image'],
             'address' => ['string'],
+            'role_id' => ['exists:roles,id'],
         ];
     }
 }
