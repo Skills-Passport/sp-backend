@@ -43,7 +43,7 @@ class SkillController extends Controller
 
     public function update(CreateUpdateSkillRequest $request, Skill $skill): SkillResource
     {
-        $skill->update($request->all());
+        $skill->update($request->only(['title', 'desc', 'competency_id']));
 
         return new SkillResource($skill->load('competency'));
     }
@@ -103,12 +103,11 @@ class SkillController extends Controller
     {
         $user = $request->user();
 
-        $userSkillPivot = $user->skills()->where('skill_id', $skill->id)->first()->pivot;
-
         $user->ratings()->create([
             'skill_id' => $skill->id,
             'new_rating' => $request->rating,
         ]);
+
         Feedback::create([
             'user_id' => $request->user()->id,
             'skill_id' => $skill->id,
