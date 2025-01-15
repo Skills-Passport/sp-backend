@@ -37,7 +37,7 @@ class FeedbackController extends Controller
 
     public function ratingUpdateFeedback(CreateFeedbackRequest $request, Skill $skill): FeedbackResource
     {
-        $feedback = new Feedback($request->safe());
+        $feedback = new Feedback($request->only('content','skill_id','user_id','title'));
         $feedback->skill_id = $skill->id;
         $feedback->user_id = auth()->id();
         $feedback->created_by = auth()->id();
@@ -64,6 +64,14 @@ class FeedbackController extends Controller
         $skill = Skill::find($request->skill_id);
         $requestee = User::find($request->user_id);
         $group = $request->group_id ? Group::find($request->group_id) : null;
+
+        if (FeedbackRequest::where('requester_id', auth()->id())
+            ->where('recipient_id', $requestee->id)
+            ->where('skill_id', $skill->id)
+            ->where('status', FeedbackRequest::STATUS_PENDING)
+            ->exists()) {
+            return response()->json(['message' => 'Feedback request already sent'], 400);
+        }
 
         event(new FeedbackRequested($request->user(), $requestee, $skill, $request->title, $group));
 

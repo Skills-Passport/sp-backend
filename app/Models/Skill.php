@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Filters\SkillFilter;
-use App\Traits\PopulatesIfEmpty;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
