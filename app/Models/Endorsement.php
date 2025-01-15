@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Filters\EndorsementFilter;
 use App\Http\Resources\EndorsementResource;
-use App\Traits\PopulatesIfEmpty;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +13,7 @@ use Illuminate\Http\Request;
 
 class Endorsement extends Model
 {
-    use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $table = 'endorsements';
 

@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class Group extends Model
 {
-    use HasFactory, HasUuids, PopulatesIfEmpty, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected static function booted(): void
     {
