@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Filters\FeedbackFilter;
 use App\Http\Resources\FeedbackResource;
-use App\Traits\PopulatesIfEmpty;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,7 +30,9 @@ class Feedback extends Model
         });
 
         static::creating(function ($e) {
-            $e->created_by = auth()->id();
+            if ($e->created_by === null) {
+                $e->created_by = auth()->id();
+            }
         });
     }
 

@@ -77,7 +77,7 @@ class EndorsementController extends Controller
             return response()->json(['message' => 'This endorsement request has already been filled'], 410);
         }
 
-        $endorsementRequest->load('skill');
+        $endorsementRequest->load(['requester', 'skill']);
 
         return new EndorsementRequestResource($endorsementRequest);
     }
@@ -116,10 +116,10 @@ class EndorsementController extends Controller
     }
     public function approveEndorsementRequest(EndorsementRequest $endorsementRequest): \Illuminate\Http\JsonResponse
     {
+
         $validator = Validator::make($endorsementRequest->toArray(), [
             'title' => 'required',
             'requester_id' => 'required',
-            'requestee_id' => 'required',
             'skill_id' => 'required',
             'requestee_email' => 'required',
             'data' => 'required',

@@ -40,6 +40,7 @@ class EndorsementRequest extends Model
             'created_at' => 'datetime:Y-m-d H:i:s',
             'updated_at' => 'datetime:Y-m-d H:i:s',
             'filled_at' => 'datetime:Y-m-d H:i:s',
+            'data' => 'array',
         ];
     }
 
@@ -101,9 +102,8 @@ class EndorsementRequest extends Model
         return $endorsement;
     }
 
-    public function approve(): Endorsement
+    public function approve() : Endorsement
     {
-
         $data = [
             'title' => $this->title,
             'user_id' => $this->requester_id,
