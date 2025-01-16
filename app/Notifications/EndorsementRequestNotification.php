@@ -36,7 +36,7 @@ class EndorsementRequestNotification extends Notification implements ShouldQueue
         return [
             'type' => \App\Models\Notification::TYPE_ENDORSEMENT_REQUEST,
             'requester' => UserResource::make($this->endorsementRequest->requester),
-            'requestee_name' => $this->endorsementRequest->requestee->name,
+            'requestee_name' => $this->endorsementRequest->requestee->first_name . ' ' . $this->endorsementRequest->requestee->last_name,
             'skill' => [
                 'id' => $this->endorsementRequest->skill->id,
                 'title' => $this->endorsementRequest->skill->title,
