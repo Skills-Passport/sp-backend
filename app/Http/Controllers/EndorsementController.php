@@ -108,7 +108,7 @@ class EndorsementController extends Controller
 
     public function reviewEndorsementRequest(Request $request, EndorsementRequest $endorsementRequest)
     {
-        if ($request->is_approved) {
+        if ($request->is_approved === 'true') {
             return $this->approveEndorsementRequest($endorsementRequest);
         } else {
             return $this->rejectEndorsementRequest($endorsementRequest);
